@@ -1,0 +1,4 @@
+export const SHOW_LOADER = 'APP/SHOW_LOADER'
+export const HIDE_LOADER = 'APP/HIDE_LOADER'
+export const PUSH_HISTORY = 'APP/PUSH_HISTORY'
+export const BACK_HISTORY = 'APP/BACK_HISTORY'

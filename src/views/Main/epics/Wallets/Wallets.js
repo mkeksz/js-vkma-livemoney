@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {
   Panel,
   View,
@@ -14,6 +15,8 @@ import {CardWallet} from '../../../../components/CardWallet/CardWallet'
 import classes from './Wallets.module.sass'
 
 export const Wallets = () => {
+  const wallets = useSelector(({wallets}) => wallets.activeWallets)
+
   return (
     <View activePanel="main">
       <Panel id="main" centered={true}>
@@ -29,13 +32,20 @@ export const Wallets = () => {
           <CardWallet
             type="shared"
             styles={{backgroundColor: '#353c44', color: '#fff'}}
-            title="Всего"
+            options={{title: 'Всего', balance: 1340, realBalance: 700}}
           />
-          <CardWallet
-            type="wallet"
-            styles={{backgroundColor: '#5799e4', color: '#fff'}}
-            title="Тинькофф"
-          />
+          {
+            wallets.map(wallet => <CardWallet
+              key={wallet.id}
+              type="wallet"
+              styles={wallet.styles}
+              options={{
+                title: wallet.title,
+                icon: wallet.icon,
+                balance: wallet.balance
+              }}
+            />)
+          }
         </Gallery>
         <Group className={classes.group}>
           <Div className={classes.buttons}>

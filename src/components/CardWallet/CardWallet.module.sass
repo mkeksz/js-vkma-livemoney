@@ -1,3 +1,5 @@
+$iconWidth: 40px
+
 .CardWallet
   width: 95% !important
   margin: auto
@@ -27,7 +29,7 @@
     & .header
       place-self: flex-start
       display: grid
-      grid-template-columns: 50px 1fr 50px
+      grid-template-columns: $iconWidth 1fr $iconWidth
       padding: 10px
       width: calc(100% - 20px)
 
@@ -41,9 +43,11 @@
 
       & .icon
         display: flex
-        place-content: center
+        place-content: flex-start
         place-items: center
-        opacity: .7
+        &.edit
+          place-content: flex-end
+          opacity: .7
 
   &.new
     cursor: pointer
@@ -52,8 +56,9 @@
       & .balance
         flex-direction: row
         align-items: center
+        opacity: .3
 
   &.shared
     & .container
       & .header
-        grid-template-columns: 1fr
+        grid-template-columns: $iconWidth 1fr

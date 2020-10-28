@@ -1,39 +1,65 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Card, Div, Title} from '@vkontakte/vkui'
-import {Icon56AddCircleOutline} from '@vkontakte/icons'
+import {Card, Div, Headline, Title} from '@vkontakte/vkui'
+import {Icon24Write, Icon56AddCircleOutline} from '@vkontakte/icons'
 import classes from './CardWallet.module.sass'
 
-export const CardWallet = ({styles = {backgroundColor: '', color: ''}}) => {
-  const cls = [classes.CardWallet, classes.new]
+export const CardWallet = ({type = 'wallet', styles = {}, title}) => {
+  const cls = [classes.CardWallet]
+
+  if (type === 'shared') cls.push(classes.shared)
+  else if (type === 'new') cls.push(classes.new)
 
   return (
     <Card className={cls.join(' ')} style={styles}>
       <Div className={classes.container}>
-        <Title level="3" weight="medium">
-         Всего
-        </Title>
+        {type !== 'new' ? (
+          <div className={classes.header}>
+            {
+              type !== 'shared' &&
+              <div className={classes.icon}>
+                <Icon24Write style={{color: styles.color}}/>
+              </div>
+            }
+            <Title
+              level="3"
+              weight="medium"
+              className={classes.title}
+              style={{color: styles.color}}
+            >{title}</Title>
+            {
+              type !== 'shared' &&
+              <div className={classes.icon}>
+                <Icon24Write style={{color: styles.color}}/>
+              </div>
+            }
+          </div>
+        ) : <div/>}
         <div className={classes.balance}>
-          <Icon56AddCircleOutline />
+          {
+            type === 'new' ?
+            <Icon56AddCircleOutline /> :
+            <Title weight="bold" level="1">
+              1 456,23 ₽
+            </Title>
+          }
+          {
+            type === 'shared' &&
+              <Headline weight="regular">
+                456,23 ₽
+              </Headline>
+          }
         </div>
       </Div>
     </Card>
-
-  // <Card>
-  //   <Div>
-  //     <Title level="3" weight="medium">
-  //       Всего
-  //     </Title>
-  //     <div>
-  //       <Title weight="bold" level="1">
-  //         123
-  //       </Title>
-  //     </div>
-  //   </Div>
-  // </Card>
   )
 }
 
 CardWallet.propTypes = {
-  styles: PropTypes.object
+  styles: PropTypes.shape({
+    backgroundColor: PropTypes.string,
+    color: PropTypes.string
+  }),
+  type: PropTypes.oneOf(['new', 'shared', 'wallet']),
+  title: PropTypes.string
 }

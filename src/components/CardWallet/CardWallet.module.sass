@@ -6,8 +6,10 @@
     height: 100%
 
   & .container
-    display: flex
-    flex-direction: column
+    padding: 0
+    display: grid
+    grid-template-rows: 1fr 1fr 1fr
+    grid-template-columns: 1fr
     place-items: center
     place-content: center
     height: 100%
@@ -18,6 +20,31 @@
       flex-direction: column
       place-content: center
 
+      h4
+        padding-top: 4px
+        opacity: .5
+
+    & .header
+      place-self: flex-start
+      display: grid
+      grid-template-columns: 50px 1fr 50px
+      padding: 10px
+      width: calc(100% - 20px)
+
+      & .title
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
+        max-width: 100%
+        width: 100%
+        place-self: center
+
+      & .icon
+        display: flex
+        place-content: center
+        place-items: center
+        opacity: .7
+
   &.new
     cursor: pointer
 
@@ -25,3 +52,8 @@
       & .balance
         flex-direction: row
         align-items: center
+
+  &.shared
+    & .container
+      & .header
+        grid-template-columns: 1fr

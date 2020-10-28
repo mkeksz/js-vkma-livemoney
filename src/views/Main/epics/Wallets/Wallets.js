@@ -25,9 +25,17 @@ export const Wallets = () => {
           bullets={false}
           className={classes.gallery}
         >
-          <CardWallet/>
-          <CardWallet styles={{backgroundColor: '#353c44', color: '#fff'}}/>
-          <CardWallet styles={{backgroundColor: '#353c44', color: '#fff'}}/>
+          <CardWallet type="new"/>
+          <CardWallet
+            type="shared"
+            styles={{backgroundColor: '#353c44', color: '#fff'}}
+            title="Всего"
+          />
+          <CardWallet
+            type="wallet"
+            styles={{backgroundColor: '#5799e4', color: '#fff'}}
+            title="Тинькофф"
+          />
         </Gallery>
         <Group className={classes.group}>
           <Div className={classes.buttons}>

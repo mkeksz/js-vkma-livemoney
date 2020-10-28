@@ -11,8 +11,13 @@ export function bridgeInit() {
       document.body.attributes.setNamedItem(schemeAttribute)
     }
   })
+  bridgeAppGetUserInfo()
 }
 
 export function bridgeAppClose() {
   bridge.send('VKWebAppClose', {status: 'success'})
+}
+
+export async function bridgeAppGetUserInfo() {
+  return await bridge.send('VKWebAppGetUserInfo')
 }

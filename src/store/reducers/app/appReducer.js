@@ -2,7 +2,7 @@ import {BACK_HISTORY, HIDE_LOADER, PUSH_HISTORY, SHOW_LOADER} from '../../types'
 import {backToHistory, pushToHistory} from './history'
 
 const initialState = {
-  loading: false,
+  loading: true,
   history: [{view: 'main', epic: 'wallets'}]
 }
 

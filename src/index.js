@@ -10,7 +10,7 @@ import {far} from '@fortawesome/free-regular-svg-icons'
 import '@vkontakte/vkui/dist/vkui.css'
 import {App} from './App'
 import store from './store/store'
-import {bridgeInit} from './bridge'
+import {bridgeInit} from './core/bridge'
 import {prevPage} from './store/actions/appActions'
 
 library.add(fab, fas, far)

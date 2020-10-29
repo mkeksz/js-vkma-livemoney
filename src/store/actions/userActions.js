@@ -1,5 +1,5 @@
-import {SET_USER_ID} from '../types'
+import {SET_USER} from '../types'
 
-export function setUserId(id) {
-  return {type: SET_USER_ID, payload: id}
+export function setUser(user) {
+  return {type: SET_USER, payload: user}
 }

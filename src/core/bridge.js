@@ -11,7 +11,6 @@ export function bridgeInit() {
       document.body.attributes.setNamedItem(schemeAttribute)
     }
   })
-  bridgeAppGetUserInfo()
 }
 
 export function bridgeAppClose() {

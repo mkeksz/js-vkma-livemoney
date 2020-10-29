@@ -12,6 +12,7 @@ import {App} from './App'
 import store from './store/store'
 import {bridgeInit} from './core/bridge'
 import {prevPage} from './store/actions/appActions'
+import './eruda'
 
 library.add(fab, fas, far)
 
@@ -25,3 +26,4 @@ ReactDOM.render(app, document.getElementById('root'))
 
 bridgeInit()
 window.addEventListener('popstate', () => store.dispatch(prevPage()))
+

@@ -1,11 +1,15 @@
-import {SET_USER_ID} from '../../types'
+import {SET_USER} from '../../types'
 
 const initialState = {
-  id: null
+  id: null,
+  premium: {
+    isActive: false,
+    expiryDate: null
+  }
 }
 
 const handlers = {
-  [SET_USER_ID]: (state, action) => ({...state, id: action.payload}),
+  [SET_USER]: (_, action) => ({...action.payload}),
   DEFAULT: state => state
 }
 

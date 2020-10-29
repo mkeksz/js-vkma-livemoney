@@ -1,21 +1,13 @@
-import {WALLET} from '../../../constants/icons/icons'
+import {SET_WALLETS} from '../../types'
 
 const initialState = {
-  activeWallets: [
-    {
-      id: 1,
-      title: 'Наличные',
-      icon: WALLET,
-      balance: 1400,
-      styles: {backgroundColor: '#cfac50', color: '#fff'},
-      inTotal: true
-    }
-  ],
+  activeWallets: [],
   inactiveWallets: [],
   maxActiveWallets: 5
 }
 
 const handlers = {
+  [SET_WALLETS]: (_, action) => ({...action.payload}),
   DEFAULT: state => state
 }
 

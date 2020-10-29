@@ -1,23 +1,68 @@
-import {storage} from '../utils'
+import {capitalize, storage} from '../utils'
+import {ICONS, TYPES_DATA_STATE as types} from '../../constants/constants'
 
 export default class LocalStorageClient {
-  constructor(name) {
-    this.name = name
+  constructor(userID) {
+    this.userID = userID
   }
 
-  save(state) {
-    storage(this.name, state)
-    return Promise.resolve()
+  async save(typeData, data) {
+    storage(`${this.userID}:${typeData}`, data)
+    return true
   }
 
-  get() {
-    return new Promise(resolve => {
-      const state = storage(this.name)
-      setTimeout(() => resolve(state), 1000)
-    })
+  async get(typesData) {
+    const data = {}
+
+    for (const type of typesData) {
+      data[type] = await this['get' + capitalize(type)]()
+    }
+
+    return data
   }
 
-  getWallets() {
-    return Promise.resolve(storage(`${this.name}:wallets`))
+  async getWallets() {
+    const key = `${this.userID}:${types.WALLETS}`
+
+    let result = storage(key)
+
+    if (result === null) {
+      await this.save(types.WALLETS, {
+        activeWallets: [
+          {
+            id: 1,
+            title: 'Наличные',
+            icon: ICONS.WALLET,
+            balance: 1400,
+            styles: {backgroundColor: '#cfac50', color: '#fff'},
+            inTotal: true
+          }
+        ],
+        inactiveWallets: [],
+        maxActiveWallets: 5
+      })
+      result = storage(key)
+    }
+
+    return result
+  }
+
+  async getUser() {
+    const key = `${this.userID}:${types.USER}`
+
+    let result = storage(key)
+
+    if (result === null) {
+      await this.save(types.USER, {
+        id: this.userID,
+        premium: {
+          isActive: false,
+          expiryDate: null
+        }
+      })
+      result = storage(key)
+    }
+
+    return result
   }
 }

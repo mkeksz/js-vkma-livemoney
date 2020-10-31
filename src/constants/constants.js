@@ -6,3 +6,9 @@ export const TYPES_DATA_STATE = {
   USER: 'user',
   WALLETS: 'wallets'
 }
+
+export const PAGES = {
+  WALLETS: 'wallets',
+  WALLET: 'wallet',
+  SETTINGS: 'settings'
+}

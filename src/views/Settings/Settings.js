@@ -10,11 +10,13 @@ import {
 } from '@vkontakte/vkui'
 import {Icon28AllCategoriesOutline, Icon28HelpOutline} from '@vkontakte/icons'
 import classes from './Settings.module.sass'
+import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
 
 export const Settings = () => {
   return (
     <View activePanel="main">
       <Panel id="main">
+        <HeaderPanel buttonBack={true}>Настройки</HeaderPanel>
         <Group header={<Header mode="primary">Уведомления</Header>}>
           <Cell asideContent={<Switch defaultChecked />}>
             Ежедневное напоминание

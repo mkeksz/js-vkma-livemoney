@@ -1,5 +1,5 @@
-import React from 'react'
-import {useSelector} from 'react-redux'
+import React, {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import {
   Panel,
   View,
@@ -13,26 +13,52 @@ import {
 } from '../../../../components/Navigation/HeaderPanel/HeaderPanel'
 import {CardWallet} from '../../../../components/CardWallet/CardWallet'
 import classes from './Wallets.module.sass'
+import {setPageOptions} from '../../../../store/actions/pagesActions'
+import {PAGES} from '../../../../constants/constants'
 
 export const Wallets = () => {
+  const dispatch = useDispatch()
+
   const wallets = useSelector(({wallets}) => wallets.activeWallets)
+  const initialSlide = useSelector(({pages}) =>
+    pages.wallets.initialSlide)
+
+  const [sharedWallet, setSharedWallet] = useState({
+    balance: 0,
+    realBalance: 0,
+    visibleRealBalance: false
+  })
+
+  useEffect(() => {
+    setSharedWallet(getSharedWallet(wallets))
+  }, [wallets, setSharedWallet])
+
+  const slideHandler = index => {
+    dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: index}))
+  }
 
   return (
     <View activePanel="main">
       <Panel id="main" centered={true}>
         <HeaderPanel>Кошелёк</HeaderPanel>
         <Gallery
-          initialSlideIndex={1}
+          initialSlideIndex={initialSlide}
           align="center"
           slideWidth="90%"
           bullets={false}
           className={classes.gallery}
+          onChange={slideHandler}
         >
           <CardWallet type="new"/>
           <CardWallet
             type="shared"
             styles={{backgroundColor: '#353c44', color: '#fff'}}
-            options={{title: 'Всего', balance: 1340, realBalance: 700}}
+            options={{
+              title: 'Всего',
+              balance: sharedWallet.balance,
+              realBalance: sharedWallet.realBalance,
+              visibleRealBalance: sharedWallet.visibleRealBalance
+            }}
           />
           {
             wallets.map(wallet => <CardWallet
@@ -42,7 +68,8 @@ export const Wallets = () => {
               options={{
                 title: wallet.title,
                 icon: wallet.icon,
-                balance: wallet.balance
+                balance: wallet.balance,
+                id: wallet.id
               }}
             />)
           }
@@ -70,4 +97,18 @@ export const Wallets = () => {
       </Panel>
     </View>
   )
+}
+
+function getSharedWallet(wallets) {
+  let balance = 0
+  let realBalance = 0
+  let visibleRealBalance = false
+
+  wallets.forEach(wallet => {
+    realBalance += wallet.balance
+    if (wallet.inTotal) balance += wallet.balance
+    else visibleRealBalance = true
+  })
+
+  return {balance, realBalance, visibleRealBalance}
 }

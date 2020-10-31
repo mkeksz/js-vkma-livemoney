@@ -20,3 +20,7 @@ export function bridgeAppClose() {
 export async function bridgeAppGetUserInfo() {
   return await bridge.send('VKWebAppGetUserInfo')
 }
+
+export async function bridgeAppGetClientVersion() {
+  return await bridge.send('VKWebAppGetClientVersion')
+}

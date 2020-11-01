@@ -7,6 +7,7 @@ export function pushToHistory(state, payload) {
 
   const nextHistory = payload
   if (!nextHistory.epic) nextHistory.epic = prevHistory.epic
+  if (!nextHistory.view) nextHistory.view = prevHistory.view
 
   const newHistory = [...oldHistory, nextHistory]
   if (newHistory.length > 10) newHistory.shift()

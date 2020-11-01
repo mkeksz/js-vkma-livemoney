@@ -1,13 +1,9 @@
 import {SET_WALLETS} from '../../types'
 
-const initialState = {
-  activeWallets: [],
-  inactiveWallets: [],
-  maxActiveWallets: 5
-}
+const initialState = []
 
 const handlers = {
-  [SET_WALLETS]: (_, action) => ({...action.payload}),
+  [SET_WALLETS]: (_, {payload}) => ([...payload]),
   DEFAULT: state => state
 }
 

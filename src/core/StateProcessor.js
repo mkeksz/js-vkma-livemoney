@@ -7,12 +7,19 @@ export class StateProcessor {
     return new LocalStorageClient(this.userID)
   }
 
-  static async saveData(type, data) {
-    return await this.client.save(type, data)
+  static async saveWallet(wallet) {
+    return await this.client.saveWallet(wallet)
   }
 
-  static async getData(type) {
-    if (typeof type === 'string') type = [type]
-    return await this.client.get(type)
+  static async deleteWallet(walletID) {
+    return await this.client.deleteWallet(walletID)
+  }
+
+  static async getWallets() {
+    return await this.client.getWallets()
+  }
+
+  static async getUser() {
+    return await this.client.getUser()
   }
 }

@@ -9,7 +9,7 @@ import {backToHistory, pushToHistory} from './history'
 
 const initialState = {
   loading: true,
-  history: [{view: 'main', epic: 'wallets'}],
+  history: [{view: 'main', epic: 'wallets', modal: null}],
   platform: null
 }
 

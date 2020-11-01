@@ -16,12 +16,16 @@ import classes from './Wallets.module.sass'
 import {setPageOptions} from '../../../../store/actions/pagesActions'
 import {PAGES} from '../../../../constants/constants'
 
+const MAX_DEFAULT_SLIDE_INDEX = 1
+
 export const Wallets = () => {
   const dispatch = useDispatch()
 
-  const wallets = useSelector(({wallets}) => wallets.activeWallets)
+  const wallets = useSelector(({wallets}) => wallets)
   const initialSlide = useSelector(({pages}) =>
-    pages.wallets.initialSlide)
+    pages.wallets.initialSlide > wallets.length + MAX_DEFAULT_SLIDE_INDEX
+      ? wallets.length + MAX_DEFAULT_SLIDE_INDEX
+      : pages.wallets.initialSlide)
 
   const [sharedWallet, setSharedWallet] = useState({
     balance: 0,
@@ -33,7 +37,7 @@ export const Wallets = () => {
     setSharedWallet(getSharedWallet(wallets))
   }, [wallets, setSharedWallet])
 
-  const slideHandler = index => {
+  const onChangeSlide = index => {
     dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: index}))
   }
 
@@ -47,7 +51,7 @@ export const Wallets = () => {
           slideWidth="90%"
           bullets={false}
           className={classes.gallery}
-          onChange={slideHandler}
+          onChange={onChangeSlide}
         >
           <CardWallet type="new"/>
           <CardWallet

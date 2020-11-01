@@ -29,7 +29,8 @@
         "no-debugger": "warn",
         "no-unused-vars": "warn",
         "no-unreachable": "warn",
-        "max-len": "warn"
+        "max-len": "warn",
+        "operator-linebreak": [2, "before"]
     },
     "parser": "babel-eslint"
 }

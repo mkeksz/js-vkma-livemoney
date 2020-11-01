@@ -11,6 +11,7 @@ import {
   clearPageOptions,
   setPageOptions
 } from '../../store/actions/pagesActions'
+import {currencyFilter} from '../../filters/numbersFilter'
 
 export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
   const dispatch = useDispatch()
@@ -23,8 +24,8 @@ export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
   if (isShared) cls.push(classes.shared)
   else if (isNew) cls.push(classes.new)
 
-  const editHandler = (walletID) => {
-    dispatch(setPageOptions(PAGES.WALLET, {id: walletID}))
+  const editHandler = () => {
+    dispatch(setPageOptions(PAGES.WALLET, {id: options.id, icon: options.icon}))
     dispatch(nextPage(PAGES.WALLET))
   }
   const newHandler = () => {
@@ -36,7 +37,7 @@ export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
     <Card
       className={cls.join(' ')}
       style={styles}
-      onClick={isNew ? newHandler : ()=>{}}
+      onClick={isNew ? newHandler : null}
     >
       <Div className={classes.container}>
         {!isNew ? (
@@ -51,31 +52,37 @@ export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
               style={{color: styles.color}}
             >{options.title}</Title>
             {
-              !isShared &&
-              <div className={`${classes.icon} ${classes.edit}`}>
-                <Icon24Write
-                  width={27}
-                  height={27}
-                  style={{color: styles.color}}
-                  onClick={() => editHandler(options.id)}
-                />
-              </div>
+              !isShared
+              && (
+                <div
+                  className={`${classes.icon} ${classes.edit}`}
+                  onClick={editHandler}
+                >
+                  <Icon24Write
+                    width={27}
+                    height={27}
+                    style={{color: styles.color}}
+                  />
+                </div>
+              )
             }
           </div>
         ) : <div/>}
         <div className={classes.balance}>
           {
-            isNew ?
-            <Icon56AddCircleOutline width={100} height={100} /> :
-            <Title weight="bold" level="1">
-              {options.balance} ₽
+            isNew
+            ? <Icon56AddCircleOutline width={100} height={100} />
+            : <Title weight="bold" level="1">
+              {currencyFilter(options.balance)}
             </Title>
           }
           {
-            showRealBalance &&
-              <Headline weight="regular">
-                {options.realBalance} ₽
-              </Headline>
+            showRealBalance
+              && (
+                <Headline weight="regular">
+                  {currencyFilter(options.realBalance)}
+                </Headline>
+              )
           }
         </div>
       </Div>

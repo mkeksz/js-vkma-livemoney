@@ -1,46 +1,64 @@
-import {capitalize, storage} from '../utils'
-import {ICONS, TYPES_DATA_STATE as types} from '../../constants/constants'
+import {storage} from '../utils'
+import {
+  COLORS,
+  ICONS
+} from '../../constants/constants'
+
+const KEY_WALLETS = 'wallets'
+const KEY_USER = 'user'
 
 export default class LocalStorageClient {
   constructor(userID) {
     this.userID = userID
   }
 
-  async save(typeData, data) {
-    storage(`${this.userID}:${typeData}`, data)
-    return true
-  }
+  async saveWallet(wallet) {
+    const key = `${this.userID}:${KEY_WALLETS}`
 
-  async get(typesData) {
-    const data = {}
+    const isEdit = !!wallet.id
+    const wallets = await this.getWallets()
 
-    for (const type of typesData) {
-      data[type] = await this['get' + capitalize(type)]()
+    if (isEdit) {
+      const targetIndexWallet = wallets.findIndex(wal =>
+        wal.id === wallet.id)
+      wallets[targetIndexWallet] = wallet
+    } else {
+      wallet.id = wallets.length > 0 ? wallets[wallets.length - 1].id + 1 : 1
+      wallets.push(wallet)
     }
 
-    return data
+    storage(key, wallets)
+    return wallets
+  }
+
+  async deleteWallet(walletID) {
+    const key = `${this.userID}:${KEY_WALLETS}`
+
+    const wallets = await this.getWallets()
+    const targetIndexWallet = wallets.findIndex(wal => wal.id === walletID)
+
+    wallets.splice(targetIndexWallet, 1)
+
+    storage(key, wallets)
+    return wallets
   }
 
   async getWallets() {
-    const key = `${this.userID}:${types.WALLETS}`
+    const key = `${this.userID}:${KEY_WALLETS}`
 
     let result = storage(key)
 
     if (result === null) {
-      await this.save(types.WALLETS, {
-        activeWallets: [
-          {
-            id: 1,
-            title: 'Наличные',
-            icon: ICONS.WALLET,
-            balance: 1400,
-            styles: {backgroundColor: '#cfac50', color: '#fff'},
-            inTotal: true
-          }
-        ],
-        inactiveWallets: [],
-        maxActiveWallets: 5
-      })
+      storage(key, [
+        {
+          id: 1,
+          title: 'Наличные',
+          icon: ICONS.WALLET,
+          balance: 0,
+          styles: COLORS.DARK_HAKI,
+          inTotal: true
+        }
+      ])
       result = storage(key)
     }
 
@@ -48,12 +66,12 @@ export default class LocalStorageClient {
   }
 
   async getUser() {
-    const key = `${this.userID}:${types.USER}`
+    const key = `${this.userID}:${KEY_USER}`
 
     let result = storage(key)
 
     if (result === null) {
-      await this.save(types.USER, {
+      storage(key, {
         id: this.userID,
         premium: {
           isActive: false,

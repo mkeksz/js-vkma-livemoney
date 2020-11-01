@@ -1,10 +1,9 @@
-$iconWidth: 40px
-
-.CardWallet
-  width: 95% !important
-  margin: auto
-
-  > div
+.CardExample
+  width: 95%
+  height: 200px
+  margin: 10px auto 0
+  transition: background-color .15s
+  >div
     height: 100%
 
   .container
@@ -21,18 +20,16 @@ $iconWidth: 40px
       display: flex
       flex-direction: column
       place-content: center
-
-      h5, h4, h3, h2
+      h4
         padding-top: 4px
         opacity: .5
 
     .header
       place-self: flex-start
       display: grid
-      grid-template-columns: $iconWidth 1fr $iconWidth
+      grid-template-columns: 60px 1fr
       padding: 10px
       width: calc(100% - 20px)
-
       .title
         text-overflow: ellipsis
         overflow: hidden
@@ -40,25 +37,23 @@ $iconWidth: 40px
         max-width: 100%
         width: 100%
         place-self: center
-
       .icon
-        display: flex
-        place-content: flex-start
-        place-items: center
-        &.edit
-          place-content: flex-end
-          opacity: .7
-
-  &.new
-    cursor: pointer
-
-    & .container
-      & .balance
-        flex-direction: row
-        align-items: center
-        opacity: .15
-
-  &.shared
-    & .container
-      & .header
-        grid-template-columns: $iconWidth 1fr
+        width: 50px
+        position: relative
+        .border
+          border: 2px dotted
+          background-color: rgba(0,0,0,.1)
+          box-sizing: border-box
+          border-radius: 50%
+          width: 100%
+          height: 50px
+          opacity: .5
+        .item
+          position: absolute
+          display: flex
+          place-content: center
+          place-items: center
+          top: 0
+          left: 0
+          bottom: 0
+          right: 0

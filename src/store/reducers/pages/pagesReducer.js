@@ -6,7 +6,12 @@ const initialState = {
     initialSlide: 1
   },
   [PAGES.WALLET]: {
-    id: null
+    id: null,
+    icon: null
+  },
+  [PAGES.MODAL_ICONS]: {
+    icon: null,
+    styles: {}
   }
 }
 

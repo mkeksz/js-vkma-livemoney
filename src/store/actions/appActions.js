@@ -12,8 +12,13 @@ export function showLoader() {
 export function hideLoader() {
   return {type: HIDE_LOADER}
 }
-export function nextPage(view = null, epic = null, modal = null) {
-  return {type: PUSH_HISTORY, payload: {view, epic, modal}}
+export function nextPage({
+  view = null,
+  epic = null,
+  modal = null,
+  popout = null
+}) {
+  return {type: PUSH_HISTORY, payload: {view, epic, modal, popout}}
 }
 export function prevPage() {
   return {type: BACK_HISTORY}

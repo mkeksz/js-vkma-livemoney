@@ -16,7 +16,7 @@ export const CardExample = ({wallet, icon}) => {
 
   const clickIconHandler = () => {
     dispatch(setPageOptions(PAGES.MODAL_ICONS, {icon, styles: wallet.styles}))
-    dispatch(nextPage(null, null, PAGES.MODAL_ICONS))
+    dispatch(nextPage({modal: PAGES.MODAL_ICONS}))
   }
 
   return (
@@ -27,7 +27,10 @@ export const CardExample = ({wallet, icon}) => {
       <Div className={classes.container}>
         <div className={classes.header}>
           <div className={classes.icon} onClick={clickIconHandler}>
-            <div className={classes.border} style={{borderColor: '#fff'}}/>
+            <div
+              className={classes.border}
+              style={{borderColor: wallet.styles.color}}
+            />
             <div className={classes.item} style={{color: wallet.styles.color}}>
               {icon && <Icon icon={icon}/>}
             </div>

@@ -12,7 +12,7 @@ export function pushToHistory(state, payload) {
   const newHistory = [...oldHistory, nextHistory]
   if (newHistory.length > 10) newHistory.shift()
 
-  window.history.pushState(nextHistory, nextHistory.view)
+  window.history.pushState({...nextHistory, popout: null}, nextHistory.view)
   return {...state, history: newHistory}
 }
 

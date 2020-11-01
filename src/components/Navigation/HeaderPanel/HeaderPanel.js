@@ -11,7 +11,7 @@ export const HeaderPanel = ({children, buttonBack = false}) => {
 
   const buttonHandler = () => {
     if (buttonBack) dispatch(prevPage())
-    else dispatch(nextPage(PAGES.SETTINGS))
+    else dispatch(nextPage({view: PAGES.SETTINGS}))
   }
 
   return (

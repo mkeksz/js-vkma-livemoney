@@ -3,11 +3,15 @@ import {useDispatch} from 'react-redux'
 import {View, Panel, FixedLayout, Gallery, Div, Button} from '@vkontakte/vkui'
 import {nextPage} from '../../store/actions/appActions'
 import classes from './Intro.module.sass'
+import {PAGES} from '../../constants/constants'
 
 export const Intro = () => {
   const dispatch = useDispatch()
 
-  const buttonHandler = () => dispatch(nextPage('main', 'wallets'))
+  const buttonHandler = () => dispatch(nextPage({
+    view: PAGES.MAIN,
+    epic: PAGES.WALLETS
+  }))
 
   return (
     <View activePanel="intro">

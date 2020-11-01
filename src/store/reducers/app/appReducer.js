@@ -9,16 +9,16 @@ import {backToHistory, pushToHistory} from './history'
 
 const initialState = {
   loading: true,
-  history: [{view: 'main', epic: 'wallets', modal: null}],
+  history: [{view: 'main', epic: 'wallets', modal: null, popout: null}],
   platform: null
 }
 
 const handlers = {
   [SHOW_LOADER]: state => ({...state, loading: true}),
   [HIDE_LOADER]: state => ({...state, loading: false}),
-  [PUSH_HISTORY]: (state, action) => pushToHistory(state, action.payload),
+  [PUSH_HISTORY]: (state, {payload}) => pushToHistory(state, payload),
   [BACK_HISTORY]: state => backToHistory(state),
-  [SET_PLATFORM]: (state, action) => ({...state, platform: action}),
+  [SET_PLATFORM]: (state, {payload}) => ({...state, platform: payload}),
   DEFAULT: state => state
 }
 

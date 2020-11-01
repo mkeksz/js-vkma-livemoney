@@ -26,11 +26,11 @@ export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
 
   const editHandler = () => {
     dispatch(setPageOptions(PAGES.WALLET, {id: options.id, icon: options.icon}))
-    dispatch(nextPage(PAGES.WALLET))
+    dispatch(nextPage({view: PAGES.WALLET}))
   }
   const newHandler = () => {
     dispatch(clearPageOptions(PAGES.WALLET))
-    dispatch(nextPage(PAGES.WALLET))
+    dispatch(nextPage({view: PAGES.WALLET}))
   }
 
   return (

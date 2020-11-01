@@ -3,11 +3,12 @@ import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Tabbar, TabbarItem} from '@vkontakte/vkui'
 import {nextPage} from '../../../store/actions/appActions'
+import {PAGES} from '../../../constants/constants'
 
 export const TabbarPanel = ({activeStory, items}) => {
   const dispatch = useDispatch()
 
-  const clickHandler = (id) => dispatch(nextPage('main', id))
+  const clickHandler = (id) => dispatch(nextPage({view: PAGES.MAIN, epic: id}))
 
   return (
     <Tabbar shadow={true}>

@@ -18,10 +18,8 @@ export const App = () => {
   const dispatch = useDispatch()
 
   const loading = useSelector(({app}) => app.loading)
-  const activeView = useSelector(({app: {history}}) =>
-    history[history.length - 1].view)
-  const activeModal = useSelector(({app: {history}}) =>
-    history[history.length - 1].modal)
+  const {view, modal, popout} = useSelector(({app: {history}}) =>
+    history[history.length - 1])
 
   useEffect(() => {
     fetchData()
@@ -31,10 +29,10 @@ export const App = () => {
 
   return (
     <Root
-      activeView={activeView}
-      popout={loading && <ScreenSpinner size="large" />}
+      activeView={view}
+      popout={(loading && <ScreenSpinner size="large" />) || popout}
       modal={
-        <ModalRoot activeModal={activeModal} onClose={closeModalHandler}>
+        <ModalRoot activeModal={modal} onClose={closeModalHandler}>
           <ModalIcons id={PAGES.MODAL_ICONS}/>
         </ModalRoot>
       }

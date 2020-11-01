@@ -19,9 +19,15 @@ import {CardExample} from './CardExample/CardExample'
 import {inputBalanceFilter} from '../../filters/numbersFilter'
 import {CircleColor} from './CircleColor/CircleColor'
 import {setWallets} from '../../store/actions/walletsActions'
-import {hideLoader, prevPage, showLoader} from '../../store/actions/appActions'
+import {
+  hideLoader,
+  nextPage,
+  prevPage,
+  showLoader
+} from '../../store/actions/appActions'
 import {StateProcessor} from '../../core/StateProcessor'
 import {setPageOptions} from '../../store/actions/pagesActions'
+import {PopoutAlert} from '../../components/UI/PopoutAlert/PopoutAlert'
 
 function saveAndClose(newWallets) {
   store.dispatch(setWallets(newWallets))
@@ -39,7 +45,7 @@ export const Wallet = () => {
     title: '',
     balance: '',
     inTotal: true,
-    styles: COLORS.DARK_GREY
+    styles: COLORS.DODGER_BLUE
   })
   const [colors, setColors] = useState([])
 
@@ -75,12 +81,22 @@ export const Wallet = () => {
       inTotal: wallet.inTotal
     }
     dispatch(showLoader())
-    dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
+    if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
     StateProcessor.saveWallet(newWallet).then(saveAndClose)
   }
   const onClickDelete = () => {
-    dispatch(showLoader())
-    StateProcessor.deleteWallet(id).then(saveAndClose)
+    dispatch(nextPage({popout: (
+      <PopoutAlert
+        title={`Удалить ${wallet.title || 'Новый кошелёк'}?`}
+        button={{title: 'Удалить', action: () => {
+          dispatch(showLoader())
+          StateProcessor.deleteWallet(id).then(saveAndClose)
+        }}}
+      >
+        Кошелёк нельзя будет восстановить.
+        <br/>Все операции связанные с кошельком останутся.
+      </PopoutAlert>
+    )}))
   }
 
   return (

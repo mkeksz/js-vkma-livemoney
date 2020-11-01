@@ -8,7 +8,8 @@ export const CircleColor = ({color, onClick, selected = false}) => {
       className={classes.CircleColor}
       style={{
         backgroundColor: color.backgroundColor,
-        borderColor: selected ? '#3f8ae0' : color.backgroundColor
+        borderColor: selected ? '#3f8ae0' : color.backgroundColor,
+        boxShadow: selected ? 'inset 0 0 0 2px #fff' : null
       }}
       onClick={() => onClick(color.id)}
     />

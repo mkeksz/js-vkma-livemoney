@@ -13,7 +13,6 @@ export const HeaderModal = ({children}) => {
 
   const clickHandler = () => dispatch(prevPage())
 
-
   return (
     <ModalPageHeader
       right={
@@ -29,7 +28,8 @@ export const HeaderModal = ({children}) => {
             <Icon24Cancel />
           </PanelHeaderButton>
         )
-      }>
+      }
+    >
       {children}
     </ModalPageHeader>
   )

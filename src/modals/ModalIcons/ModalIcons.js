@@ -33,7 +33,8 @@ export const ModalIcons = () => {
             backgroundColor: styles.backgroundColor,
             borderColor: !selectedIcon.id
               ? selectedColor
-              : styles.backgroundColor
+              : styles.backgroundColor,
+            boxShadow: !selectedIcon.id ? 'inset 0 0 0 2px #fff' : null
           }}
           onClick={() => onClickIcon(null)}
         />
@@ -46,7 +47,10 @@ export const ModalIcons = () => {
               color: styles.color,
               borderColor: selectedIcon.id === icon.id
                 ? selectedColor
-                : styles.backgroundColor
+                : styles.backgroundColor,
+              boxShadow: selectedIcon.id === icon.id
+                ? 'inset 0 0 0 2px #fff'
+                : null
             }}
           >
             <Icon icon={icon}/>

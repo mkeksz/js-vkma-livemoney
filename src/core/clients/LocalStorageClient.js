@@ -5,6 +5,7 @@ import {
 } from '../../constants/constants'
 
 const KEY_WALLETS = 'wallets'
+const KEY_CATEGORIES = 'categories'
 const KEY_USER = 'user'
 
 export default class LocalStorageClient {
@@ -77,6 +78,73 @@ export default class LocalStorageClient {
           isActive: false,
           expiryDate: null
         }
+      })
+      result = storage(key)
+    }
+
+    return result
+  }
+
+  async getCategories() {
+    const key = `${this.userID}:${KEY_CATEGORIES}`
+
+    let result = storage(key)
+
+    if (result === null) {
+      storage(key, {
+        expense: [
+          {
+            id: 1,
+            title: 'Здоровье',
+            icon: ICONS.HEARTBEAT,
+            budget: 1300,
+            amount: 1000
+          },
+          {
+            id: 2,
+            title: 'Еда',
+            icon: ICONS.UTENSILS,
+            budget: null,
+            amount: 500
+          },
+          {
+            id: 3,
+            title: 'Игры',
+            icon: ICONS.GAMEPAD,
+            budget: null,
+            amount: 0
+          },
+          {
+            id: 4,
+            title: 'Семья',
+            icon: ICONS.USERS,
+            budget: 2000,
+            amount: 0
+          }
+        ],
+        income: [
+          {
+            id: 1,
+            title: 'Работа',
+            icon: ICONS.BRIEFCASE,
+            budget: null,
+            amount: 1000
+          },
+          {
+            id: 2,
+            title: 'Фриланс',
+            icon: ICONS.LAPTOP_HOUSE,
+            budget: null,
+            amount: 500
+          },
+          {
+            id: 3,
+            title: 'Бизнес',
+            icon: ICONS.STORE,
+            budget: null,
+            amount: 0
+          }
+        ]
       })
       result = storage(key)
     }

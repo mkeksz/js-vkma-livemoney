@@ -22,4 +22,8 @@ export class StateProcessor {
   static async getUser() {
     return await this.client.getUser()
   }
+
+  static async getCategories() {
+    return await this.client.getCategories()
+  }
 }

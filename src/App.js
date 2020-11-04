@@ -13,6 +13,8 @@ import {setUser} from './store/actions/userActions'
 import {setWallets} from './store/actions/walletsActions'
 import {Wallet} from './views/Wallet/Wallet'
 import {ModalIcons} from './modals/ModalIcons/ModalIcons'
+import {Categories} from './views/Categories/Categories'
+import {setCategories} from './store/actions/categoriesActions'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -41,6 +43,7 @@ export const App = () => {
       <Main id={PAGES.MAIN}/>
       <Settings id={PAGES.SETTINGS}/>
       <Wallet id={PAGES.WALLET}/>
+      <Categories id={PAGES.CATEGORIES}/>
     </Root>
   )
 }
@@ -53,11 +56,13 @@ async function fetchData() {
   ])
   dispatch(setPlatform(client.platform))
   StateProcessor.userID = userInfo.id
-  const [wallets, user] = await Promise.all([
+  const [wallets, user, categories] = await Promise.all([
     StateProcessor.getWallets(),
-    StateProcessor.getUser()
+    StateProcessor.getUser(),
+    StateProcessor.getCategories()
   ])
   dispatch(setUser(user))
   dispatch(setWallets(wallets))
+  dispatch(setCategories(categories))
   dispatch(hideLoader())
 }

@@ -12,6 +12,9 @@ const initialState = {
   [PAGES.MODAL_ICONS]: {
     icon: null,
     styles: {}
+  },
+  [PAGES.CATEGORIES]: {
+    selectedTab: 'expense'
   }
 }
 

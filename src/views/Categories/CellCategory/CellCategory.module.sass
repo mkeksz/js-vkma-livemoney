@@ -1,0 +1,66 @@
+.CellCategory
+  display: grid
+  grid-template-columns: 43px 1fr 122px
+  place-items: flex-start
+  place-content: center
+  padding: 0 10px
+  grid-gap: 5px
+  >div:last-child
+    height: 100%
+    place-self: flex-end
+  .icon
+    background-color: var(--placeholder_icon_background)
+    display: flex
+    place-items: center
+    place-content: center
+    border-radius: 50%
+    height: 40px
+    width: 40px
+    box-sizing: border-box
+    color: var(--icon_secondary)
+    border: 2px solid var(--icon_secondary)
+
+  .name
+    text-overflow: ellipsis
+    overflow: hidden
+    width: 100%
+    white-space: nowrap
+
+  .budget
+    display: flex
+    flex-direction: column
+    place-content: center
+    place-items: flex-end
+    &.budget_max
+      opacity: .5
+
+.CellCategory_new
+  .icon
+    border: 2px dotted #3f8ae0
+    color: #3f8ae0
+    background-color: transparent
+    >div
+      font-size: 18px
+  .name
+    color: #3f8ae0
+
+.CellCategory_green
+  .icon
+    color: #58b490
+    border-color: #58b490
+    background-color: rgba(114, 210, 168, .5)
+
+.CellCategory_orange
+  .icon
+    color: #f4be6c
+    border-color: #f4be6c
+    background-color: rgba(244, 190, 108, .5)
+
+.CellCategory_red
+  .icon
+    color: #f2acb7
+    border-color: #f2acb7
+    background-color: rgba(242, 172, 183, .5)
+
+.separator
+  padding: 6px 5px

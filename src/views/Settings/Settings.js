@@ -1,4 +1,5 @@
 import React from 'react'
+import {useDispatch} from 'react-redux'
 import {
   Group,
   Header,
@@ -11,8 +12,14 @@ import {
 import {Icon28AllCategoriesOutline, Icon28HelpOutline} from '@vkontakte/icons'
 import classes from './Settings.module.sass'
 import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
+import {nextPage} from '../../store/actions/appActions'
+import {PAGES} from '../../constants/constants'
 
 export const Settings = () => {
+  const dispatch = useDispatch()
+
+  const onClickCategories = () => dispatch(nextPage({view: PAGES.CATEGORIES}))
+
   return (
     <View activePanel="main">
       <Panel id="main">
@@ -24,6 +31,7 @@ export const Settings = () => {
         </Group>
         <Group>
           <SimpleCell
+            onClick={onClickCategories}
             expandable
             before={<Icon28AllCategoriesOutline />}
           >

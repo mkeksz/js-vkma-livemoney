@@ -1,9 +1,9 @@
-export function currencyFilter(value) {
+export function currencyFilter(value, icon = true) {
   return (
     new Intl.NumberFormat('ru-RU', {
       style: 'decimal',
       maximumFractionDigits: 2
-    }).format(value) + ' ₽'
+    }).format(value) + (icon ? ' ₽' : '')
   )
 }
 

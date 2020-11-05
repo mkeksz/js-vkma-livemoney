@@ -19,6 +19,15 @@ export class StateProcessor {
     return await this.client.getWallets()
   }
 
+  static async saveCategory(category, type) {
+    return await this.client.saveCategory(category, type)
+  }
+
+  static async deleteCategory(categoryID, type) {
+    return await this.client.deleteCategory(categoryID, type)
+  }
+
+
   static async getUser() {
     return await this.client.getUser()
   }

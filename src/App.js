@@ -15,6 +15,7 @@ import {Wallet} from './views/Wallet/Wallet'
 import {ModalIcons} from './modals/ModalIcons/ModalIcons'
 import {Categories} from './views/Categories/Categories'
 import {setCategories} from './store/actions/categoriesActions'
+import {Category} from './views/Category/Category'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -44,6 +45,7 @@ export const App = () => {
       <Settings id={PAGES.SETTINGS}/>
       <Wallet id={PAGES.WALLET}/>
       <Categories id={PAGES.CATEGORIES}/>
+      <Category id={PAGES.CATEGORY}/>
     </Root>
   )
 }

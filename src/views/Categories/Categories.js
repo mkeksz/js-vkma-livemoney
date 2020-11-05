@@ -10,8 +10,12 @@ import {
 import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
 import classes from './Categories.module.sass'
 import {PAGES} from '../../constants/constants'
-import {setPageOptions} from '../../store/actions/pagesActions'
+import {
+  clearPageOptions,
+  setPageOptions
+} from '../../store/actions/pagesActions'
 import {CellCategory} from './CellCategory/CellCategory'
+import {nextPage} from '../../store/actions/appActions'
 
 const PAGE = PAGES.CATEGORIES
 const TAB_EXPENSE = 'expense'
@@ -36,6 +40,18 @@ export const Categories = () => {
 
   const onClickTab = (selectedTab) =>
     dispatch(setPageOptions(PAGE, {selectedTab}))
+  const onClickCategory = (category) => {
+    dispatch(setPageOptions(PAGES.CATEGORY, {
+      id: category.id,
+      icon: category.icon,
+      type: selectedTab
+    }))
+    dispatch(nextPage({view: PAGES.CATEGORY}))
+  }
+  const onClickNewCategory = () => {
+    dispatch(clearPageOptions(PAGES.CATEGORY))
+    dispatch(nextPage({view: PAGES.CATEGORY}))
+  }
 
   return (
     <View activePanel="main">
@@ -56,9 +72,13 @@ export const Categories = () => {
           </TabsItem>
         </Tabs>
         <Group className={classes.Categories}>
-          <CellCategory isNew={true}/>
+          <CellCategory isNew={true} onClick={onClickNewCategory}/>
           {sortedCategories.map(category => (
-            <CellCategory key={category.id} category={category}/>
+            <CellCategory
+              key={category.id}
+              category={category}
+              onClick={() => onClickCategory(category)}
+            />
           ))}
         </Group>
       </Panel>

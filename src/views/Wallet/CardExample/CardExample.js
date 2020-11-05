@@ -3,19 +3,26 @@ import PropTypes from 'prop-types'
 import {Card, Div, Title} from '@vkontakte/vkui'
 import {useDispatch} from 'react-redux'
 import classes from './CardExample.module.sass'
-import {Icon} from '../../../components/UI/Icon/Icon'
 import {currencyFilter} from '../../../filters/numbersFilter'
-import {nextPage} from '../../../store/actions/appActions'
+import {nextPage, prevPage} from '../../../store/actions/appActions'
 import {PAGES} from '../../../constants/constants'
 import {setPageOptions} from '../../../store/actions/pagesActions'
+import {SelectIcon} from '../../../components/SelectIcon/SelectIcon'
 
 export const CardExample = ({wallet, icon}) => {
   const dispatch = useDispatch()
 
   wallet.balance = wallet.balance.toString().replace(',', '.')
 
-  const clickIconHandler = () => {
-    dispatch(setPageOptions(PAGES.MODAL_ICONS, {icon, styles: wallet.styles}))
+  const onClickIcon = () => {
+    dispatch(setPageOptions(PAGES.MODAL_ICONS, {
+      icon,
+      styles: wallet.styles,
+      onClick: (icon) => {
+        dispatch(setPageOptions(PAGES.WALLET, {icon}))
+        dispatch(prevPage())
+      }
+    }))
     dispatch(nextPage({modal: PAGES.MODAL_ICONS}))
   }
 
@@ -26,15 +33,11 @@ export const CardExample = ({wallet, icon}) => {
     >
       <Div className={classes.container}>
         <div className={classes.header}>
-          <div className={classes.icon} onClick={clickIconHandler}>
-            <div
-              className={classes.border}
-              style={{borderColor: wallet.styles.color}}
-            />
-            <div className={classes.item} style={{color: wallet.styles.color}}>
-              {icon && <Icon icon={icon}/>}
-            </div>
-          </div>
+          <SelectIcon
+            onClick={onClickIcon}
+            icon={icon}
+            color={wallet.styles.color}
+          />
           <Title
             level="3"
             weight="medium"

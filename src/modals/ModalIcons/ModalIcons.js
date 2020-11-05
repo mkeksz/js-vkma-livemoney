@@ -1,26 +1,18 @@
 import React, {useState} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {ModalPage, Div} from '@vkontakte/vkui'
 import classes from './ModalIcons.module.sass'
 import {HeaderModal} from '../../components/Navigation/HeaderModal/HeaderModal'
 import {Icon} from '../../components/UI/Icon/Icon'
 import {ICONS, PAGES} from '../../constants/constants'
-import {setPageOptions} from '../../store/actions/pagesActions'
-import {prevPage} from '../../store/actions/appActions'
 
 export const ModalIcons = () => {
-  const dispatch = useDispatch()
-
-  const selectedIcon = useSelector(({pages}) =>
-    pages[PAGES.MODAL_ICONS].icon || {})
-  const styles = useSelector(({pages}) => pages[PAGES.MODAL_ICONS].styles)
+  const {icon, styles, onClick} = useSelector(({pages}) =>
+    pages[PAGES.MODAL_ICONS])
   const [icons] = useState(Object.values(ICONS))
-  const selectedColor = '#3e88dd'
 
-  const onClickIcon = (icon) => {
-    dispatch(setPageOptions(PAGES.WALLET, {icon}))
-    dispatch(prevPage())
-  }
+  const selectedIcon = icon || {}
+  const selectedColor = '#3e88dd'
 
   return (
     <ModalPage
@@ -36,24 +28,24 @@ export const ModalIcons = () => {
               : styles.backgroundColor,
             boxShadow: !selectedIcon.id ? 'inset 0 0 0 2px #fff' : null
           }}
-          onClick={() => onClickIcon(null)}
+          onClick={() => onClick(null)}
         />
-        {icons.map(icon => (
+        {icons.map(_icon => (
           <div
-            key={icon.id}
-            onClick={() => onClickIcon(icon)}
+            key={_icon.id}
+            onClick={() => onClick(_icon)}
             style={{
               backgroundColor: styles.backgroundColor,
               color: styles.color,
-              borderColor: selectedIcon.id === icon.id
+              borderColor: selectedIcon.id === _icon.id
                 ? selectedColor
                 : styles.backgroundColor,
-              boxShadow: selectedIcon.id === icon.id
+              boxShadow: selectedIcon.id === _icon.id
                 ? 'inset 0 0 0 2px #fff'
                 : null
             }}
           >
-            <Icon icon={icon}/>
+            <Icon icon={_icon}/>
           </div>
         ))}
       </Div>

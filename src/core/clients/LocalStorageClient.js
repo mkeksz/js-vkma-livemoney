@@ -16,7 +16,7 @@ export default class LocalStorageClient {
   async saveWallet(wallet) {
     const key = `${this.userID}:${KEY_WALLETS}`
 
-    const isEdit = !!wallet.id
+    const isEdit = wallet.id !== null
     const wallets = await this.getWallets()
 
     if (isEdit) {
@@ -64,6 +64,44 @@ export default class LocalStorageClient {
     }
 
     return result
+  }
+
+  async saveCategory(category, type) {
+    const key = `${this.userID}:${KEY_CATEGORIES}`
+
+    const isEdit = category.id !== null
+    const categories = await this.getCategories()
+    const curCategories = categories[type]
+
+    if (isEdit) {
+      const targetIndexCategory = curCategories.findIndex(cat =>
+        cat.id === category.id)
+      curCategories[targetIndexCategory] = {
+        ...curCategories[targetIndexCategory],
+        ...category
+      }
+    } else {
+      category.id = curCategories.length > 0
+        ? curCategories[curCategories.length - 1].id + 1
+        : 1
+      curCategories.push({...category, amount: 0})
+    }
+
+    storage(key, categories)
+    return categories
+  }
+
+  async deleteCategory(categoryID, type) {
+    const key = `${this.userID}:${KEY_CATEGORIES}`
+
+    const categories = await this.getCategories()
+    const targetIndexCategory = categories[type]
+        .findIndex(cat => cat.id === categoryID)
+
+    categories[type].splice(targetIndexCategory, 1)
+
+    storage(key, categories)
+    return categories
   }
 
   async getUser() {

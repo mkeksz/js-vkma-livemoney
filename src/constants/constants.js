@@ -15,5 +15,6 @@ export const PAGES = {
   MAIN: 'main',
   INTRO: 'intro',
   CATEGORIES: 'categories',
+  CATEGORY: 'category',
   MODAL_ICONS: 'modal_icons'
 }

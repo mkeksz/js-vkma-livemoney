@@ -11,10 +11,16 @@ const initialState = {
   },
   [PAGES.MODAL_ICONS]: {
     icon: null,
-    styles: {}
+    styles: {color: '#fff', backgroundColor: 'var(--icon_secondary)'},
+    onClick: null
   },
   [PAGES.CATEGORIES]: {
     selectedTab: 'expense'
+  },
+  [PAGES.CATEGORY]: {
+    id: null,
+    icon: null,
+    type: 'expense'
   }
 }
 

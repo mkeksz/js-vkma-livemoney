@@ -7,7 +7,7 @@ import {Icon} from '../../../components/UI/Icon/Icon'
 import {ICONS} from '../../../constants/constants'
 import {percentNumOfNum} from '../../../core/utils'
 
-export const CellCategory = ({isNew = false, category = {}}) => {
+export const CellCategory = ({isNew = false, category = {}, onClick}) => {
   const cls = [classes.CellCategory]
 
   if (isNew) cls.push(classes.CellCategory_new)
@@ -25,6 +25,7 @@ export const CellCategory = ({isNew = false, category = {}}) => {
       {!isNew && <Separator className={classes.separator}/>}
       <SimpleCell
         className={cls.join(' ')}
+        onClick={onClick}
         before={
           <div className={classes.icon}>
             <Icon icon={category.icon || ICONS.PLUS}/>
@@ -60,5 +61,6 @@ export const CellCategory = ({isNew = false, category = {}}) => {
 
 CellCategory.propTypes = {
   isNew: PropTypes.bool,
-  category: PropTypes.object
+  category: PropTypes.object,
+  onClick: PropTypes.func.isRequired
 }

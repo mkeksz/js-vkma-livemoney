@@ -28,7 +28,11 @@ export const CellCategory = ({isNew = false, category = {}, onClick}) => {
         onClick={onClick}
         before={
           <div className={classes.icon}>
-            <Icon icon={category.icon || ICONS.PLUS}/>
+            {
+              !isNew && !category.icon
+                ? ''
+                : <Icon icon={category.icon || ICONS.PLUS}/>
+            }
           </div>
         }
         after={

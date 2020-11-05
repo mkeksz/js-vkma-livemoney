@@ -77,8 +77,8 @@ export const Category = () => {
     const newCategory = {
       id,
       icon,
-      title,
-      budget: +budget
+      title: title || 'Новая категория',
+      budget: +budget || null
     }
     dispatch(showLoader())
     StateProcessor.saveCategory(newCategory, type).then(saveAndClose)
@@ -86,7 +86,7 @@ export const Category = () => {
   const onClickDelete = () => {
     dispatch(nextPage({popout: (
       <PopoutAlert
-        title={`Удалить ${title || 'Красота и здоровье'}?`}
+        title={`Удалить ${title || 'Новая категория'}?`}
         button={{title: 'Удалить', action: () => {
           dispatch(showLoader())
           StateProcessor.deleteCategory(id, type).then(saveAndClose)
@@ -124,7 +124,7 @@ export const Category = () => {
                 maxLength={50}
                 onChange={onChangeTitle}
                 name="title"
-                placeholder="Красота и здоровье"
+                placeholder="Новая категория"
               />
             </SimpleCell>
           </FormLayoutGroup>

@@ -9,6 +9,8 @@ function compareDates(a, b) {
 }
 
 export const HeaderDate = ({date}) => {
+  if (typeof date === 'string') date = new Date(date)
+
   let stringDate = date
       .toLocaleString('ru', {month: 'long', day: 'numeric', weekday: 'short'})
 

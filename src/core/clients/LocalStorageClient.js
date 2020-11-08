@@ -1,6 +1,6 @@
 import {storage} from '../utils'
 import {
-  initialCategories, initialUser, initialWallets
+  initialCategories, initialOperations, initialUser, initialWallets
 } from './InitialLocalStorage'
 import {StateProcessor} from '../StateProcessor'
 
@@ -93,7 +93,7 @@ export default class LocalStorageClient {
 
   async getOperations(start, end) {
     const operations
-      = getContentStorage(generateOperations(15000), KEY_OPERATIONS)
+      = getContentStorage(initialOperations, KEY_OPERATIONS)
 
     return operations.slice(start, end)
   }
@@ -114,24 +114,4 @@ function getContentStorage(initialState, nameKey) {
 
 function getKey(nameKey) {
   return `${StateProcessor.userID}:${nameKey}`
-}
-
-function generateOperations(countOperations) {
-  const array = new Array(countOperations).fill('')
-
-  return array.map((item, i) => ({
-    id: i,
-    amount: 500,
-    date: '2020-11-06T23:20:30Z',
-    type: 'income',
-    description: '',
-    from: {
-      type: 'category',
-      itemID: 2
-    },
-    to: {
-      type: 'wallet',
-      itemID: 2
-    }
-  }))
 }

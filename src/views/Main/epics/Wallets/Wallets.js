@@ -49,7 +49,7 @@ export const Wallets = () => {
   return (
     <View activePanel="main">
       <Panel id="main" centered={true}>
-        <HeaderPanel>Кошелёк</HeaderPanel>
+        <HeaderPanel separator={false}>Кошелёк</HeaderPanel>
         <Gallery
           initialSlideIndex={initialSlide}
           align="center"

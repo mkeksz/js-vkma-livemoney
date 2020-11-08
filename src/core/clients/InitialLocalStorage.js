@@ -109,7 +109,7 @@ export const initialOperations = [
   {
     id: 3,
     amount: 500,
-    date: '2020-11-06T10:20:30Z',
+    date: '2020-11-06T10:20:20Z',
     type: 'income',
     description: '',
     from: {
@@ -123,6 +123,21 @@ export const initialOperations = [
   },
   {
     id: 4,
+    amount: 500,
+    date: '2020-11-06T10:20:30Z',
+    type: 'income',
+    description: '',
+    from: {
+      type: 'category',
+      itemID: 2
+    },
+    to: {
+      type: 'wallet',
+      itemID: 2
+    }
+  },
+  {
+    id: 5,
     amount: 7000,
     date: '2020-11-07T10:20:30Z',
     type: 'transfer',
@@ -145,3 +160,23 @@ export const initialUser = {
     expiryDate: null
   }
 }
+
+// function generateOperations(countOperations) {
+//   const array = new Array(countOperations).fill('')
+//
+//   return array.map((item, i) => ({
+//     id: i,
+//     amount: 500,
+//     date: '2020-11-06T23:20:30Z',
+//     type: 'income',
+//     description: '',
+//     from: {
+//       type: 'category',
+//       itemID: 2
+//     },
+//     to: {
+//       type: 'wallet',
+//       itemID: 2
+//     }
+//   }))
+// }

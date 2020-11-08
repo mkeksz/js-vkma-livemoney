@@ -73,7 +73,7 @@ async function fetchData() {
     StateProcessor.getWallets(),
     StateProcessor.getUser(),
     StateProcessor.getCategories(),
-    StateProcessor.getOperations(0, 100)
+    StateProcessor.getOperations(0, 5000)
   ])
   dispatch(setUser(user))
   dispatch(setWallets(wallets))

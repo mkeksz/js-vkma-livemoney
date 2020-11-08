@@ -1,53 +1,58 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {useSelector} from 'react-redux'
-import {Panel, View} from '@vkontakte/vkui'
+import {VariableSizeList as List} from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import {areEqual} from 'react-window'
+import {Panel, View, IOS, usePlatform} from '@vkontakte/vkui'
 import {
   HeaderPanel
 } from '../../../../components/Navigation/HeaderPanel/HeaderPanel'
-import {HistoryCell} from './HistoryCell/HistoryCell'
+import {Row} from './Row/Row'
+import classes from './History.module.sass'
 import {formatDateToStringDate} from '../../../../core/utils'
-import {HeaderDate} from './HeaderDate/HeaderDate'
 
 export const History = () => {
+  const platform = usePlatform()
   const operations = useSelector(({operations}) => operations)
+  const row = memo(Row, areEqual)
+
+  const getItemSize = index =>
+    hasHeaderGroup(operations[index], operations[index - 1]) ? 120 : 75
+
 
   return (
     <View activePanel="main">
       <Panel id="main">
-        <HeaderPanel>История</HeaderPanel>
-        {renderOperations(operations)}
+        <HeaderPanel separator={false}>История</HeaderPanel>
+        <div
+          className={
+            `${classes.autoSizer} ${platform === IOS && classes.autoSizerIos}`
+          }
+        >
+          <AutoSizer>
+            {({height, width}) => (
+              <List
+                height={height}
+                itemCount={operations.length}
+                itemSize={getItemSize}
+                width={width}
+              >
+                {row}
+              </List>
+            )}
+          </AutoSizer>
+        </div>
       </Panel>
     </View>
   )
 }
 
-function renderOperations(operations) {
-  return operations.map((operation, i) => {
-    const [date, stringDate] = getFormatDate(operation.date)
+export function hasHeaderGroup(operation, prevOperation) {
+  const stringDate = formatDateToStringDate(operation.date)
 
-    const cell = <HistoryCell key={operation.id} operation={operation}/>
-
-    if (operations[i - 1]) {
-      const [prevDate, prevStringDate] = getFormatDate(operations[i - 1].date)
-
-      if (prevStringDate !== stringDate) {
-        return renderOperationWidthHeader(prevDate, cell, operations[i - 1].id)
-      }
-    } else return renderOperationWidthHeader(date, cell, operation.id)
-
-    return cell
-  })
-}
-
-function renderOperationWidthHeader(date, cell, key) {
-  return (
-    <React.Fragment key={key}>
-      <HeaderDate date={date}/>
-      {cell}
-    </React.Fragment>
-  )
-}
-
-function getFormatDate(date) {
-  return [new Date(date), formatDateToStringDate(date)]
+  if (prevOperation) {
+    const prevStringDate = formatDateToStringDate(prevOperation.date)
+    if (prevStringDate !== stringDate) return 'prev'
+    return false
+  } else return 'current'
 }

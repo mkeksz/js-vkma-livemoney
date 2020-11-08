@@ -21,6 +21,9 @@ const initialState = {
     id: null,
     icon: null,
     type: 'expense'
+  },
+  [PAGES.OPERATION]: {
+    type: 'expense'
   }
 }
 

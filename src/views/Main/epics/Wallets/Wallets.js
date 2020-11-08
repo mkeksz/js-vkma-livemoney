@@ -15,6 +15,7 @@ import {CardWallet} from '../../../../components/CardWallet/CardWallet'
 import classes from './Wallets.module.sass'
 import {setPageOptions} from '../../../../store/actions/pagesActions'
 import {PAGES} from '../../../../constants/constants'
+import {nextPage} from '../../../../store/actions/appActions'
 
 const MAX_DEFAULT_SLIDE_INDEX = 1
 
@@ -39,6 +40,10 @@ export const Wallets = () => {
 
   const onChangeSlide = index => {
     dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: index}))
+  }
+  const onClickOperation = (type) => {
+    dispatch(setPageOptions(PAGES.OPERATION, {type}))
+    dispatch(nextPage({view: PAGES.OPERATION}))
   }
 
   return (
@@ -85,6 +90,7 @@ export const Wallets = () => {
               stretched
               mode="outline"
               className={classes.add}
+              onClick={() => onClickOperation('income')}
             >
               Доход
             </Button>
@@ -93,6 +99,7 @@ export const Wallets = () => {
               stretched
               mode="outline"
               className={classes.remove}
+              onClick={() => onClickOperation('expense')}
             >
               Расход
             </Button>

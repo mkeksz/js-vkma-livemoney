@@ -4,7 +4,7 @@ export class StateProcessor {
   static userID
 
   static get client() {
-    return new LocalStorageClient(this.userID)
+    return new LocalStorageClient()
   }
 
   static async saveWallet(wallet) {
@@ -27,12 +27,15 @@ export class StateProcessor {
     return await this.client.deleteCategory(categoryID, type)
   }
 
-
   static async getUser() {
     return await this.client.getUser()
   }
 
   static async getCategories() {
     return await this.client.getCategories()
+  }
+
+  static async getOperations(start, end) {
+    return await this.client.getOperations(start, end)
   }
 }

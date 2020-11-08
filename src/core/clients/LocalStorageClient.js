@@ -1,20 +1,17 @@
 import {storage} from '../utils'
 import {
-  COLORS,
-  ICONS
-} from '../../constants/constants'
+  initialCategories, initialUser, initialWallets
+} from './InitialLocalStorage'
+import {StateProcessor} from '../StateProcessor'
 
 const KEY_WALLETS = 'wallets'
 const KEY_CATEGORIES = 'categories'
 const KEY_USER = 'user'
+const KEY_OPERATIONS = 'operations'
 
 export default class LocalStorageClient {
-  constructor(userID) {
-    this.userID = userID
-  }
-
   async saveWallet(wallet) {
-    const key = `${this.userID}:${KEY_WALLETS}`
+    const key = getKey(KEY_WALLETS)
 
     const isEdit = wallet.id !== null
     const wallets = await this.getWallets()
@@ -32,42 +29,8 @@ export default class LocalStorageClient {
     return wallets
   }
 
-  async deleteWallet(walletID) {
-    const key = `${this.userID}:${KEY_WALLETS}`
-
-    const wallets = await this.getWallets()
-    const targetIndexWallet = wallets.findIndex(wal => wal.id === walletID)
-
-    wallets.splice(targetIndexWallet, 1)
-
-    storage(key, wallets)
-    return wallets
-  }
-
-  async getWallets() {
-    const key = `${this.userID}:${KEY_WALLETS}`
-
-    let result = storage(key)
-
-    if (result === null) {
-      storage(key, [
-        {
-          id: 1,
-          title: 'Наличные',
-          icon: ICONS.WALLET,
-          balance: 0,
-          styles: COLORS.DARK_HAKI,
-          inTotal: true
-        }
-      ])
-      result = storage(key)
-    }
-
-    return result
-  }
-
   async saveCategory(category, type) {
-    const key = `${this.userID}:${KEY_CATEGORIES}`
+    const key = getKey(KEY_CATEGORIES)
 
     const isEdit = category.id !== null
     const categories = await this.getCategories()
@@ -91,8 +54,20 @@ export default class LocalStorageClient {
     return categories
   }
 
+  async deleteWallet(walletID) {
+    const key = getKey(KEY_WALLETS)
+
+    const wallets = await this.getWallets()
+    const targetIndexWallet = wallets.findIndex(wal => wal.id === walletID)
+
+    wallets.splice(targetIndexWallet, 1)
+
+    storage(key, wallets)
+    return wallets
+  }
+
   async deleteCategory(categoryID, type) {
-    const key = `${this.userID}:${KEY_CATEGORIES}`
+    const key = getKey(KEY_CATEGORIES)
 
     const categories = await this.getCategories()
     const targetIndexCategory = categories[type]
@@ -104,89 +79,59 @@ export default class LocalStorageClient {
     return categories
   }
 
+  async getWallets() {
+    return getContentStorage(initialWallets, KEY_WALLETS)
+  }
+
   async getUser() {
-    const key = `${this.userID}:${KEY_USER}`
-
-    let result = storage(key)
-
-    if (result === null) {
-      storage(key, {
-        id: this.userID,
-        premium: {
-          isActive: false,
-          expiryDate: null
-        }
-      })
-      result = storage(key)
-    }
-
-    return result
+    return getContentStorage(initialUser, KEY_USER)
   }
 
   async getCategories() {
-    const key = `${this.userID}:${KEY_CATEGORIES}`
-
-    let result = storage(key)
-
-    if (result === null) {
-      storage(key, {
-        expense: [
-          {
-            id: 1,
-            title: 'Здоровье',
-            icon: ICONS.HEARTBEAT,
-            budget: 1300,
-            amount: 1000
-          },
-          {
-            id: 2,
-            title: 'Еда',
-            icon: ICONS.UTENSILS,
-            budget: null,
-            amount: 500
-          },
-          {
-            id: 3,
-            title: 'Игры',
-            icon: ICONS.GAMEPAD,
-            budget: null,
-            amount: 0
-          },
-          {
-            id: 4,
-            title: 'Семья',
-            icon: ICONS.USERS,
-            budget: 2000,
-            amount: 0
-          }
-        ],
-        income: [
-          {
-            id: 1,
-            title: 'Работа',
-            icon: ICONS.BRIEFCASE,
-            budget: null,
-            amount: 1000
-          },
-          {
-            id: 2,
-            title: 'Фриланс',
-            icon: ICONS.LAPTOP_HOUSE,
-            budget: null,
-            amount: 500
-          },
-          {
-            id: 3,
-            title: 'Бизнес',
-            icon: ICONS.STORE,
-            budget: null,
-            amount: 0
-          }
-        ]
-      })
-      result = storage(key)
-    }
-
-    return result
+    return getContentStorage(initialCategories, KEY_CATEGORIES)
   }
+
+  async getOperations(start, end) {
+    const operations
+      = getContentStorage(generateOperations(15000), KEY_OPERATIONS)
+
+    return operations.slice(start, end)
+  }
+}
+
+function getContentStorage(initialState, nameKey) {
+  const key = getKey(nameKey)
+
+  let result = storage(key)
+
+  if (result === null) {
+    storage(key, initialState)
+    result = storage(key)
+  }
+
+  return result
+}
+
+function getKey(nameKey) {
+  return `${StateProcessor.userID}:${nameKey}`
+}
+
+function generateOperations(countOperations) {
+  const array = new Array(countOperations).fill('')
+
+  return array.map((item, i) => ({
+    id: i,
+    amount: 500,
+    date: '2020-11-06T23:20:30Z',
+    type: 'income',
+    description: '',
+    from: {
+      type: 'category',
+      itemID: 2
+    },
+    to: {
+      type: 'wallet',
+      itemID: 2
+    }
+  }))
 }

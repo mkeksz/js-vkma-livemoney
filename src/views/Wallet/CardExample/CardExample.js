@@ -7,7 +7,7 @@ import {currencyFilter} from '../../../filters/numbersFilter'
 import {nextPage, prevPage} from '../../../store/actions/appActions'
 import {PAGES} from '../../../constants/constants'
 import {setPageOptions} from '../../../store/actions/pagesActions'
-import {SelectIcon} from '../../../components/SelectIcon/SelectIcon'
+import {SelectIcon} from '../../../components/UI/SelectIcon/SelectIcon'
 
 export const CardExample = ({wallet, icon}) => {
   const dispatch = useDispatch()

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Icon} from '../UI/Icon/Icon'
+import {Icon} from '../Icon/Icon'
 import classes from './SelectIcon.module.sass'
 
 export const SelectIcon = ({color = '#fff', icon, onClick}) => {

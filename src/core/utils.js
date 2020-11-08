@@ -6,3 +6,8 @@ export function storage(key, data = null) {
 export function percentNumOfNum(a, b) {
   return a / b * 100
 }
+
+export function formatDateToStringDate(date) {
+  if (typeof date === 'string') date = new Date(date)
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+}

@@ -12,18 +12,21 @@ import {App} from './App'
 import store from './store/store'
 import {bridgeInit} from './core/bridge'
 import {prevPage} from './store/actions/appActions'
-import './eruda'
 
-library.add(fab, fas, far)
+function loadApp() {
+  const app = (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
 
-const app = (
-  <Provider store={store}>
-    <App />
-  </Provider>
-)
+  library.add(fab, fas, far)
 
-ReactDOM.render(app, document.getElementById('root'))
+  ReactDOM.render(app, document.getElementById('root'))
 
-bridgeInit()
-window.addEventListener('popstate', () => store.dispatch(prevPage()))
+  bridgeInit()
+  window.addEventListener('popstate', () => store.dispatch(prevPage()))
+}
 
+if (process.env.NODE_ENV === 'development') import('./eruda').then(loadApp)
+else loadApp()

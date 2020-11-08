@@ -12,7 +12,7 @@ import {
 } from '@vkontakte/vkui'
 import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
 import {PAGES} from '../../constants/constants'
-import {SelectIcon} from '../../components/SelectIcon/SelectIcon'
+import {SelectIcon} from '../../components/UI/SelectIcon/SelectIcon'
 import {
   clearPageOptions,
   setPageOptions

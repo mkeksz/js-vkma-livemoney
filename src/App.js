@@ -6,7 +6,12 @@ import {Intro} from './views/Intro/Intro'
 import {Main} from './views/Main/Main'
 import {Settings} from './views/Settings/Settings'
 import {bridgeAppGetClientVersion, bridgeAppGetUserInfo} from './core/bridge'
-import {hideLoader, prevPage, setPlatform} from './store/actions/appActions'
+import {
+  hideLoader,
+  prevPage,
+  setPlatform,
+  setTimezone
+} from './store/actions/appActions'
 import {StateProcessor} from './core/StateProcessor'
 import {PAGES} from './constants/constants'
 import {setUser} from './store/actions/userActions'
@@ -16,6 +21,8 @@ import {ModalIcons} from './modals/ModalIcons/ModalIcons'
 import {Categories} from './views/Categories/Categories'
 import {setCategories} from './store/actions/categoriesActions'
 import {Category} from './views/Category/Category'
+import {Operation} from './views/Operation/Operation'
+import {setOperations} from './store/actions/operationsActions'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -46,6 +53,7 @@ export const App = () => {
       <Wallet id={PAGES.WALLET}/>
       <Categories id={PAGES.CATEGORIES}/>
       <Category id={PAGES.CATEGORY}/>
+      <Operation id={PAGES.OPERATION}/>
     </Root>
   )
 }
@@ -56,15 +64,20 @@ async function fetchData() {
     bridgeAppGetUserInfo(),
     bridgeAppGetClientVersion()
   ])
+
   dispatch(setPlatform(client.platform))
+  dispatch(setTimezone(userInfo.timezone))
+
   StateProcessor.userID = userInfo.id
-  const [wallets, user, categories] = await Promise.all([
+  const [wallets, user, categories, operations] = await Promise.all([
     StateProcessor.getWallets(),
     StateProcessor.getUser(),
-    StateProcessor.getCategories()
+    StateProcessor.getCategories(),
+    StateProcessor.getOperations(0, 100)
   ])
   dispatch(setUser(user))
   dispatch(setWallets(wallets))
   dispatch(setCategories(categories))
+  dispatch(setOperations(operations))
   dispatch(hideLoader())
 }

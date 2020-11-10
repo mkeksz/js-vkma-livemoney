@@ -44,7 +44,7 @@ export const CardExample = ({wallet, icon}) => {
             className={classes.title}
             style={{color: wallet.styles.color}}
           >
-            {wallet.title || 'Новый кошелёк'}
+            {wallet.title || 'Новый счёт'}
           </Title>
         </div>
         <div className={classes.balance}>

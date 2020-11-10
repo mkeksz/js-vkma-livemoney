@@ -19,7 +19,6 @@ export const History = () => {
   const getItemSize = index =>
     hasHeaderGroup(operations[index], operations[index - 1]) ? 120 : 75
 
-
   return (
     <View activePanel="main">
       <Panel id="main">

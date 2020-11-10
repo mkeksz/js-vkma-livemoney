@@ -13,7 +13,10 @@ import {
 } from '../../../../components/Navigation/HeaderPanel/HeaderPanel'
 import {CardWallet} from '../../../../components/CardWallet/CardWallet'
 import classes from './Wallets.module.sass'
-import {setPageOptions} from '../../../../store/actions/pagesActions'
+import {
+  clearPageOptions,
+  setPageOptions
+} from '../../../../store/actions/pagesActions'
 import {PAGES} from '../../../../constants/constants'
 import {nextPage} from '../../../../store/actions/appActions'
 
@@ -42,6 +45,7 @@ export const Wallets = () => {
     dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: index}))
   }
   const onClickOperation = (type) => {
+    dispatch(clearPageOptions(PAGES.OPERATION))
     dispatch(setPageOptions(PAGES.OPERATION, {type}))
     dispatch(nextPage({view: PAGES.OPERATION}))
   }

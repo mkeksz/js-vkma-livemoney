@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react'
+import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Caption, Card, SimpleCell} from '@vkontakte/vkui'
 import {IconCircle} from '../../../../../components/UI/IconCircle/IconCircle'
@@ -6,6 +7,9 @@ import {currencyFilter} from '../../../../../filters/numbersFilter'
 import classes from './HistoryCell.module.sass'
 import store from '../../../../../store/store'
 import {getColorCategory} from '../../../../../shared'
+import {nextPage} from '../../../../../store/actions/appActions'
+import {PAGES} from '../../../../../constants/constants'
+import {setPageOptions} from '../../../../../store/actions/pagesActions'
 
 function getItem(typeOperation, objOperation) {
   const obj = objOperation
@@ -16,6 +20,8 @@ function getItem(typeOperation, objOperation) {
 }
 
 export const HistoryCell = ({operation}) => {
+  const dispatch = useDispatch()
+
   const fromItem = useMemo(() => getItem(operation.type, operation.from),
       [operation.from, operation.type])
   const toItem = useMemo(() => getItem(operation.type, operation.to),
@@ -26,8 +32,25 @@ export const HistoryCell = ({operation}) => {
     colorIcon = getColorCategory(toItem.amount, toItem.budget)
   }
 
+  const onClick = () => {
+    dispatch(setPageOptions(PAGES.OPERATION, {
+      id: operation.id,
+      fromSelected: operation.from,
+      toSelected: operation.to,
+      amount: operation.amount,
+      description: operation.description,
+      type: operation.type === 'transfer' ? 'expense' : operation.type
+    }))
+    dispatch(nextPage({view: PAGES.OPERATION}))
+  }
+
   return (
-    <Card size="l" mode="shadow" className={classes.HistoryCell}>
+    <Card
+      size="l"
+      mode="shadow"
+      className={classes.HistoryCell}
+      onClick={onClick}
+    >
       <SimpleCell
         className={classes.cell}
         before={

@@ -60,5 +60,10 @@ export default {
     id: 'PLUS',
     name: 'fas plus',
     type: FONT_AWESOME
+  },
+  CHECK: {
+    id: 'CHECK',
+    name: 'fa check',
+    type: FONT_AWESOME
   }
 }

@@ -11,7 +11,7 @@ import {
   View
 } from '@vkontakte/vkui'
 import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {PAGES} from '../../constants/constants'
+import {MAX_LENGTH_INPUT_BALANCE, PAGES} from '../../constants/constants'
 import {SelectIcon} from '../../components/UI/SelectIcon/SelectIcon'
 import {
   clearPageOptions,
@@ -109,6 +109,7 @@ export const Category = () => {
         <FormLayout>
           <FormLayoutGroup top="Название">
             <SimpleCell
+              style={{paddingLeft: 0}}
               disabled
               after={
                 <SelectIcon
@@ -130,17 +131,15 @@ export const Category = () => {
           </FormLayoutGroup>
           {type === 'expense' && (
             <FormLayoutGroup top="Бюджет в месяц">
-              <SimpleCell disabled>
-                <Input
-                  type="text"
-                  maxLength={15}
-                  value={inputBalanceFilter(budget)}
-                  name="budget"
-                  onChange={onChangeBudget}
-                  placeholder="Без бюджета"
-                  inputMode="numeric"
-                />
-              </SimpleCell>
+              <Input
+                type="text"
+                maxLength={MAX_LENGTH_INPUT_BALANCE}
+                value={inputBalanceFilter(budget)}
+                name="budget"
+                onChange={onChangeBudget}
+                placeholder="Без бюджета"
+                inputMode="numeric"
+              />
             </FormLayoutGroup>
           )}
         </FormLayout>

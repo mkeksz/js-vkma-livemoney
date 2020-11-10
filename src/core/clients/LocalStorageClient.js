@@ -54,6 +54,27 @@ export default class LocalStorageClient {
     return categories
   }
 
+  async saveOperation(operation) {
+    const key = getKey(KEY_OPERATIONS)
+
+    const isEdit = operation.id !== null
+    const operations = await this.getOperations(0, -1)
+
+    if (isEdit) {
+      const targetIndex = operations.findIndex(op =>
+        op.id === operation.id)
+      operations[targetIndex] = operation
+    } else {
+      operation.id = operations.length > 0
+        ? operations[operations.length - 1].id + 1
+        : 1
+      operations.unshift(operation)
+    }
+
+    storage(key, operations)
+    return operations
+  }
+
   async deleteWallet(walletID) {
     const key = getKey(KEY_WALLETS)
 

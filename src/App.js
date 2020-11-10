@@ -50,10 +50,10 @@ export const App = () => {
       <Intro id={PAGES.INTRO}/>
       <Main id={PAGES.MAIN}/>
       <Settings id={PAGES.SETTINGS}/>
-      <Wallet id={PAGES.WALLET}/>
       <Categories id={PAGES.CATEGORIES}/>
-      <Category id={PAGES.CATEGORY}/>
       <Operation id={PAGES.OPERATION}/>
+      <Category id={PAGES.CATEGORY}/>
+      <Wallet id={PAGES.WALLET}/>
     </Root>
   )
 }

@@ -8,6 +8,8 @@ export const COLORS = colors
 export const MAX_ACTIVE_WALLETS = 5
 export const MAX_ACTIVE_WALLETS_PREMIUM = 10
 
+export const MAX_LENGTH_INPUT_BALANCE = 15
+
 export const PAGES = {
   WALLETS: 'wallets',
   WALLET: 'wallet',

@@ -1,18 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classes from './HeaderDate.module.sass'
-
-function compareDates(a, b) {
-  return a.getDate() === b.getDate()
-    && a.getMonth() === b.getMonth()
-    && a.getFullYear() === b.getFullYear()
-}
+import {compareDates} from '../../../../../core/utils'
 
 export const HeaderDate = ({date}) => {
-  if (typeof date === 'string') date = new Date(date)
+  date = new Date(date)
 
-  let stringDate = date
-      .toLocaleString('ru', {month: 'long', day: 'numeric', weekday: 'short'})
+  let stringDate = date.toLocaleString(
+      'ru',
+      {month: 'long', day: 'numeric', weekday: 'short'}
+  )
 
   const todayDate = new Date()
   const yesterdayDate = new Date()

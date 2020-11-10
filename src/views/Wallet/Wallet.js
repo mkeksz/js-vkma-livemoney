@@ -14,7 +14,11 @@ import {
 } from '@vkontakte/vkui'
 import store from '../../store/store'
 import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {COLORS, PAGES} from '../../constants/constants'
+import {
+  COLORS,
+  MAX_LENGTH_INPUT_BALANCE,
+  PAGES
+} from '../../constants/constants'
 import {CardExample} from './CardExample/CardExample'
 import {inputBalanceFilter} from '../../filters/numbersFilter'
 import {CircleColor} from './CircleColor/CircleColor'
@@ -74,7 +78,7 @@ export const Wallet = () => {
   const onClickSave = () => {
     const newWallet = {
       id,
-      title: wallet.title || 'Новый кошелёк',
+      title: wallet.title || 'Новый счёт',
       icon,
       balance: +wallet.balance,
       styles: wallet.styles,
@@ -87,7 +91,7 @@ export const Wallet = () => {
   const onClickDelete = () => {
     dispatch(nextPage({popout: (
       <PopoutAlert
-        title={`Удалить ${wallet.title || 'Новый кошелёк'}?`}
+        title={`Удалить ${wallet.title || 'Новый счёт'}?`}
         button={{title: 'Удалить', action: () => {
           dispatch(showLoader())
           StateProcessor.deleteWallet(id).then(saveAndClose)
@@ -104,7 +108,7 @@ export const Wallet = () => {
       <Panel id="main">
 
         <HeaderPanel buttonBack={true}>
-          {isEdit ? 'Редактирование кошелька' : 'Создание кошелька'}
+          {isEdit ? 'Редактирование счёта' : 'Создание счёта'}
         </HeaderPanel>
 
         <div>
@@ -126,7 +130,7 @@ export const Wallet = () => {
               type="text"
               inputMode="numeric"
               name="balanceCard"
-              maxLength="15"
+              maxLength={MAX_LENGTH_INPUT_BALANCE}
               placeholder="Текущий баланс"
               value={wallet.balance}
               onChange={changeBalanceHandler}
@@ -167,7 +171,7 @@ export const Wallet = () => {
         {isEdit && (
           <Div style={{paddingTop: '20px'}}>
             <Button size="l" mode="destructive" onClick={onClickDelete}>
-              УДАЛИТЬ КОШЕЛЁК
+              УДАЛИТЬ СЧЁТ
             </Button>
           </Div>
         )}

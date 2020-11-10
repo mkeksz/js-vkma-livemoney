@@ -8,23 +8,28 @@ export class StateProcessor {
   }
 
   static async saveWallet(wallet) {
+    if (!wallet) return
     return await this.client.saveWallet(wallet)
-  }
-
-  static async deleteWallet(walletID) {
-    return await this.client.deleteWallet(walletID)
-  }
-
-  static async getWallets() {
-    return await this.client.getWallets()
   }
 
   static async saveCategory(category, type) {
     return await this.client.saveCategory(category, type)
   }
 
+  static async saveOperation(operation) {
+    return await this.client.saveOperation(operation)
+  }
+
+  static async deleteWallet(walletID) {
+    return await this.client.deleteWallet(walletID)
+  }
+
   static async deleteCategory(categoryID, type) {
     return await this.client.deleteCategory(categoryID, type)
+  }
+
+  static async getWallets() {
+    return await this.client.getWallets()
   }
 
   static async getUser() {

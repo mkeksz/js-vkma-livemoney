@@ -11,3 +11,9 @@ export function formatDateToStringDate(date) {
   if (typeof date === 'string') date = new Date(date)
   return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
 }
+
+export function compareDates(a, b) {
+  return a.getDate() === b.getDate()
+    && a.getMonth() === b.getMonth()
+    && a.getFullYear() === b.getFullYear()
+}

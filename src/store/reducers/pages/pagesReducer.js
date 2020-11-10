@@ -23,6 +23,11 @@ const initialState = {
     type: 'expense'
   },
   [PAGES.OPERATION]: {
+    id: null,
+    fromSelected: {},
+    toSelected: {},
+    amount: '',
+    description: '',
     type: 'expense'
   }
 }

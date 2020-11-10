@@ -20,8 +20,6 @@ export const Row = ({index, style}) => {
 }
 
 Row.propTypes = {
-  index: PropTypes.number,
+  index: PropTypes.number.isRequired,
   style: PropTypes.object
 }
-
-

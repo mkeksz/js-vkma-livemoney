@@ -136,6 +136,7 @@ export default class LocalStorageClient {
     const operations
       = getContentStorage(initialOperations, KEY_OPERATIONS)
 
+    operations.sort((a, b) => new Date(b.date) - new Date(a.date))
     return end === -1 ? operations : operations.slice(start, end)
   }
 }

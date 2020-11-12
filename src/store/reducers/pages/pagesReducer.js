@@ -24,7 +24,8 @@ const initialState = {
   },
   [PAGES.OPERATION]: {
     operation: {},
-    initialOperation: null
+    initialOperation: null,
+    choosedDate: 7
   }
 }
 

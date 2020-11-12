@@ -1,6 +1,7 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect, useMemo} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Div, Group, Header, Input, Panel, View} from '@vkontakte/vkui'
+import HorizontalCalendar from 'vkui-horizontal-calendar'
 import {
   MAX_LENGTH_DESCRIPTION_CATEGORY, MAX_LENGTH_INPUT_BALANCE, PAGES,
   TYPES_OPERATION
@@ -18,13 +19,39 @@ import {nextPage} from '@/store/actions/appActions'
 import {scrollToAnchor} from '@/shared'
 
 
+const MAX_CHOOSED_DAY = 7
+
 export const Operation = () => {
   const dispatch = useDispatch()
 
-  const {operation, initialOperation} = useSelector(({pages}) =>
+  const {operation, initialOperation, choosedDate} = useSelector(({pages}) =>
     pages[PAGES.OPERATION])
 
   const isEdit = !!operation.id
+
+  if (!operation.date) operation.date = new Date()
+  else operation.date = new Date(operation.date)
+
+  let difDates = Math.ceil(Math.abs(
+      operation.date.getTime()- new Date().getTime()
+  ) / (1000 * 3600 * 24)) - 1
+  if (difDates >= 3) difDates = 3
+
+  useEffect(() => {
+    if (isEdit) {
+      dispatch(setPageOptions(PAGES.OPERATION, {
+        choosedDate: 7 - difDates
+      }))
+    }
+  }, [isEdit, dispatch])
+
+  const dateCalendar = useMemo(() => {
+    const _date = new Date(operation.date)
+    const correctDay = isEdit ? 6 - difDates : 6
+    _date.setDate(_date.getDate() - correctDay)
+    return _date
+  }, [])
+
   const title = operation.type === TYPES_OPERATION.EXPENSE ? 'Расход' : 'Доход'
   const typeFrom = operation.type === TYPES_OPERATION.INCOME
     || operation.type === TYPES_OPERATION.TRANSFER
@@ -37,7 +64,6 @@ export const Operation = () => {
   const anchorTo = useRef(null)
   const anchorAmount = useRef(null)
   const inputAmount = useRef(null)
-
 
   const onChangeAmount = ({currentTarget}) =>
     dispatch(setPageOptions(PAGES.OPERATION, {
@@ -57,16 +83,20 @@ export const Operation = () => {
       </PopoutAlert>
     )}))
   }
-  const onSave = () => save({
-    ...operation,
-    id: operation.id || null,
-    amount: +operation.amount.toString().replace(',', '.'),
-    type: operation.from.type === 'wallet' && operation.to.type === 'wallet'
-      ? 'transfer'
-      : operation.type,
-    description: operation.description || '',
-    date: new Date()
-  }, initialOperation)
+  const onSave = () => {
+    operation.date.setDate(operation.date.getDate() + choosedDate
+      - MAX_CHOOSED_DAY + difDates)
+    save({
+      ...operation,
+      id: operation.id || null,
+      amount: +operation.amount.toString().replace(',', '.'),
+      type: operation.from.type === 'wallet' && operation.to.type === 'wallet'
+        ? 'transfer'
+        : operation.type,
+      description: operation.description || '',
+      date: operation.date.toISOString()
+    }, initialOperation)
+  }
   const nextAnchor = () => {
     if (!operation.to) scrollToAnchor(anchorTo)
     else if (!operation.amount) {
@@ -74,6 +104,10 @@ export const Operation = () => {
       setTimeout(() => inputAmount.current['focus'](), 300)
     }
   }
+  const onClickDate = ({dayNumber}) =>
+    dispatch(setPageOptions(PAGES.OPERATION, {choosedDate: dayNumber}))
+
+
   return (
     <View activePanel="main">
       <Panel id="main">
@@ -96,6 +130,15 @@ export const Operation = () => {
             />
           </Group>
         </div>
+
+        <Group header={<Header>Дата</Header>}>
+          <HorizontalCalendar
+            date={dateCalendar}
+            choosed={choosedDate}
+            isDarkWeekend={false}
+            onClick={onClickDate}
+          />
+        </Group>
 
         <div ref={anchorAmount}>
           <Group header={<Header>Сумма</Header>}>

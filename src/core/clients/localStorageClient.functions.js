@@ -12,6 +12,8 @@ export function getNewOperations(operation, operations) {
       : 1
     _operations.unshift(operation)
   }
+
+  _operations.sort((a, b) => new Date(b.date) - new Date(a.date))
   return _operations
 }
 

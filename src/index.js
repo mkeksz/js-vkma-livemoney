@@ -1,32 +1,7 @@
 import 'core-js/es/map'
 import 'core-js/es/set'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {library} from '@fortawesome/fontawesome-svg-core'
-import {fab} from '@fortawesome/free-brands-svg-icons'
-import {fas} from '@fortawesome/free-solid-svg-icons'
-import {far} from '@fortawesome/free-regular-svg-icons'
 import '@vkontakte/vkui/dist/vkui.css'
-import {App} from './App'
-import store from './store/store'
-import {bridgeInit} from './core/bridge'
-import {prevPage} from './store/actions/appActions'
+import initApp from './initApp'
 
-function loadApp() {
-  const app = (
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
-
-  library.add(fab, fas, far)
-
-  ReactDOM.render(app, document.getElementById('root'))
-
-  bridgeInit()
-  window.addEventListener('popstate', () => store.dispatch(prevPage()))
-}
-
-if (process.env.NODE_ENV === 'development') import('./eruda').then(loadApp)
-else loadApp()
+if (process.env.NODE_ENV === 'development') import('./eruda').then(initApp)
+else initApp()

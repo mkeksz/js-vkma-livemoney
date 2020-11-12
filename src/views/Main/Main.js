@@ -1,20 +1,19 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
 import {Epic} from '@vkontakte/vkui'
-import {
-  Icon28GraphOutline, Icon28ListOutline, Icon28PaymentCardOutline
+import {Icon28GraphOutline, Icon28ListOutline, Icon28PaymentCardOutline
 } from '@vkontakte/icons'
 import {TabbarPanel} from '@/components/Navigation/TabbarPanel/TabbarPanel'
 import {Wallets} from './epics/Wallets/Wallets'
 import {Analytics} from './epics/Analytics/Analytics'
 import {History} from './epics/History/History'
+import {getLast} from '@/core/utils/array'
 
 
 export const Main = () => {
-  const activeStory = useSelector(({app: {history}}) =>
-    history[history.length - 1].epic)
+  const activeStory = useSelector(({app}) => getLast(app.history).epic)
 
-  const items = [
+  const tabbarItems = [
     {
       id: 'analytics',
       text: 'Аналитики',
@@ -32,11 +31,10 @@ export const Main = () => {
     }
   ]
 
-
   return (
     <Epic
       activeStory={activeStory}
-      tabbar={<TabbarPanel items={items} activeStory={activeStory}/>}
+      tabbar={<TabbarPanel items={tabbarItems} activeStory={activeStory}/>}
     >
       <Analytics id="analytics"/>
       <Wallets id="wallets"/>

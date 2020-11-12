@@ -1,15 +1,12 @@
 import bridge from '@vkontakte/vk-bridge'
+import {setScheme} from '@/shared/ui'
 
 export function bridgeInit() {
   bridge.send('VKWebAppInit')
   bridge.send('VKWebAppEnableSwipeBack')
-  bridge.subscribe((event) => {
+  bridge.subscribe(event => {
     const {type, data} = event.detail
-    if (type === 'VKWebAppUpdateConfig') {
-      const schemeAttribute = document.createAttribute('scheme')
-      schemeAttribute.value = data.scheme ? data.scheme : 'client_light'
-      document.body.attributes.setNamedItem(schemeAttribute)
-    }
+    if (type === 'VKWebAppUpdateConfig') setScheme(data.scheme)
   })
 }
 

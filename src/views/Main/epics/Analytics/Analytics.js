@@ -1,15 +1,10 @@
 import React from 'react'
-import {Panel, View} from '@vkontakte/vkui'
-import {
-  HeaderPanel
-} from '../../../../components/Navigation/HeaderPanel/HeaderPanel'
+import {RootPanel} from '@/roots/RootPanel/RootPanel'
 
 export const Analytics = () => {
   return (
-    <View activePanel="main">
-      <Panel id="main">
-        <HeaderPanel>Аналитика</HeaderPanel>
-      </Panel>
-    </View>
+    <RootPanel header={{content: 'Аналитика'}}>
+
+    </RootPanel>
   )
 }

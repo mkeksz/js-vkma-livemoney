@@ -1,5 +1,6 @@
 import {SET_CATEGORIES} from '../../types'
 import {TYPES_CATEGORY} from '@/constants/constants'
+import getReducer from '@/store/getReducer'
 
 const initialState = {
   [TYPES_CATEGORY.EXPENSE]: [],
@@ -11,7 +12,4 @@ const handlers = {
   DEFAULT: state => state
 }
 
-export default (state = initialState, action) => {
-  const handler = handlers[action.type] || handlers.DEFAULT
-  return handler(state, action)
-}
+export default getReducer(initialState, handlers)

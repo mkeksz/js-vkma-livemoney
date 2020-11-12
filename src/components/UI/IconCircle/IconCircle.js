@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import {Icon} from '../Icon/Icon'
 import classes from './IconCircle.module.sass'
 
-export const IconCircle = ({icon, color, type = 'category', styles}) => {
+
+export const IconCircle = ({icon, color, styles, type = 'category'}) => {
   const cls = [classes.IconCircle]
 
   if (type === 'new') cls.push(classes.IconCircle_new)

@@ -1,17 +1,13 @@
-import {
-  BACK_HISTORY,
-  HIDE_LOADER,
-  PUSH_HISTORY,
-  SET_PLATFORM, SET_TIMEZONE,
-  SHOW_LOADER
-} from '../../types'
+import {BACK_HISTORY, HIDE_LOADER, PUSH_HISTORY, SET_SNACKBAR, SET_TIMEZONE,
+  SHOW_LOADER} from '../../types'
+import getReducer from '@/store/getReducer'
 import {backToHistory, pushToHistory} from './history'
 
 const initialState = {
   loading: true,
   history: [{view: 'main', epic: 'wallets', modal: null, popout: null}],
-  platform: null,
-  timezone: 0
+  timezone: 0,
+  snackbar: null
 }
 
 const handlers = {
@@ -19,12 +15,9 @@ const handlers = {
   [HIDE_LOADER]: state => ({...state, loading: false}),
   [PUSH_HISTORY]: (state, {payload}) => pushToHistory(state, payload),
   [BACK_HISTORY]: state => backToHistory(state),
-  [SET_PLATFORM]: (state, {payload}) => ({...state, platform: payload}),
   [SET_TIMEZONE]: (state, {payload}) => ({...state, timezone: payload}),
+  [SET_SNACKBAR]: (state, {payload}) => ({...state, snackbar: payload}),
   DEFAULT: state => state
 }
 
-export default (state = initialState, action) => {
-  const handler = handlers[action.type] || handlers.DEFAULT
-  return handler(state, action)
-}
+export default getReducer(initialState, handlers)

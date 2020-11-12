@@ -32,7 +32,8 @@
         "no-unreachable": "warn",
         "max-len": "warn",
         "operator-linebreak": [2, "before"],
-        "linebreak-style": "warn"
+        "linebreak-style": "warn",
+        "no-throw-literal": "warn"
     },
     "parser": "babel-eslint"
 }

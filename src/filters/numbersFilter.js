@@ -1,13 +1,15 @@
+import {stringToNumber} from '@/core/utils/number'
+
 export function currencyFilter(value, icon = true) {
-  return (
-    new Intl.NumberFormat('ru-RU', {
-      style: 'decimal',
-      maximumFractionDigits: 2
-    }).format(value) + (icon ? ' ₽' : '')
-  )
+  value = stringToNumber(value)
+  icon = icon ? ' ₽' : ''
+
+  const options = {style: 'decimal', maximumFractionDigits: 2}
+  return new Intl.NumberFormat('ru-RU', options).format(value) + icon
 }
 
 export function inputBalanceFilter(value) {
+  if (!value) return ''
   let result = value.toString()
 
   result = result.replace('.', ',')

@@ -1,10 +1,11 @@
-$size: 50px
+$size: 40px
+$iconSize: 22px
 
 .ModalIcons
   display: grid
   grid-template-columns: repeat(auto-fill, minmax($size, $size))
-  grid-gap: 25px
-  padding: 0 10px 80px
+  grid-gap: 14px
+  padding: 0 10px 45px !important
   place-content: center
 
   >div
@@ -16,3 +17,5 @@ $size: 50px
     border-radius: 50%
     border: 2px solid
     box-sizing: border-box
+    >div
+      font-size: $iconSize

@@ -1,33 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {useDispatch} from 'react-redux'
 import {PanelHeader, PanelHeaderButton} from '@vkontakte/vkui'
 import {Icon28SettingsOutline, Icon24BrowserBack} from '@vkontakte/icons'
-import {nextPage, prevPage} from '../../../store/actions/appActions'
-import {PAGES} from '../../../constants/constants'
+import {click} from './headerPanel.functions'
 
-export const HeaderPanel = ({
-  children,
-  buttonBack = false,
-  visor = true,
-  transparent = false,
-  separator = true
-}) => {
-  const dispatch = useDispatch()
 
-  const buttonHandler = () => {
-    if (buttonBack) dispatch(prevPage())
-    else dispatch(nextPage({view: PAGES.SETTINGS}))
-  }
+export const HeaderPanel = ({children, back, separator}) => {
+  const buttonHandler = () => click(back)
 
   return (
     <PanelHeader
-      visor={visor}
-      transparent={transparent}
-      separator={separator}
+      visor={true}
+      separator={separator || false}
       left={
         <PanelHeaderButton onClick={buttonHandler}>
-          {buttonBack ? <Icon24BrowserBack/> : <Icon28SettingsOutline/>}
+          {back ? <Icon24BrowserBack/> : <Icon28SettingsOutline/>}
         </PanelHeaderButton>
       }
     >
@@ -38,8 +25,7 @@ export const HeaderPanel = ({
 
 HeaderPanel.propTypes = {
   children: PropTypes.any,
-  buttonBack: PropTypes.bool,
+  back: PropTypes.bool,
   visor: PropTypes.bool,
-  transparent: PropTypes.bool,
   separator: PropTypes.bool
 }

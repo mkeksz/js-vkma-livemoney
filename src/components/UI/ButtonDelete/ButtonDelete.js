@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Button, Div} from '@vkontakte/vkui'
 
+
 export const ButtonDelete = ({onClick}) => {
   return (
     <Div style={{paddingTop: '20px'}}>

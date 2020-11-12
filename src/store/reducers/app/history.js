@@ -1,4 +1,4 @@
-import {bridgeAppClose} from '../../../core/bridge'
+import {bridgeAppClose} from '@/core/bridge'
 
 export function pushToHistory(state, payload) {
   const oldHistory = state.history

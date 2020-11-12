@@ -1,29 +1,30 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
 import PropTypes from 'prop-types'
-import {ModalPageHeader, PanelHeaderButton} from '@vkontakte/vkui'
+import {useDispatch} from 'react-redux'
 import {Icon24Cancel, Icon24Dismiss} from '@vkontakte/icons'
-import {prevPage} from '../../../store/actions/appActions'
+import {ModalPageHeader, PanelHeaderButton, usePlatform, IOS
+} from '@vkontakte/vkui'
+import {prevPage} from '@/store/actions/appActions'
 
 
 export const HeaderModal = ({children}) => {
   const dispatch = useDispatch()
 
-  const platform = useSelector(({app}) => app.platform)
+  const platform = usePlatform()
 
   const clickHandler = () => dispatch(prevPage())
 
   return (
     <ModalPageHeader
       right={
-        platform !== 'android' && (
+        platform === IOS && (
           <PanelHeaderButton onClick={clickHandler}>
             <Icon24Dismiss />
           </PanelHeaderButton>
         )
       }
       left={
-        platform === 'android' && (
+        platform !== IOS && (
           <PanelHeaderButton onClick={clickHandler}>
             <Icon24Cancel />
           </PanelHeaderButton>

@@ -1,25 +1,28 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import {useDispatch, useSelector} from 'react-redux'
 import {Card, Div, Title} from '@vkontakte/vkui'
-import {useDispatch} from 'react-redux'
+import {PAGES} from '@/constants/constants'
+import {DEFAULT_COLOR, DEFAULT_TITLE} from '../wallet.constants'
+import {currencyFilter} from '@/filters/numbersFilter'
+import {nextPage, prevPage} from '@/store/actions/appActions'
+import {setPageOptions} from '@/store/actions/pagesActions'
+import {SelectIcon} from '@/components/UI/SelectIcon/SelectIcon'
 import classes from './CardExample.module.sass'
-import {currencyFilter} from '../../../filters/numbersFilter'
-import {nextPage, prevPage} from '../../../store/actions/appActions'
-import {PAGES} from '../../../constants/constants'
-import {setPageOptions} from '../../../store/actions/pagesActions'
-import {SelectIcon} from '../../../components/UI/SelectIcon/SelectIcon'
 
-export const CardExample = ({wallet, icon}) => {
+
+export const CardExample = () => {
   const dispatch = useDispatch()
 
-  wallet.balance = wallet.balance.toString().replace(',', '.')
+  const {wallet} = useSelector(({pages}) => pages[PAGES.WALLET])
+  const {color, backgroundColor} = wallet.styles || DEFAULT_COLOR
+  const balance = currencyFilter(wallet.balance)
 
   const onClickIcon = () => {
     dispatch(setPageOptions(PAGES.MODAL_ICONS, {
-      icon,
-      styles: wallet.styles,
-      onClick: (icon) => {
-        dispatch(setPageOptions(PAGES.WALLET, {icon}))
+      icon: wallet.icon,
+      styles: wallet.styles || DEFAULT_COLOR,
+      onClick: icon => {
+        dispatch(setPageOptions(PAGES.WALLET, {wallet: {...wallet, icon}}))
         dispatch(prevPage())
       }
     }))
@@ -27,44 +30,23 @@ export const CardExample = ({wallet, icon}) => {
   }
 
   return (
-    <Card
-      className={classes.CardExample}
-      style={{backgroundColor: wallet.styles.backgroundColor}}
-    >
+    <Card className={classes.CardExample} style={{backgroundColor}}>
       <Div className={classes.container}>
         <div className={classes.header}>
-          <SelectIcon
-            onClick={onClickIcon}
-            icon={icon}
-            color={wallet.styles.color}
-          />
+          <SelectIcon onClick={onClickIcon} icon={wallet.icon} color={color}/>
           <Title
             level="3"
             weight="medium"
             className={classes.title}
-            style={{color: wallet.styles.color}}
+            style={{color}}
           >
-            {wallet.title || 'Новый счёт'}
+            {wallet.title || DEFAULT_TITLE}
           </Title>
         </div>
         <div className={classes.balance}>
-          <Title weight="bold" level="1" style={{color: wallet.styles.color}}>
-            {currencyFilter(wallet.balance)}
-          </Title>
+          <Title weight="bold" level="1" style={{color}}>{balance}</Title>
         </div>
       </Div>
     </Card>
   )
-}
-
-CardExample.propTypes = {
-  wallet: PropTypes.shape({
-    title: PropTypes.string,
-    balance: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-    styles: PropTypes.object
-  }),
-  icon: PropTypes.object
 }

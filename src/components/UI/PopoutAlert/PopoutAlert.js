@@ -2,35 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {useDispatch} from 'react-redux'
 import {Alert} from '@vkontakte/vkui'
-import {prevPage} from '../../../store/actions/appActions'
+import {prevPage} from '@/store/actions/appActions'
+
 
 export const PopoutAlert = ({button, title, children}) => {
   const dispatch = useDispatch()
 
   const onClose = () => dispatch(prevPage())
 
+  const actions = [
+    {
+      title: button.title,
+      autoclose: true,
+      mode: 'destructive',
+      action: button.action
+    },
+    {
+      title: 'Отмена',
+      autoclose: true,
+      mode: 'cancel'
+    }
+  ]
+
   return (
-    <Alert
-      actionsLayout="vertical"
-      actions={[
-        {
-          title: button.title,
-          autoclose: true,
-          mode: 'destructive',
-          action: button.action
-        },
-        {
-          title: 'Отмена',
-          autoclose: true,
-          mode: 'cancel'
-        }
-      ]}
-      onClose={onClose}
-    >
+    <Alert actionsLayout="vertical" actions={actions} onClose={onClose}>
       <h2>{title}</h2>
-      <p>
-        {children}
-      </p>
+      <p>{children}</p>
     </Alert>
   )
 }

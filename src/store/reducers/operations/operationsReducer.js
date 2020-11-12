@@ -1,13 +1,11 @@
 import {SET_OPERATIONS} from '../../types'
+import getReducer from '@/store/getReducer'
 
 const initialState = []
 
 const handlers = {
-  [SET_OPERATIONS]: (_, payload) => ([...payload]),
+  [SET_OPERATIONS]: (_, {payload}) => ([...payload]),
   DEFAULT: state => state
 }
 
-export default (state = initialState, action) => {
-  const handler = handlers[action.type] || handlers.DEFAULT
-  return handler(state, action.payload)
-}
+export default getReducer(initialState, handlers)

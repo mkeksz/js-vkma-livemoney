@@ -1,19 +1,12 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
-import {
-  Group,
-  Header,
-  Switch,
-  Cell,
-  SimpleCell,
-  View,
-  Panel
-} from '@vkontakte/vkui'
+import {Group, Header, Switch, Cell, SimpleCell} from '@vkontakte/vkui'
 import {Icon28AllCategoriesOutline, Icon28HelpOutline} from '@vkontakte/icons'
+import {PAGES} from '@/constants/constants'
+import {nextPage} from '@/store/actions/appActions'
+import {RootPanel} from '@/roots/RootPanel/RootPanel'
 import classes from './Settings.module.sass'
-import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {nextPage} from '../../store/actions/appActions'
-import {PAGES} from '../../constants/constants'
+
 
 export const Settings = () => {
   const dispatch = useDispatch()
@@ -21,29 +14,26 @@ export const Settings = () => {
   const onClickCategories = () => dispatch(nextPage({view: PAGES.CATEGORIES}))
 
   return (
-    <View activePanel="main">
-      <Panel id="main">
-        <HeaderPanel buttonBack={true}>Настройки</HeaderPanel>
-        <Group header={<Header mode="primary">Уведомления</Header>}>
-          <Cell asideContent={<Switch defaultChecked />}>
-            Ежедневное напоминание
-          </Cell>
-        </Group>
-        <Group>
-          <SimpleCell
-            onClick={onClickCategories}
-            expandable
-            before={<Icon28AllCategoriesOutline />}
-          >
-            Категории
-          </SimpleCell>
-        </Group>
-        <Group className={classes.lastGroup}>
-          <SimpleCell href="https://vk.com" expandable before={<Icon28HelpOutline />}>
-            Помощь
-          </SimpleCell>
-        </Group>
-      </Panel>
-    </View>
+    <RootPanel header={{back: true, content: 'Настройки'}} fixed={true}>
+      <Group header={<Header mode="primary">Уведомления</Header>}>
+        <Cell asideContent={<Switch defaultChecked />}>
+          Ежедневное напоминание
+        </Cell>
+      </Group>
+      <Group>
+        <SimpleCell
+          onClick={onClickCategories}
+          expandable
+          before={<Icon28AllCategoriesOutline />}
+        >
+          Категории
+        </SimpleCell>
+      </Group>
+      <Group className={classes.lastGroup}>
+        <SimpleCell href="#" expandable before={<Icon28HelpOutline />}>
+          Помощь
+        </SimpleCell>
+      </Group>
+    </RootPanel>
   )
 }

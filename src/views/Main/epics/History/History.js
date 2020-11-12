@@ -1,75 +1,45 @@
 import React, {memo} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
-import {areEqual} from 'react-window'
-import {VariableSizeList as List} from 'react-window'
+import {useSelector} from 'react-redux'
+import {VariableSizeList} from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import {Panel, View, IOS, usePlatform, Placeholder, Button
-} from '@vkontakte/vkui'
-import {Icon56EventOutline} from '@vkontakte/icons'
-import {PAGES} from '@/constants/constants'
-import {HeaderPanel} from '@/components/Navigation/HeaderPanel/HeaderPanel'
+import {areEqual} from 'react-window'
+import {IOS, usePlatform} from '@vkontakte/vkui'
 import {Row} from './Row/Row'
-import {formatDateToStringDate} from '@/core/utils'
-import {nextPage} from '@/store/actions/appActions'
+import {RootPanel} from '@/roots/RootPanel/RootPanel'
+import {HistoryPlaceholder} from './HistoryPlaceholder/HistoryPlaceholder'
+import {hasHeader} from './history.functions'
 import classes from './History.module.sass'
 
 
 export const History = () => {
-  const dispatch = useDispatch()
+  const ops = useSelector(({operations}) => operations)
 
   const platform = usePlatform()
-  const operations = useSelector(({operations}) => operations)
   const row = memo(Row, areEqual)
 
-  const getItemSize = index =>
-    hasHeaderGroup(operations[index], operations[index - 1]) ? 120 : 75
+  const cls = [classes.autoSizer]
+  if (platform === IOS) cls.push(classes.autoSizerIos)
 
-  const onClickPlaceholder = () => dispatch(nextPage({epic: PAGES.WALLETS}))
-
+  const getItemSize = index => hasHeader(ops[index], ops[index - 1]) ? 120 : 75
 
   return (
-    <View activePanel="main">
-      <Panel id="main">
-        <HeaderPanel separator={false}>История</HeaderPanel>
-        <div
-          className={
-            `${classes.autoSizer} ${platform === IOS && classes.autoSizerIos}`
-          }
-        >
-          {operations.length > 0 ? (
-            <AutoSizer>
-              {({height, width}) => (
-                <List
-                  height={height}
-                  itemCount={operations.length}
-                  itemSize={getItemSize}
-                  width={width}
-                >
-                  {row}
-                </List>
-              )}
-            </AutoSizer>
-          ) : (
-            <Placeholder stretched icon={<Icon56EventOutline/>}>
-              <div>У Вас пока нет ни одной операции</div>
-              <br/>
-              <Button size="l" onClick={onClickPlaceholder}>
-                Перейти в кошелёк
-              </Button>
-            </Placeholder>
-          )}
-        </div>
-      </Panel>
-    </View>
+    <RootPanel header={{content: 'История'}} fixed={true}>
+      <div className={cls.join(' ')}>
+        {ops.length > 0 ? (
+          <AutoSizer>
+            {({height, width}) => (
+              <VariableSizeList
+                height={height}
+                itemCount={ops.length}
+                itemSize={getItemSize}
+                width={width}
+              >
+                {row}
+              </VariableSizeList>
+            )}
+          </AutoSizer>
+        ) : <HistoryPlaceholder/>}
+      </div>
+    </RootPanel>
   )
-}
-
-export function hasHeaderGroup(operation, prevOperation) {
-  const stringDate = formatDateToStringDate(operation.date)
-
-  if (prevOperation) {
-    const prevStringDate = formatDateToStringDate(prevOperation.date)
-    if (prevStringDate !== stringDate) return 'prev'
-    return false
-  } else return 'current'
 }

@@ -1,10 +1,10 @@
-import LocalStorageClient from './clients/LocalStorageClient'
+import LocalStorage from './clients/LocalStorage/LocalStorage'
 
 export class StateProcessor {
   static userID
 
   static get client() {
-    return new LocalStorageClient()
+    return new LocalStorage()
   }
 
   static async saveWallet(wallet) {

@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {FONT_AWESOME} from '../../../constants/icons/types'
-import {IconFontAwesome} from './IconFontAwesome'
+import {getIconByType} from './Icon.functions'
 import classes from './Icon.module.sass'
 
-export const Icon = ({icon}) => {
-  return <div className={classes.Icon}>{getIconByType(icon)}</div>
-}
+
+export const Icon = ({icon}) => (
+  <div className={classes.Icon}>{getIconByType(icon)}</div>
+)
 
 Icon.propTypes = {
   icon: PropTypes.shape({
@@ -15,9 +15,4 @@ Icon.propTypes = {
   })
 }
 
-function getIconByType(icon) {
-  switch (icon.type) {
-    case FONT_AWESOME: return <IconFontAwesome name={icon.name}/>
-    default: return <div>icon</div>
-  }
-}
+

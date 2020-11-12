@@ -1,13 +1,13 @@
 import {CLEAR_PAGE_OPTIONS, SET_PAGE_OPTIONS} from '@/store/types'
-import {PAGES} from '@/constants/constants'
+import {PAGES, TYPES_CATEGORY} from '@/constants/constants'
+import getReducer from '@/store/getReducer'
 
 const initialState = {
   [PAGES.WALLETS]: {
     initialSlide: 1
   },
   [PAGES.WALLET]: {
-    id: null,
-    icon: null
+    wallet: {inTotal: true}
   },
   [PAGES.MODAL_ICONS]: {
     icon: null,
@@ -15,16 +15,15 @@ const initialState = {
     onClick: null
   },
   [PAGES.CATEGORIES]: {
-    selectedTab: 'expense'
+    tab: TYPES_CATEGORY.EXPENSE
   },
   [PAGES.CATEGORY]: {
-    id: null,
-    icon: null,
-    type: 'expense'
+    category: {},
+    type: TYPES_CATEGORY.EXPENSE
   },
   [PAGES.OPERATION]: {
     operation: {},
-    initialOperation: null,
+    initOperation: null,
     choosedDate: 7
   }
 }
@@ -37,15 +36,9 @@ const handlers = {
     }
   },
   [CLEAR_PAGE_OPTIONS]: (state, {payload}) => {
-    return {
-      ...state,
-      [payload]: initialState[payload]
-    }
+    return {...state, [payload]: initialState[payload]}
   },
   DEFAULT: state => state
 }
 
-export default (state = initialState, action) => {
-  const handler = handlers[action.type] || handlers.DEFAULT
-  return handler(state, action)
-}
+export default getReducer(initialState, handlers)

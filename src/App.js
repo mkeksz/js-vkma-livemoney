@@ -1,19 +1,15 @@
 import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {ModalRoot, Root, ScreenSpinner} from '@vkontakte/vkui'
-import store from './store/store'
+import {PAGES} from './constants/constants'
+import {addAmountToCategories} from '@/shared'
 import {Intro} from './views/Intro/Intro'
 import {Main} from './views/Main/Main'
 import {Settings} from './views/Settings/Settings'
 import {bridgeAppGetClientVersion, bridgeAppGetUserInfo} from './core/bridge'
 import {
-  hideLoader,
-  prevPage,
-  setPlatform,
-  setTimezone
+  hideLoader, prevPage, setPlatform, setTimezone
 } from './store/actions/appActions'
-import {StateProcessor} from './core/StateProcessor'
-import {PAGES} from './constants/constants'
 import {setUser} from './store/actions/userActions'
 import {setWallets} from './store/actions/walletsActions'
 import {Wallet} from './views/Wallet/Wallet'
@@ -23,6 +19,8 @@ import {setCategories} from './store/actions/categoriesActions'
 import {Category} from './views/Category/Category'
 import {Operation} from './views/Operation/Operation'
 import {setOperations} from './store/actions/operationsActions'
+import {StateProcessor} from './core/StateProcessor'
+import store from './store/store'
 
 export const App = () => {
   const dispatch = useDispatch()
@@ -77,7 +75,7 @@ async function fetchData() {
   ])
   dispatch(setUser(user))
   dispatch(setWallets(wallets))
-  dispatch(setCategories(categories))
+  dispatch(setCategories(addAmountToCategories(categories)))
   dispatch(setOperations(operations))
   dispatch(hideLoader())
 }

@@ -1,5 +1,9 @@
 import {storage} from '../utils'
 import {
+  correctWallets,
+  getNewOperations
+} from '@/core/clients/localStorageClient.functions'
+import {
   initialCategories, initialOperations, initialUser, initialWallets
 } from './InitialLocalStorage'
 import {StateProcessor} from '../StateProcessor'
@@ -26,7 +30,7 @@ export default class LocalStorageClient {
     }
 
     storage(key, wallets)
-    return wallets
+    return [...wallets]
   }
 
   async saveCategory(category, type) {
@@ -51,28 +55,26 @@ export default class LocalStorageClient {
     }
 
     storage(key, categories)
-    return categories
+    return {...categories}
   }
 
-  async saveOperation(operation) {
+  async saveOperation(operation, initOperation = null) {
     const key = getKey(KEY_OPERATIONS)
 
-    const isEdit = operation.id !== null
     const operations = await this.getOperations(0, -1)
+    const newOperations = getNewOperations(operation, operations)
 
-    if (isEdit) {
-      const targetIndex = operations.findIndex(op =>
-        op.id === operation.id)
-      operations[targetIndex] = operation
-    } else {
-      operation.id = operations.length > 0
-        ? operations[operations.length - 1].id + 1
-        : 1
-      operations.unshift(operation)
+    if (initOperation) {
+      await correctWallets(initOperation, this.getWallets.bind(this),
+          this.saveWallet.bind(this), true)
     }
+    await correctWallets(operation, this.getWallets.bind(this),
+        this.saveWallet.bind(this))
 
-    storage(key, operations)
-    return operations
+    const newWallets = await this.getWallets()
+
+    storage(key, newOperations)
+    return {operations: [...newOperations], wallets: [...newWallets]}
   }
 
   async deleteWallet(walletID) {
@@ -84,7 +86,7 @@ export default class LocalStorageClient {
     wallets.splice(targetIndexWallet, 1)
 
     storage(key, wallets)
-    return wallets
+    return [...wallets]
   }
 
   async deleteCategory(categoryID, type) {
@@ -97,7 +99,25 @@ export default class LocalStorageClient {
     categories[type].splice(targetIndexCategory, 1)
 
     storage(key, categories)
-    return categories
+    return {...categories}
+  }
+
+  async deleteOperation(operationID) {
+    const key = getKey(KEY_OPERATIONS)
+
+    const operations = await this.getOperations(0, -1)
+    const targetIndexOperation = operations
+        .findIndex(op => op.id === operationID)
+    const operation = operations[targetIndexOperation]
+
+    await correctWallets(operation, this.getWallets.bind(this),
+        this.saveWallet.bind(this), true)
+    operations.splice(targetIndexOperation, 1)
+
+    const newWallets = await this.getWallets()
+
+    storage(key, operations)
+    return {operations: [...operations], wallets: [...newWallets]}
   }
 
   async getWallets() {
@@ -116,7 +136,7 @@ export default class LocalStorageClient {
     const operations
       = getContentStorage(initialOperations, KEY_OPERATIONS)
 
-    return operations.slice(start, end)
+    return end === -1 ? operations : operations.slice(start, end)
   }
 }
 

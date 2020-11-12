@@ -1,5 +1,5 @@
-import {CLEAR_PAGE_OPTIONS, SET_PAGE_OPTIONS} from '../../types'
-import {PAGES} from '../../../constants/constants'
+import {CLEAR_PAGE_OPTIONS, SET_PAGE_OPTIONS} from '@/store/types'
+import {PAGES} from '@/constants/constants'
 
 const initialState = {
   [PAGES.WALLETS]: {
@@ -23,12 +23,8 @@ const initialState = {
     type: 'expense'
   },
   [PAGES.OPERATION]: {
-    id: null,
-    fromSelected: {},
-    toSelected: {},
-    amount: '',
-    description: '',
-    type: 'expense'
+    operation: {},
+    initialOperation: null
   }
 }
 

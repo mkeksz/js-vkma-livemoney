@@ -1,37 +1,25 @@
 import React, {useEffect, useState, useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
-  Button,
-  Cell,
-  FormLayout,
-  FormLayoutGroup,
-  Group,
-  Input,
-  Panel,
-  Switch,
-  View,
-  Div, Header, HorizontalScroll
+  Cell, FormLayout, FormLayoutGroup, Group, Input, Panel, Switch, View, Header,
+  HorizontalScroll
 } from '@vkontakte/vkui'
-import store from '../../store/store'
-import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {
-  COLORS,
-  MAX_LENGTH_INPUT_BALANCE,
-  PAGES
-} from '../../constants/constants'
+import {COLORS, MAX_LENGTH_INPUT_BALANCE, PAGES} from '@/constants/constants'
+import {HeaderPanel} from '@/components/Navigation/HeaderPanel/HeaderPanel'
 import {CardExample} from './CardExample/CardExample'
-import {inputBalanceFilter} from '../../filters/numbersFilter'
+import {inputBalanceFilter} from '@/filters/numbersFilter'
 import {CircleColor} from './CircleColor/CircleColor'
-import {setWallets} from '../../store/actions/walletsActions'
+import {setWallets} from '@/store/actions/walletsActions'
 import {
-  hideLoader,
-  nextPage,
-  prevPage,
-  showLoader
-} from '../../store/actions/appActions'
-import {StateProcessor} from '../../core/StateProcessor'
-import {setPageOptions} from '../../store/actions/pagesActions'
-import {PopoutAlert} from '../../components/UI/PopoutAlert/PopoutAlert'
+  hideLoader, nextPage, prevPage, showLoader
+} from '@/store/actions/appActions'
+import {setPageOptions} from '@/store/actions/pagesActions'
+import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
+import {ButtonDelete} from '@/components/UI/ButtonDelete/ButtonDelete'
+import {ButtonSave} from '@/components/UI/ButtonSave/ButtonSave'
+import {StateProcessor} from '@/core/StateProcessor'
+import store from '@/store/store'
+
 
 function saveAndClose(newWallets) {
   store.dispatch(setWallets(newWallets))
@@ -75,7 +63,7 @@ export const Wallet = () => {
     const color = colors.find(color => color.id === colorID)
     setWallet({...wallet, styles: color})
   }
-  const onClickSave = () => {
+  const onSave = () => {
     const newWallet = {
       id,
       title: wallet.title || 'Новый счёт',
@@ -88,7 +76,7 @@ export const Wallet = () => {
     if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
     StateProcessor.saveWallet(newWallet).then(saveAndClose)
   }
-  const onClickDelete = () => {
+  const onDelete = () => {
     dispatch(nextPage({popout: (
       <PopoutAlert
         title={`Удалить ${wallet.title || 'Новый счёт'}?`}
@@ -102,6 +90,7 @@ export const Wallet = () => {
       </PopoutAlert>
     )}))
   }
+
 
   return (
     <View activePanel="main">
@@ -168,20 +157,8 @@ export const Wallet = () => {
           </Cell>
         </Group>
 
-        {isEdit && (
-          <Div style={{paddingTop: '20px'}}>
-            <Button size="l" mode="destructive" onClick={onClickDelete}>
-              УДАЛИТЬ СЧЁТ
-            </Button>
-          </Div>
-        )}
-
-        <Div style={{paddingTop: '20px', paddingBottom: '25px'}}>
-          <Button size="xl" mode="commerce" onClick={onClickSave}>
-            {isEdit ? 'СОХРАНИТЬ' : 'СОЗДАТЬ'}
-          </Button>
-        </Div>
-
+        {isEdit && <ButtonDelete onClick={onDelete}/>}
+        <ButtonSave onClick={onSave}/>
       </Panel>
     </View>
   )

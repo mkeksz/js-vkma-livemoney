@@ -1,25 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Caption} from '@vkontakte/vkui'
-import {ICONS} from '../../../constants/constants'
+import {ICONS} from '@/constants/constants'
+import {getColorCategory} from '@/shared'
+import {IconCircle} from '@/components/UI/IconCircle/IconCircle'
+import {Icon} from '@/components/UI/Icon/Icon'
 import classes from './ItemOperation.module.sass'
-import {IconCircle} from '../../../components/UI/IconCircle/IconCircle'
-import {getColorCategory} from '../../../shared'
-import {Icon} from '../../../components/UI/Icon/Icon'
+
 
 export const ItemOperation = ({
-  type = 'category',
-  text,
-  item,
-  onClick,
-  checked = false
+  type = 'category', text, item, onClick, checked = false
 }) => {
-  let colorIcon = null
-
-  if (type === 'category' && item.budget) {
-    colorIcon = getColorCategory(item.amount, item.budget)
-  }
-
+  const colorIcon = (type === 'category' && item.budget)
+    ? getColorCategory(item.amount, item.budget)
+    : null
 
   return (
     <div className={classes.ItemOperation} onClick={onClick}>
@@ -48,6 +42,6 @@ ItemOperation.propTypes = {
   type: PropTypes.oneOf(['new', 'wallet', 'category']),
   text: PropTypes.string,
   item: PropTypes.object,
-  onClick: PropTypes.func.isRequired,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  onClick: PropTypes.func.isRequired
 }

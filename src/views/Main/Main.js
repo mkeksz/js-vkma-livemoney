@@ -1,14 +1,14 @@
 import React from 'react'
-import {Epic} from '@vkontakte/vkui'
 import {useSelector} from 'react-redux'
-import {TabbarPanel} from '../../components/Navigation/TabbarPanel/TabbarPanel'
+import {Epic} from '@vkontakte/vkui'
+import {
+  Icon28GraphOutline, Icon28ListOutline, Icon28PaymentCardOutline
+} from '@vkontakte/icons'
+import {TabbarPanel} from '@/components/Navigation/TabbarPanel/TabbarPanel'
 import {Wallets} from './epics/Wallets/Wallets'
 import {Analytics} from './epics/Analytics/Analytics'
 import {History} from './epics/History/History'
-import {
-  Icon28GraphOutline, Icon28ListOutline,
-  Icon28PaymentCardOutline
-} from '@vkontakte/icons'
+
 
 export const Main = () => {
   const activeStory = useSelector(({app: {history}}) =>
@@ -31,6 +31,7 @@ export const Main = () => {
       icon: <Icon28ListOutline />
     }
   ]
+
 
   return (
     <Epic

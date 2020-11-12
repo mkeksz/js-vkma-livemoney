@@ -10,6 +10,8 @@ export const MAX_ACTIVE_WALLETS_PREMIUM = 10
 
 export const MAX_LENGTH_INPUT_BALANCE = 15
 
+export const MAX_LENGTH_DESCRIPTION_CATEGORY = 30
+
 export const PAGES = {
   WALLETS: 'wallets',
   WALLET: 'wallet',
@@ -20,4 +22,15 @@ export const PAGES = {
   CATEGORY: 'category',
   OPERATION: 'operation',
   MODAL_ICONS: 'modal_icons'
+}
+
+export const TYPES_OPERATION = {
+  EXPENSE: 'expense',
+  INCOME: 'income',
+  TRANSFER: 'transfer'
+}
+
+export const TYPES_CATEGORY = {
+  EXPENSE: 'expense',
+  INCOME: 'income'
 }

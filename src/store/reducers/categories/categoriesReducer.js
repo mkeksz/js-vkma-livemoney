@@ -1,8 +1,9 @@
 import {SET_CATEGORIES} from '../../types'
+import {TYPES_CATEGORY} from '@/constants/constants'
 
 const initialState = {
-  expense: [],
-  income: []
+  [TYPES_CATEGORY.EXPENSE]: [],
+  [TYPES_CATEGORY.INCOME]: []
 }
 
 const handlers = {

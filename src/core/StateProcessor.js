@@ -8,7 +8,6 @@ export class StateProcessor {
   }
 
   static async saveWallet(wallet) {
-    if (!wallet) return
     return await this.client.saveWallet(wallet)
   }
 
@@ -16,8 +15,8 @@ export class StateProcessor {
     return await this.client.saveCategory(category, type)
   }
 
-  static async saveOperation(operation) {
-    return await this.client.saveOperation(operation)
+  static async saveOperation(operation, initOperation = null) {
+    return await this.client.saveOperation(operation, initOperation)
   }
 
   static async deleteWallet(walletID) {
@@ -26,6 +25,10 @@ export class StateProcessor {
 
   static async deleteCategory(categoryID, type) {
     return await this.client.deleteCategory(categoryID, type)
+  }
+
+  static async deleteOperation(operationID) {
+    return await this.client.deleteOperation(operationID)
   }
 
   static async getWallets() {

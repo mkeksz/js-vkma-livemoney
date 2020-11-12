@@ -1,153 +1,117 @@
 import React, {useRef} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Group, Header, Panel, View, Div, Input, Button} from '@vkontakte/vkui'
-import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {MAX_LENGTH_INPUT_BALANCE, PAGES} from '../../constants/constants'
-import classes from './Operation.module.sass'
-import {ItemOperation} from './ItemOperation/ItemOperation'
-import {inputBalanceFilter} from '../../filters/numbersFilter'
+import {Div, Group, Header, Input, Panel, View} from '@vkontakte/vkui'
 import {
-  hideLoader,
-  nextPage,
-  prevPage,
-  showLoader
-} from '../../store/actions/appActions'
-import {
-  clearPageOptions,
-  setPageOptions
-} from '../../store/actions/pagesActions'
-import {StateProcessor} from '../../core/StateProcessor'
-import store from '../../store/store'
-import {setOperations} from '../../store/actions/operationsActions'
+  MAX_LENGTH_DESCRIPTION_CATEGORY, MAX_LENGTH_INPUT_BALANCE, PAGES,
+  TYPES_OPERATION
+} from '@/constants/constants'
+import {DIRECTION} from './operation.constants'
+import {HeaderPanel} from '@/components/Navigation/HeaderPanel/HeaderPanel'
+import {ButtonDelete} from '@/components/UI/ButtonDelete/ButtonDelete'
+import {ButtonSave} from '@/components/UI/ButtonSave/ButtonSave'
+import {ListItems} from './ListItems/ListItems'
+import {setPageOptions} from '@/store/actions/pagesActions'
+import {inputBalanceFilter} from '@/filters/numbersFilter'
+import {del, save} from './operation.functions'
+import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
+import {nextPage} from '@/store/actions/appActions'
+import {scrollToAnchor} from '@/shared'
 
-function saveAndClose(newOperations) {
-  store.dispatch(setOperations(newOperations))
-  store.dispatch(hideLoader())
-  store.dispatch(prevPage())
-}
 
 export const Operation = () => {
   const dispatch = useDispatch()
 
-  const {
-    type,
-    id,
-    amount,
-    description,
-    fromSelected,
-    toSelected
-  } = useSelector(({pages}) => pages[PAGES.OPERATION])
-  const {income, expense} = useSelector(({categories}) => categories)
-  const wallets = useSelector(({wallets}) => wallets)
+  const {operation, initialOperation} = useSelector(({pages}) =>
+    pages[PAGES.OPERATION])
+
+  const isEdit = !!operation.id
+  const title = operation.type === TYPES_OPERATION.EXPENSE ? 'Расход' : 'Доход'
+  const typeFrom = operation.type === TYPES_OPERATION.INCOME
+    || operation.type === TYPES_OPERATION.TRANSFER
+    ? TYPES_OPERATION.INCOME
+    : null
+  const typeTo = operation.type === TYPES_OPERATION.EXPENSE
+    ? TYPES_OPERATION.EXPENSE
+    : null
 
   const anchorTo = useRef(null)
   const anchorAmount = useRef(null)
   const inputAmount = useRef(null)
 
-  const isEdit = id !== null
-  const title = type === 'expense' ? 'Расход' : 'Доход'
 
   const onChangeAmount = ({currentTarget}) =>
     dispatch(setPageOptions(PAGES.OPERATION, {
-      amount: inputBalanceFilter(currentTarget.value)
+      operation: {...operation, amount: inputBalanceFilter(currentTarget.value)}
     }))
   const onChangeDescription = ({currentTarget}) =>
     dispatch(setPageOptions(PAGES.OPERATION, {
-      description: currentTarget.value
+      operation: {...operation, description: currentTarget.value}
     }))
-  const onClickNewCategory = () => {
-    dispatch(clearPageOptions(PAGES.CATEGORY))
-    dispatch(setPageOptions(PAGES.CATEGORY, {type}))
-    dispatch(nextPage({view: PAGES.CATEGORY}))
+  const onDelete = () => {
+    dispatch(nextPage({popout: (
+      <PopoutAlert
+        title='Удалить операцию?'
+        button={{title: 'Удалить', action: () => del(initialOperation.id)}}
+      >
+          Операцию нельзя будет восстановить.
+      </PopoutAlert>
+    )}))
   }
-  const onClickNewWallet = () => {
-    dispatch(clearPageOptions(PAGES.WALLET))
-    dispatch(nextPage({view: PAGES.WALLET}))
-  }
-  const onClickItem = (type, id, direction) => {
-    if (direction === 'from') {
-      dispatch(setPageOptions(PAGES.OPERATION, {
-        fromSelected: {type, itemID: id}
-      }))
-      nextAnchor()
-    } else {
-      dispatch(setPageOptions(PAGES.OPERATION, {
-        toSelected: {type, itemID: id}
-      }))
-      nextAnchor(true)
+  const onSave = () => save({
+    ...operation,
+    id: operation.id || null,
+    amount: +operation.amount.toString().replace(',', '.'),
+    type: operation.from.type === 'wallet' && operation.to.type === 'wallet'
+      ? 'transfer'
+      : operation.type,
+    description: operation.description || '',
+    date: new Date()
+  }, initialOperation)
+  const nextAnchor = () => {
+    if (!operation.to) scrollToAnchor(anchorTo)
+    else if (!operation.amount) {
+      scrollToAnchor(anchorAmount)
+      setTimeout(() => inputAmount.current['focus'](), 300)
     }
   }
-  const onClickSave = () => {
-    const operation = {
-      id,
-      amount: +amount,
-      date: new Date().toISOString(),
-      type: fromSelected.type === 'wallet' && toSelected.type === 'wallet'
-        ? 'transfer'
-        : type,
-      description,
-      from: fromSelected,
-      to: toSelected
-    }
-
-    dispatch(showLoader())
-    StateProcessor.saveOperation(operation).then(newOperations => {
-      const fromWallet = fromSelected.type === 'wallet'
-        ? wallets.find(wallet => wallet.id === fromSelected.itemID)
-        : null
-      const toWallet = toSelected.type === 'wallet'
-        ? wallets.find(wallet => wallet.id === toSelected.itemID)
-        : null
-
-      if (fromWallet) fromWallet.balance -= +amount
-      if (toWallet) toWallet.balance += +amount
-
-      Promise.all([
-        StateProcessor.saveWallet(fromWallet),
-        StateProcessor.saveWallet(toWallet)
-      ]).then(() => saveAndClose(newOperations))
-    })
-  }
-
-
   return (
     <View activePanel="main">
       <Panel id="main">
         <HeaderPanel buttonBack={true}>{title}</HeaderPanel>
 
         <Group header={<Header>Откуда</Header>}>
-          <Div className={classes.items}>
-            {renderItems(
-                wallets,
-              type === 'expense' ? null : income,
-              'from'
-            )}
-          </Div>
+          <ListItems
+            type={typeFrom}
+            direction={DIRECTION.FROM}
+            nextAnchor={nextAnchor}
+          />
         </Group>
-        <div ref={anchorTo}/>
-        <Group header={<Header>Куда</Header>}>
-          <Div className={classes.items}>
-            {renderItems(
-                wallets,
-              type === 'expense' ? expense : null,
-              'to'
-            )}
-          </Div>
-        </Group>
-        <div ref={anchorAmount}/>
-        <Group header={<Header>Сумма</Header>}>
-          <Div>
-            <Input
-              type="text"
-              inputMode="numeric"
-              placeholder="Введите сумму"
-              maxLength={MAX_LENGTH_INPUT_BALANCE}
-              value={amount}
-              onChange={onChangeAmount}
-              getRef={inputAmount}
+
+        <div ref={anchorTo}>
+          <Group header={<Header>Куда</Header>}>
+            <ListItems
+              type={typeTo}
+              direction={DIRECTION.TO}
+              nextAnchor={nextAnchor}
             />
-          </Div>
-        </Group>
+          </Group>
+        </div>
+
+        <div ref={anchorAmount}>
+          <Group header={<Header>Сумма</Header>}>
+            <Div>
+              <Input
+                type="text"
+                inputMode="numeric"
+                placeholder="Введите сумму"
+                maxLength={MAX_LENGTH_INPUT_BALANCE}
+                value={operation.amount || ''}
+                onChange={onChangeAmount}
+                getRef={inputAmount}
+              />
+            </Div>
+          </Group>
+        </div>
 
         <Group header={<Header>Комментарий (необязательно)</Header>}>
           <Div>
@@ -155,91 +119,24 @@ export const Operation = () => {
               type="text"
               inputMode="text"
               placeholder="Введите комментарий"
-              maxLength="30"
-              value={description}
+              maxLength={MAX_LENGTH_DESCRIPTION_CATEGORY}
+              value={operation.description || ''}
               onChange={onChangeDescription}
             />
           </Div>
         </Group>
 
-        {isEdit && (
-          <Div style={{paddingTop: '20px'}}>
-            <Button size="l" mode="destructive">
-              УДАЛИТЬ ОПЕРАЦИЮ
-            </Button>
-          </Div>
-        )}
-
-        <Div style={{paddingTop: '20px', paddingBottom: '25px'}}>
-          <Button
-            size="xl"
-            mode="commerce"
-            disabled={+amount <= 0}
-            onClick={onClickSave}
-          >
-            {isEdit ? 'СОХРАНИТЬ' : 'СОЗДАТЬ'}
-          </Button>
-        </Div>
-
+        {isEdit && <ButtonDelete onClick={onDelete}/>}
+        <ButtonSave
+          onClick={onSave}
+          disabled={
+            !operation.amount
+            || +operation.amount.toString().replace(',', '.') <= 0
+            || !operation.from
+            || !operation.to
+          }
+        />
       </Panel>
     </View>
   )
-
-  function nextAnchor(toAmount = false) {
-    const options = {behavior: 'smooth', block: 'start'}
-
-    if (!toSelected.id && !toAmount) anchorTo.current['scrollIntoView'](options)
-    else {
-      anchorAmount.current['scrollIntoView'](options)
-      inputAmount.current['focus']()
-    }
-  }
-
-  function renderItems(wallets, categories = null, direction) {
-    return (
-      <>
-        {categories && categories.map(category => (
-          <ItemOperation
-            key={category.id}
-            item={category}
-            type='category'
-            text={category.title}
-            checked={
-              direction === 'from'
-                ? fromSelected.type === 'category'
-                && fromSelected.itemID === category.id
-                : toSelected.type === 'category'
-                && toSelected.itemID === category.id
-            }
-            onClick={() => onClickItem('category', category.id, direction)}
-          />
-        ))}
-        {categories && (
-          <ItemOperation
-            type='new'
-            text='Категория'
-            onClick={onClickNewCategory}
-          />
-        )}
-        {wallets && wallets.map(wallet => (
-          <ItemOperation
-            key={wallet.id}
-            item={wallet}
-            type='wallet'
-            text={wallet.title}
-            checked={
-              direction === 'from'
-                ? fromSelected.type === 'wallet'
-                && fromSelected.itemID === wallet.id
-                : toSelected.type === 'wallet'
-                && toSelected.itemID === wallet.id
-            }
-            onClick={() => onClickItem('wallet', wallet.id, direction)}
-          />
-        ))}
-        {wallets
-        && <ItemOperation type='new' onClick={onClickNewWallet} text='Счёт'/>}
-      </>
-    )
-  }
 }

@@ -7,3 +7,12 @@ export function getColorCategory(amount, budget) {
   else if (percentAmount > 50) return 'orange'
   else return 'green'
 }
+
+export function addAmountToCategories(categories) {
+  return categories
+}
+
+export function scrollToAnchor(refAnchor) {
+  const options = {behavior: 'smooth', block: 'start'}
+  refAnchor.current.scrollIntoView(options)
+}

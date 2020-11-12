@@ -2,14 +2,15 @@ import React, {useMemo} from 'react'
 import {useDispatch} from 'react-redux'
 import PropTypes from 'prop-types'
 import {Caption, Card, SimpleCell} from '@vkontakte/vkui'
-import {IconCircle} from '../../../../../components/UI/IconCircle/IconCircle'
-import {currencyFilter} from '../../../../../filters/numbersFilter'
+import {ICONS, PAGES, TYPES_OPERATION} from '@/constants/constants'
+import {IconCircle} from '@/components/UI/IconCircle/IconCircle'
+import {currencyFilter} from '@/filters/numbersFilter'
+import {getColorCategory} from '@/shared'
+import {nextPage} from '@/store/actions/appActions'
+import {setPageOptions} from '@/store/actions/pagesActions'
+import store from '@/store/store'
 import classes from './HistoryCell.module.sass'
-import store from '../../../../../store/store'
-import {getColorCategory} from '../../../../../shared'
-import {nextPage} from '../../../../../store/actions/appActions'
-import {PAGES} from '../../../../../constants/constants'
-import {setPageOptions} from '../../../../../store/actions/pagesActions'
+
 
 function getItem(typeOperation, objOperation) {
   const obj = objOperation
@@ -22,27 +23,40 @@ function getItem(typeOperation, objOperation) {
 export const HistoryCell = ({operation}) => {
   const dispatch = useDispatch()
 
-  const fromItem = useMemo(() => getItem(operation.type, operation.from),
+  const fromItem = useMemo(() => getItem(operation.type, operation.from) || {},
       [operation.from, operation.type])
-  const toItem = useMemo(() => getItem(operation.type, operation.to),
+  const toItem = useMemo(() => getItem(operation.type, operation.to) || {},
       [operation.to, operation.type])
 
   let colorIcon = null
-  if (operation.type === 'expense' && toItem.budget) {
+  if (operation.type === TYPES_OPERATION.EXPENSE && toItem.budget) {
     colorIcon = getColorCategory(toItem.amount, toItem.budget)
   }
 
+  let icon = operation.type === TYPES_OPERATION.EXPENSE
+    ? toItem.icon
+    : fromItem.icon
+  if (!icon) {
+    operation.type === TYPES_OPERATION.TRANSFER
+      ? icon = ICONS.WALLET
+      : icon = ICONS.RUBLE_SIGN
+  }
+
+  const fromPlaceholder = operation.from.type === 'wallet'
+    ? 'Кошелёк'
+    : 'Доход'
+  const toPlaceholder = operation.to.type === 'wallet'
+    ? 'Кошелёк'
+    : 'Расход'
+
   const onClick = () => {
     dispatch(setPageOptions(PAGES.OPERATION, {
-      id: operation.id,
-      fromSelected: operation.from,
-      toSelected: operation.to,
-      amount: operation.amount,
-      description: operation.description,
-      type: operation.type === 'transfer' ? 'expense' : operation.type
+      operation,
+      initialOperation: operation
     }))
     dispatch(nextPage({view: PAGES.OPERATION}))
   }
+
 
   return (
     <Card
@@ -55,9 +69,17 @@ export const HistoryCell = ({operation}) => {
         className={classes.cell}
         before={
           <IconCircle
-            type={operation.type === 'transfer' ? 'wallet' : 'category'}
-            styles={operation.type === 'transfer' ? fromItem.styles : null}
-            icon={operation.type === 'expense' ? toItem.icon : fromItem.icon}
+            type={
+              operation.type === TYPES_OPERATION.TRANSFER
+                ? 'wallet'
+                : 'category'
+            }
+            styles={
+              operation.type === TYPES_OPERATION.TRANSFER
+                ? fromItem.styles
+                : null
+            }
+            icon={icon}
             color={colorIcon}
           />
         }
@@ -66,21 +88,22 @@ export const HistoryCell = ({operation}) => {
             level="1"
             weight="semibold"
             className={
-              operation.type === 'income' && classes.captionAmount__green
+              operation.type === TYPES_OPERATION.INCOME
+              && classes.captionAmount__green
             }
           >
             {
-              (operation.type === 'expense' && '-')
-              || (operation.type === 'income' && '+')
+              (operation.type === TYPES_OPERATION.EXPENSE && '-')
+              || (operation.type === TYPES_OPERATION.INCOME && '+')
             }
             {currencyFilter(operation.amount)}
           </Caption>
         }
       >
         <Caption level="1" weight="semibold" className={classes.captionTitle}>
-          {fromItem.title}
+          {fromItem.title || fromPlaceholder}
           <span> ❯ </span>
-          {toItem.title || 'Общее'}
+          {toItem.title || toPlaceholder}
         </Caption>
         {
           operation.description && (

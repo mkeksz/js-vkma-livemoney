@@ -65,5 +65,10 @@ export default {
     id: 'CHECK',
     name: 'fa check',
     type: FONT_AWESOME
+  },
+  RUBLE_SIGN: {
+    id: 'RUBLE_SIGN',
+    name: 'fas ruble-sign',
+    type: FONT_AWESOME
   }
 }

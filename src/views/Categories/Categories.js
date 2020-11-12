@@ -1,21 +1,22 @@
 import React, {useMemo} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
+  Button,
   Group,
   Panel,
+  Placeholder,
   Tabs,
   TabsItem,
   View
 } from '@vkontakte/vkui'
-import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import classes from './Categories.module.sass'
-import {PAGES} from '../../constants/constants'
-import {
-  clearPageOptions,
-  setPageOptions
-} from '../../store/actions/pagesActions'
+import {PAGES} from '@/constants/constants'
+import {HeaderPanel} from '@/components/Navigation/HeaderPanel/HeaderPanel'
+import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
 import {CellCategory} from './CellCategory/CellCategory'
-import {nextPage} from '../../store/actions/appActions'
+import {nextPage} from '@/store/actions/appActions'
+import classes from './Categories.module.sass'
+import {Icon56ServicesOutline} from '@vkontakte/icons'
+
 
 const PAGE = PAGES.CATEGORIES
 const TAB_EXPENSE = 'expense'
@@ -53,6 +54,7 @@ export const Categories = () => {
     dispatch(nextPage({view: PAGES.CATEGORY}))
   }
 
+
   return (
     <View activePanel="main">
       <Panel id="main">
@@ -71,16 +73,26 @@ export const Categories = () => {
             Доход
           </TabsItem>
         </Tabs>
-        <Group className={classes.Categories}>
-          <CellCategory isNew={true} onClick={onClickNewCategory}/>
-          {sortedCategories.map(category => (
-            <CellCategory
-              key={category.id}
-              category={category}
-              onClick={() => onClickCategory(category)}
-            />
-          ))}
-        </Group>
+        {categories.length > 0 ? (
+          <Group className={classes.Categories}>
+            <CellCategory isNew={true} onClick={onClickNewCategory}/>
+            {sortedCategories.map(category => (
+              <CellCategory
+                key={category.id}
+                category={category}
+                onClick={() => onClickCategory(category)}
+              />
+            ))}
+          </Group>
+        ) : (
+          <Placeholder icon={<Icon56ServicesOutline/>}>
+            <div>У Вас нет ни одной категории</div>
+            <br/>
+            <Button size="l" onClick={onClickNewCategory}>
+              Создать новую категорию
+            </Button>
+          </Placeholder>
+        )}
       </Panel>
     </View>
   )

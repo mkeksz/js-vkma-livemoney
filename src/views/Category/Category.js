@@ -1,33 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {
-  Button,
-  Div,
-  FormLayout,
-  FormLayoutGroup,
-  Input,
-  Panel,
-  SimpleCell,
-  View
+  FormLayout, FormLayoutGroup, Input, Panel, SimpleCell, View
 } from '@vkontakte/vkui'
-import {HeaderPanel} from '../../components/Navigation/HeaderPanel/HeaderPanel'
-import {MAX_LENGTH_INPUT_BALANCE, PAGES} from '../../constants/constants'
-import {SelectIcon} from '../../components/UI/SelectIcon/SelectIcon'
+import {MAX_LENGTH_INPUT_BALANCE, PAGES} from '@/constants/constants'
 import {
-  clearPageOptions,
-  setPageOptions
-} from '../../store/actions/pagesActions'
-import {
-  hideLoader,
-  nextPage,
-  prevPage,
-  showLoader
-} from '../../store/actions/appActions'
+  hideLoader, nextPage, prevPage, showLoader
+} from '@/store/actions/appActions'
+import {HeaderPanel} from '@/components/Navigation/HeaderPanel/HeaderPanel'
+import {SelectIcon} from '@/components/UI/SelectIcon/SelectIcon'
+import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
+import {inputBalanceFilter} from '@/filters/numbersFilter'
+import {setCategories} from '@/store/actions/categoriesActions'
+import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
+import {ButtonDelete} from '@/components/UI/ButtonDelete/ButtonDelete'
+import {ButtonSave} from '@/components/UI/ButtonSave/ButtonSave'
+import {StateProcessor} from '@/core/StateProcessor'
 import store from '../../store/store'
-import {inputBalanceFilter} from '../../filters/numbersFilter'
-import {StateProcessor} from '../../core/StateProcessor'
-import {setCategories} from '../../store/actions/categoriesActions'
-import {PopoutAlert} from '../../components/UI/PopoutAlert/PopoutAlert'
 
 function openModalIcons(icon) {
   store.dispatch(clearPageOptions(PAGES.MODAL_ICONS))
@@ -73,7 +62,7 @@ export const Category = () => {
   const onClickIcon = () => openModalIcons(icon)
   const onChangeBudget = ({currentTarget}) => setBudget(currentTarget.value)
   const onChangeTitle = ({currentTarget}) => setTitle(currentTarget.value)
-  const onClickSave = () => {
+  const onSave = () => {
     const newCategory = {
       id,
       icon,
@@ -83,7 +72,7 @@ export const Category = () => {
     dispatch(showLoader())
     StateProcessor.saveCategory(newCategory, type).then(saveAndClose)
   }
-  const onClickDelete = () => {
+  const onDelete = () => {
     dispatch(nextPage({popout: (
       <PopoutAlert
         title={`Удалить ${title || 'Новая категория'}?`}
@@ -144,20 +133,8 @@ export const Category = () => {
           )}
         </FormLayout>
 
-        {isEdit && (
-          <Div style={{paddingTop: '20px'}}>
-            <Button size="l" mode="destructive" onClick={onClickDelete}>
-              УДАЛИТЬ КАТЕГОРИЮ
-            </Button>
-          </Div>
-        )}
-
-        <Div style={{paddingTop: '20px', paddingBottom: '25px'}}>
-          <Button size="xl" mode="commerce" onClick={onClickSave}>
-            {isEdit ? 'СОХРАНИТЬ' : 'СОЗДАТЬ'}
-          </Button>
-        </Div>
-
+        {isEdit && <ButtonDelete onClick={onDelete}/>}
+        <ButtonSave onClick={onSave}/>
       </Panel>
     </View>
   )

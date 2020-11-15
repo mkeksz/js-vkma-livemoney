@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {useDispatch} from 'react-redux'
 import {Alert} from '@vkontakte/vkui'
-import {prevPage} from '@/store/actions/appActions'
+import {setPopout} from '@/store/actions/appActions'
 
 
-export const PopoutWarn = ({text}) => {
+export const PopoutWarn = ({text, title}) => {
   const dispatch = useDispatch()
 
-  const onClose = () => dispatch(prevPage())
+  const onClose = () => dispatch(setPopout(null))
 
   const actions = [
     {
@@ -20,14 +20,19 @@ export const PopoutWarn = ({text}) => {
 
   return (
     <Alert actionsLayout="vertical" actions={actions} onClose={onClose}>
-      <h2 style={{color: 'var(--button_secondary_destructive_foreground)'}}>
-        Превышен лимит
-      </h2>
-      <p>{text}</p>
+      {title && (
+        <h2 style={{color: 'var(--button_secondary_destructive_foreground)'}}>
+          {title}
+        </h2>
+      )}
+      {text && (
+        <p>{text}</p>
+      )}
     </Alert>
   )
 }
 
 PopoutWarn.propTypes = {
-  text: PropTypes.string
+  text: PropTypes.string,
+  title: PropTypes.string
 }

@@ -3,14 +3,15 @@ import {PAGES} from '@/constants/constants'
 import {DEFAULT_COLOR, DEFAULT_TITLE} from '@/views/Wallet/wallet.constants'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {setPageOptions} from '@/store/actions/pagesActions'
-import {hideLoader, nextPage, prevPage, showLoader
+import {hideLoader, prevPage, setPopout, showLoader
 } from '@/store/actions/appActions'
 import {deleteWallet, saveWallet} from '@/stateManager'
 import {stringToNumber} from '@/core/utils/number'
+import {getLast} from '@/core/utils/array'
 import store from '@/store/store'
 
 
-const dispatch = store.dispatch
+const {dispatch, getState} = store
 
 export function del(walletID) {
   const action = () => {
@@ -18,13 +19,14 @@ export function del(walletID) {
     deleteWallet(walletID).then(close)
   }
 
-  dispatch(nextPage({popout: (
+  const popout = (
     <PopoutAlert title='Удалить счёт?' button={{title: 'Удалить', action}}>
       Кошелёк нельзя будет восстановить.
       <br/>
       Все операции связанные с кошельком останутся.
     </PopoutAlert>
-  )}))
+  )
+  dispatch(setPopout(popout))
 }
 
 export function save(wallet) {
@@ -48,6 +50,7 @@ export function getTitle(isEdit) {
 }
 
 function close() {
+  const lastPage = getLast(getState().app.history)
   store.dispatch(hideLoader())
-  store.dispatch(prevPage())
+  if (lastPage.view === PAGES.WALLET) store.dispatch(prevPage())
 }

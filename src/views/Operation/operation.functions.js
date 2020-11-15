@@ -5,12 +5,12 @@ import {stringToNumber as stringToNum} from '@/core/utils/number'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {deleteOperation, saveOperation} from '@/stateManager'
 import {toSaveDate} from '@/core/utils/date'
-import {hideLoader, nextPage, prevPage, showLoader
+import {hideLoader, prevPage, setPopout, showLoader
 } from '@/store/actions/appActions'
 import store from '@/store/store'
 
 
-const dispatch = store.dispatch
+const {dispatch, getState} = store
 
 export function save(operation, initOperation, difDates) {
   const choosedDate = store.getState().pages[PAGES.OPERATION].choosedDate
@@ -36,11 +36,13 @@ export function del(operationID) {
     deleteOperation(operationID).then(close)
   }
 
-  dispatch(nextPage({popout: (
+  const popout = (
     <PopoutAlert title='Удалить операцию?' button={{title: 'Удалить', action}}>
-        Операцию нельзя будет восстановить.
+      Операцию нельзя будет восстановить.
     </PopoutAlert>
-  )}))
+  )
+
+  dispatch(setPopout(popout))
 }
 
 export function getTitle(type) {
@@ -58,7 +60,8 @@ export function getTypeOperation(operation) {
 }
 
 function close() {
-  dispatch(hideLoader())
-  dispatch(prevPage())
+  const isLastPage = getState().app.history.length <= 1
+  store.dispatch(hideLoader())
+  if (!isLastPage) store.dispatch(prevPage())
 }
 

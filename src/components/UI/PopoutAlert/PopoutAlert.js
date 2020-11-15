@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {useDispatch} from 'react-redux'
 import {Alert} from '@vkontakte/vkui'
-import {prevPage} from '@/store/actions/appActions'
+import {setPopout} from '@/store/actions/appActions'
 
 
 export const PopoutAlert = ({button, title, children}) => {
   const dispatch = useDispatch()
 
-  const onClose = () => dispatch(prevPage())
+  const onClose = () => dispatch(setPopout(null))
 
   const actions = [
     {

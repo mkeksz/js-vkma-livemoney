@@ -1,17 +1,19 @@
+import React from 'react'
 import {MAX_OPERATIONS_PER_MONTH} from '@/constants/constants'
 import {bridgeAppGetUserInfo} from '@/core/bridge'
-import {setTimezone} from '@/store/actions/appActions'
+import {setPopout, setTimezone} from '@/store/actions/appActions'
 import {setUser} from '@/store/actions/userActions'
 import {setWallets} from '@/store/actions/walletsActions'
 import {setCategories} from '@/store/actions/categoriesActions'
 import {addAmountToCategories} from '@/shared/categories'
 import {setOperations} from '@/store/actions/operationsActions'
+import {PopoutWarn} from '@/components/UI/PopoutWarn/PopoutWarn'
+import {getMessageError} from '@/filters/errorFilter'
 import {StateProcessor, StateProcessor as SP} from '@/core/StateProcessor'
 import store from '@/store/store'
 
 
-const dispatch = store.dispatch
-const getState = store.getState
+const {dispatch, getState} = store
 
 export async function fetchInitData() {
   const userInfo = await bridgeAppGetUserInfo()
@@ -81,7 +83,8 @@ function storeDataCategories(data) {
 
 function catchError(data) {
   if (data.error) {
-    console.error(data.error)
+    const message = getMessageError(data.error)
+    dispatch(setPopout(<PopoutWarn text={message.text} title={message.title}/>))
     return true
   }
   return false

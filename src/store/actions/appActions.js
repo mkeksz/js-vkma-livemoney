@@ -1,7 +1,7 @@
 import {
   BACK_HISTORY,
   HIDE_LOADER,
-  PUSH_HISTORY,
+  PUSH_HISTORY, SET_POPOUT,
   SET_SNACKBAR,
   SET_TIMEZONE,
   SHOW_LOADER
@@ -25,4 +25,7 @@ export function setTimezone(timezone) {
 }
 export function setSnackbar(snackbar) {
   return {type: SET_SNACKBAR, payload: snackbar}
+}
+export function setPopout(popout) {
+  return {type: SET_POPOUT, payload: popout}
 }

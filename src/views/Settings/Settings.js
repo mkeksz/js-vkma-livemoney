@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
-import {Group, Header, Switch, Cell, SimpleCell} from '@vkontakte/vkui'
+import {Group, SimpleCell} from '@vkontakte/vkui'
 import {Icon28AllCategoriesOutline, Icon28HelpOutline} from '@vkontakte/icons'
 import {PAGES} from '@/constants/constants'
 import {nextPage} from '@/store/actions/appActions'
@@ -15,11 +15,11 @@ export const Settings = () => {
 
   return (
     <RootPanel header={{back: true, content: 'Настройки'}} fixed={true}>
-      <Group header={<Header mode="primary">Уведомления</Header>}>
-        <Cell asideContent={<Switch defaultChecked />}>
-          Ежедневное напоминание
-        </Cell>
-      </Group>
+      {/* <Group header={<Header mode="primary">Уведомления</Header>}>*/}
+      {/*  <Cell asideContent={<Switch defaultChecked />}>*/}
+      {/*    Ежедневное напоминание*/}
+      {/*  </Cell>*/}
+      {/* </Group>*/}
       <Group>
         <SimpleCell
           onClick={onClickCategories}

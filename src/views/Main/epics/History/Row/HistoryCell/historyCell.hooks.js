@@ -24,6 +24,6 @@ export function useAmount(operation) {
   return useMemo(() => {
     const type = operation.type
     const symbol = (type === TO.EXPENSE && '-') || (type === TO.INCOME && '+')
-    return symbol + currencyFilter(operation.amount)
+    return (symbol || '') + currencyFilter(operation.amount)
   }, [operation.type, operation.amount])
 }

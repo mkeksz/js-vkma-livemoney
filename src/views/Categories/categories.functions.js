@@ -1,9 +1,10 @@
 import React from 'react'
-import {MAX_CATEGORIES, PAGES} from '@/constants/constants'
+import {ERRORS, MAX_CATEGORIES as MW, PAGES} from '@/constants/constants'
 import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
 import {PopoutWarn} from '@/components/UI/PopoutWarn/PopoutWarn'
-import {nextPage} from '@/store/actions/appActions'
+import {nextPage, setPopout} from '@/store/actions/appActions'
 import store from '@/store/store'
+import {getMessageError} from '@/filters/errorFilter'
 
 
 const {dispatch, getState} = store
@@ -12,10 +13,9 @@ export function clickNew() {
   const tab = getState().pages[PAGES.CATEGORIES].tab
 
   const categories = getState().categories[tab]
-  if (categories.length >= MAX_CATEGORIES) {
-    dispatch(nextPage({popout: (
-      <PopoutWarn text={`Максимум категорий: ` + MAX_CATEGORIES}/>
-    )}))
+  if (categories.length >= MW) {
+    const message = getMessageError(ERRORS.MAX_CATEGORIES)
+    dispatch(setPopout(<PopoutWarn text={message.text} title={message.title}/>))
     return
   }
 

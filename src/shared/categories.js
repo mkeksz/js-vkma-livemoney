@@ -1,5 +1,5 @@
 import {percentNumOfNum} from '@/core/utils/number'
-import {compareDates} from '@/core/utils/date'
+import {getLast} from '@/core/utils/array'
 import {TYPES_CATEGORY as TC} from '@/constants/constants'
 
 
@@ -12,29 +12,27 @@ export function getColorCategory(category) {
   else return 'green'
 }
 
-export function addAmountToCategories(categories, operations) {
-  const categs = {...categories}
-
-  const addAmount = key => {
-    categs[key] = categs[key].map(category => ({...category, amount: 0}))
+export function addAmountToCategories(categories, analytics) {
+  const dateAmounts = getLast(analytics).amounts
+  return {
+    [TC.EXPENSE]: mapWithAnalytics(categories.expense, dateAmounts.expense),
+    [TC.INCOME]: mapWithAnalytics(categories.income, dateAmounts.income)
   }
-  const setAmount = (key, op) => {
-    if (op[key].type !== 'category') return
+}
 
-    const nameOp = key === 'to' ? TC.EXPENSE : TC.INCOME
-
-    const index = categs[nameOp].findIndex(cat => cat.id === op[key].itemID)
-    if (index === -1) return
-
-    categs[nameOp][index].amount += op.amount
-  }
-
-  Object.keys(categs).forEach(addAmount)
-
-  operations.forEach(operation => {
-    if (!compareDates(operation.date, new Date(), true)) return
-    Object.keys(operation).forEach(key => setAmount(key, operation))
+export function sortCategories(categories) {
+  return categories.sort((a, b) => {
+    if ((a.amount || b.amount) && a.amount !== b.amount) {
+      return (b.amount || 0) - (a.amount || 0)
+    }
+    return b.budget - a.budget
   })
+}
 
-  return categs
+export function mapWithAnalytics(categories, analyticAmounts) {
+  return categories.map(cat => {
+    const amountCat = analyticAmounts.find(a => a.id === cat.id)
+    const amount = (amountCat && amountCat.amount) || 0
+    return {...cat, amount}
+  })
 }

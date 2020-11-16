@@ -7,6 +7,7 @@ import {setWallets} from '@/store/actions/walletsActions'
 import {setCategories} from '@/store/actions/categoriesActions'
 import {addAmountToCategories} from '@/shared/categories'
 import {setOperations} from '@/store/actions/operationsActions'
+import {setAnalytics} from '@/store/actions/analyticsActions'
 import {PopoutWarn} from '@/components/UI/PopoutWarn/PopoutWarn'
 import {getMessageError} from '@/filters/errorFilter'
 import {StateProcessor, StateProcessor as SP} from '@/core/StateProcessor'
@@ -20,18 +21,21 @@ export async function fetchInitData() {
 
   SP.userID = userInfo['id']
 
-  const [wallets, user, categories, operations] = await Promise.all([
-    SP.getWallets(),
-    SP.getUser(),
-    SP.getCategories(),
-    SP.getOperations(0, MAX_OPERATIONS_PER_MONTH)
-  ])
+  const [wallets, user, categories, operations, analytics] = await Promise
+      .all([
+        SP.getWallets(),
+        SP.getUser(),
+        SP.getCategories(),
+        SP.getOperations(0, MAX_OPERATIONS_PER_MONTH),
+        SP.getAnalytics(0, 12)
+      ])
 
   dispatch(setTimezone(userInfo['timezone']))
   dispatch(setUser(user))
   dispatch(setWallets(wallets))
-  dispatch(setCategories(addAmountToCategories(categories, operations)))
+  dispatch(setCategories(addAmountToCategories(categories, analytics)))
   dispatch(setOperations(operations))
+  dispatch(setAnalytics(analytics))
 }
 
 
@@ -59,11 +63,12 @@ export async function deleteOperation(operationID) {
 
 function storeDataOperations(data) {
   if (catchError(data)) return
-  const {operations, wallets} = data
+  const {operations, wallets, analytics} = data
   const categories = getState().categories
   dispatch(setOperations(operations))
   dispatch(setWallets(wallets))
-  dispatch(setCategories(addAmountToCategories(categories, operations)))
+  dispatch(setCategories(addAmountToCategories(categories, analytics)))
+  dispatch(setAnalytics(analytics))
 }
 
 

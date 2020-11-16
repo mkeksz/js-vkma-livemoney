@@ -1,6 +1,15 @@
 import storage from '../../utils/storage'
-import {correctWallets, getNewOperations} from './localStorage.functions'
-import {initialCategories, initialOperations, initialUser, initialWallets
+import {
+  correctAnalytics,
+  correctWallets,
+  getNewOperations
+} from './localStorage.functions'
+import {
+  initialAnalytics,
+  initialCategories,
+  initialOperations,
+  initialUser,
+  initialWallets
 } from './InitialLocalStorage'
 import {
   ERRORS,
@@ -16,6 +25,7 @@ const KEY_WALLETS = 'wallets'
 const KEY_CATEGORIES = 'categories'
 const KEY_USER = 'user'
 const KEY_OPERATIONS = 'operations'
+const KEY_ANALYTICS = 'analytics'
 
 export default class LocalStorage {
   async saveWallet(wallet) {
@@ -69,6 +79,12 @@ export default class LocalStorage {
     return {...categories}
   }
 
+  async saveAnalytics(analytics) {
+    const key = getKey(KEY_ANALYTICS)
+    storage(key, analytics)
+    return [...analytics]
+  }
+
   async saveOperation(operation, initOperation = null) {
     const key = getKey(KEY_OPERATIONS)
 
@@ -93,14 +109,19 @@ export default class LocalStorage {
     if (initOperation) {
       await correctWallets(initOperation, this.getWallets.bind(this),
           this.saveWallet.bind(this), true)
+      await correctAnalytics(initOperation, this.getAnalytics.bind(this),
+          this.saveAnalytics.bind(this), true)
     }
     await correctWallets(operation, this.getWallets.bind(this),
         this.saveWallet.bind(this))
+    await correctAnalytics(operation, this.getAnalytics.bind(this),
+        this.saveAnalytics.bind(this))
 
-    const newWallets = await this.getWallets()
+    const wallets = await this.getWallets()
+    const analytics = await this.getAnalytics(0, 12)
 
     storage(key, newOperations)
-    return {operations: [...newOperations], wallets: [...newWallets]}
+    return {operations: [...newOperations], wallets, analytics}
   }
 
   async deleteWallet(walletID) {
@@ -138,12 +159,15 @@ export default class LocalStorage {
 
     await correctWallets(operation, this.getWallets.bind(this),
         this.saveWallet.bind(this), true)
+    await correctAnalytics(operation, this.getAnalytics.bind(this),
+        this.saveAnalytics.bind(this), true)
     operations.splice(targetIndexOperation, 1)
 
-    const newWallets = await this.getWallets()
+    const wallets = await this.getWallets()
+    const analytics = await this.getAnalytics(0, 12)
 
     storage(key, operations)
-    return {operations: [...operations], wallets: [...newWallets]}
+    return {operations: [...operations], wallets, analytics}
   }
 
   async getWallets() {
@@ -165,7 +189,15 @@ export default class LocalStorage {
     operations.sort((a, b) => new Date(b.date) - new Date(a.date))
     return end === -1 ? operations : operations.slice(start, end)
   }
+
+  async getAnalytics(start, end) {
+    const analytics = getContentStorage(initialAnalytics, KEY_ANALYTICS)
+    analytics.sort((a, b) => new Date(b.date) - new Date(a.date))
+    const result = end === -1 ? analytics : analytics.slice(start, end)
+    return result.reverse()
+  }
 }
+
 
 function getContentStorage(initialState, nameKey) {
   const key = getKey(nameKey)

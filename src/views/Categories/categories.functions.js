@@ -23,10 +23,3 @@ export function clickNew() {
   dispatch(setPageOptions(PAGES.CATEGORY, {type: tab}))
   dispatch(nextPage({view: PAGES.CATEGORY}))
 }
-
-export function sortCategories(categories) {
-  return categories.sort((a, b) => {
-    if (a.amount || b.amount) return (b.amount || 0) - (a.amount || 0)
-    return b.budget - a.budget
-  })
-}

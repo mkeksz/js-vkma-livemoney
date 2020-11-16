@@ -15,7 +15,8 @@ const initialState = {
     onClick: null
   },
   [PAGES.CATEGORIES]: {
-    tab: TYPES_CATEGORY.EXPENSE
+    tab: TYPES_CATEGORY.EXPENSE,
+    date: null
   },
   [PAGES.CATEGORY]: {
     category: {},
@@ -25,6 +26,10 @@ const initialState = {
     operation: {},
     initOperation: null,
     choosedDate: 7
+  },
+  [PAGES.ANALYTICS]: {
+    slideBudget: null,
+    slideTotal: null
   }
 }
 

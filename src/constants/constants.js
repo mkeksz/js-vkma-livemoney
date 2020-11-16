@@ -25,6 +25,8 @@ export const PAGES = {
   CATEGORIES: 'categories',
   CATEGORY: 'category',
   OPERATION: 'operation',
+  ANALYTICS: 'analytics',
+  HISTORY: 'history',
   MODAL_ICONS: 'modal_icons'
 }
 

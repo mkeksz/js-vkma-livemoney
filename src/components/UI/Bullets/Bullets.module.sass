@@ -1,0 +1,16 @@
+.Bullets
+  display: flex
+  place-content: center
+  place-items: center
+  margin-top: 10px
+  >span
+    display: inline-block
+    width: 6px
+    height: 6px
+    margin: 0 5px
+    border-radius: 50%
+    transition: transform .2s
+    background-color: var(--icon_tertiary_alpha)
+    &.active
+      transform: scale(1.5)
+      background-color: var(--counter_primary_background)

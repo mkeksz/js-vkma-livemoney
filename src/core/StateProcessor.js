@@ -46,4 +46,8 @@ export class StateProcessor {
   static async getOperations(start, end) {
     return await this.client.getOperations(start, end)
   }
+
+  static async getAnalytics(start, end) {
+    return await this.client.getAnalytics(start, end)
+  }
 }

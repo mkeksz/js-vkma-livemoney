@@ -5,6 +5,8 @@ import user from './reducers/user/userReducer'
 import pages from './reducers/pages/pagesReducer'
 import categories from './reducers/categories/categoriesReducer'
 import operations from './reducers/operations/operationsReducer'
+import analytics from './reducers/analytics/analyticsReducer'
+
 
 export const rootReducer = combineReducers({
   app,
@@ -12,5 +14,6 @@ export const rootReducer = combineReducers({
   user,
   pages,
   categories,
-  operations
+  operations,
+  analytics
 })

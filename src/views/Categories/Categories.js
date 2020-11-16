@@ -3,12 +3,11 @@ import {RootPanel} from '@/roots/RootPanel/RootPanel'
 import {CategoriesTabs} from './CategoriesTabs/CategoriesTabs'
 import {CatsPlaceholder} from './CatsPlaceholder/CatsPlaceholder'
 import {CategoriesGroup} from './CategoriesGroup/CategoriesGroup'
-import {useCategories, useTab} from './categories.hooks'
+import {useCategories} from './categories.hooks'
 
 
 export const Categories = () => {
-  const tab = useTab()
-  const categories = useCategories(tab)
+  const categories = useCategories()
 
   return (
     <RootPanel header={{back: true, content: 'Категории'}}>

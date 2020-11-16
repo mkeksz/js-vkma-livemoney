@@ -8,6 +8,7 @@ import {Wallets} from './epics/Wallets/Wallets'
 import {Analytics} from './epics/Analytics/Analytics'
 import {History} from './epics/History/History'
 import {getLast} from '@/core/utils/array'
+import {PAGES} from '@/constants/constants'
 
 
 export const Main = () => {
@@ -15,17 +16,17 @@ export const Main = () => {
 
   const tabbarItems = [
     {
-      id: 'analytics',
+      id: PAGES.ANALYTICS,
       text: 'Аналитики',
       icon: <Icon28GraphOutline />
     },
     {
-      id: 'wallets',
+      id: PAGES.WALLETS,
       text: 'Кошелёк',
       icon: <Icon28PaymentCardOutline />
     },
     {
-      id: 'history',
+      id: PAGES.HISTORY,
       text: 'История',
       icon: <Icon28ListOutline />
     }

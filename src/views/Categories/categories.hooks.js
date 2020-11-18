@@ -11,13 +11,13 @@ export function useCategories(sort = false) {
   const tab = useTab()
 
   return useMemo(() => {
-    const result = categories[tab]
+    const result = categories.filter(c => c.type === tab)
 
-
-    const stringDate = `${new Date().getFullYear()}-${new Date().getMonth()+1}`
+    const stringDate = `${new Date().getFullYear()}-${new Date().getMonth()}`
     const _date = date || stringDate
 
-    let amountsDate = analytics.find(a => a.date === _date).amounts[tab]
+    let amountsDate = analytics.find(a => a.date === _date).amounts
+        .filter(a => a.type === tab)
     amountsDate = mapWithAnalytics(result, amountsDate)
 
     return sort ? sortCategories(amountsDate) : amountsDate

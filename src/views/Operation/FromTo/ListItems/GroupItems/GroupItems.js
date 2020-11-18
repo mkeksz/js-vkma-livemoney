@@ -5,12 +5,13 @@ import {PAGES, TYPES_CATEGORY} from '@/constants/constants'
 import {DIRECTION} from '@/views/Operation/operation.constants'
 import {ItemOperation} from './ItemOperation/ItemOperation'
 import {clickItem, clickNew, isChecked} from './groupItems.functions'
+import {useCategories} from './groupItems.hooks'
 
 
 export const GroupItems = ({type, direction}) => {
   const wallets = useSelector(({wallets}) => wallets)
-  const categories = useSelector(({categories}) => categories[type])
   const {operation} = useSelector(({pages}) => pages[PAGES.OPERATION])
+  const categories = useCategories(type)
 
   const items = type ? categories : wallets
   const typeItem = type ? 'category' : 'wallet'

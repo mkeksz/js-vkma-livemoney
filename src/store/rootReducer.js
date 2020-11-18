@@ -6,6 +6,8 @@ import pages from './reducers/pages/pagesReducer'
 import categories from './reducers/categories/categoriesReducer'
 import operations from './reducers/operations/operationsReducer'
 import analytics from './reducers/analytics/analyticsReducer'
+import colors from './reducers/colors/colorsReducer'
+import icons from './reducers/icons/iconsReducer'
 
 
 export const rootReducer = combineReducers({
@@ -15,5 +17,7 @@ export const rootReducer = combineReducers({
   pages,
   categories,
   operations,
-  analytics
+  analytics,
+  colors,
+  icons
 })

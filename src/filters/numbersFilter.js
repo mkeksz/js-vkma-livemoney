@@ -1,4 +1,5 @@
 import {stringToNumber} from '@/core/utils/number'
+import {MAX_LENGTH_INPUT_BALANCE} from '@/constants/constants'
 
 export function currencyFilter(value, icon = true) {
   value = stringToNumber(value)
@@ -47,8 +48,8 @@ export function inputBalanceFilter(value) {
   }
 
   const tmpResult = result.split(',')
-  if (tmpResult[0].length > 12) {
-    tmpResult[0] = tmpResult[0].slice(0, 12)
+  if (tmpResult[0].length > MAX_LENGTH_INPUT_BALANCE - 3) {
+    tmpResult[0] = tmpResult[0].slice(0, MAX_LENGTH_INPUT_BALANCE - 3)
     if (tmpResult.length > 1) {
       result = tmpResult[0] + ',' + tmpResult[1]
     } else {

@@ -1,7 +1,8 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {FormLayout, FormLayoutGroup, Input} from '@vkontakte/vkui'
-import {MAX_LENGTH_INPUT_BALANCE, PAGES} from '@/constants/constants'
+import {MAX_LENGTH_INPUT_BALANCE, MAX_TITLE_WALLET, PAGES
+} from '@/constants/constants'
 import {inputBalanceFilter} from '@/filters/numbersFilter'
 import {setPageOptions} from '@/store/actions/pagesActions'
 
@@ -30,7 +31,7 @@ export const WalletForm = () => {
           inputMode="text"
           name="title"
           placeholder="Название счёта"
-          maxLength="70"
+          maxLength={MAX_TITLE_WALLET}
           value={wallet.title || ''}
           onChange={changeTitleHandler}
         />

@@ -33,7 +33,7 @@
         "max-len": "warn",
         "operator-linebreak": [2, "before"],
         "linebreak-style": "off",
-        "no-throw-literal": "warn"
+        "no-throw-literal": "off"
     },
     "parser": "babel-eslint"
 }

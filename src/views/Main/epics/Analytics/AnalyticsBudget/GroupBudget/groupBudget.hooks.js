@@ -1,5 +1,6 @@
 import {useMemo} from 'react'
 import {useSelector} from 'react-redux'
+import {TYPES_CATEGORY as TC} from '@/constants/constants'
 import {mapWithAnalytics} from '@/shared/categories'
 import {getBudgets} from '../analyticsBudget.functions'
 
@@ -7,10 +8,11 @@ import {getBudgets} from '../analyticsBudget.functions'
 const MAX_CATEGORIES_IN_PAGE = 7
 
 export function useCategories(amounts) {
-  const categories = useSelector(({categories}) => categories.expense)
+  const categories = useSelector(({categories}) => categories)
 
   return useMemo(() => {
-    const allCategories = mapWithAnalytics(categories, amounts)
+    const _categories = categories.filter(c => c.type === TC.EXPENSE)
+    const allCategories = mapWithAnalytics(_categories, amounts)
 
     const allBudgets = getBudgets(allCategories)
         .sort((a, b) => b.budget - a.budget)
@@ -29,6 +31,12 @@ export function useCategories(amounts) {
 
     return [monthBudgets, otherAmount]
   }, [categories])
+}
+
+export function useExpenseAnalytic(analytic) {
+  return useMemo(() => {
+    return analytic.amounts.filter(a => a.type === TC.EXPENSE)
+  }, [analytic])
 }
 
 export function useDateHeader(date) {

@@ -1,10 +1,18 @@
-import LocalStorage from './clients/LocalStorage/LocalStorage'
+import Firebase from './clients/Firebase/Firebase'
+
 
 export class StateProcessor {
+  static params
+  static parsedParams
   static userID
 
   static get client() {
-    return new LocalStorage()
+    return new Firebase()
+  }
+
+
+  static async getAuthData() {
+    return await this.client.getAuthData()
   }
 
   static async saveWallet(wallet) {

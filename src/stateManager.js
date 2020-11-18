@@ -1,7 +1,6 @@
 import React from 'react'
-import {MAX_OPERATIONS_PER_MONTH} from '@/constants/constants'
-import {bridgeAppGetUserInfo} from '@/core/bridge'
-import {setPopout, setTimezone} from '@/store/actions/appActions'
+import {parse} from 'querystring'
+import {setPopout} from '@/store/actions/appActions'
 import {setUser} from '@/store/actions/userActions'
 import {setWallets} from '@/store/actions/walletsActions'
 import {setCategories} from '@/store/actions/categoriesActions'
@@ -10,6 +9,9 @@ import {setOperations} from '@/store/actions/operationsActions'
 import {setAnalytics} from '@/store/actions/analyticsActions'
 import {PopoutWarn} from '@/components/UI/PopoutWarn/PopoutWarn'
 import {getMessageError} from '@/filters/errorFilter'
+import {setColors} from '@/store/actions/colorsActions'
+import {setIcons} from '@/store/actions/iconsActions'
+import {ERRORS} from '@/constants/constants'
 import {StateProcessor, StateProcessor as SP} from '@/core/StateProcessor'
 import store from '@/store/store'
 
@@ -17,25 +19,23 @@ import store from '@/store/store'
 const {dispatch, getState} = store
 
 export async function fetchInitData() {
-  const userInfo = await bridgeAppGetUserInfo()
+  SP.params = location.search
+  SP.parsedParams = parse(SP.params.slice(1))
+  SP.userID = SP.params['vk_user_id']
 
-  SP.userID = userInfo['id']
+  const authData = await SP.getAuthData()
+  if (authData.error) throw authData
 
-  const [wallets, user, categories, operations, analytics] = await Promise
-      .all([
-        SP.getWallets(),
-        SP.getUser(),
-        SP.getCategories(),
-        SP.getOperations(0, MAX_OPERATIONS_PER_MONTH),
-        SP.getAnalytics(0, 12)
-      ])
+  const {user, wallets, categories, analytics, operations, colors, icons
+  } = authData
 
-  dispatch(setTimezone(userInfo['timezone']))
   dispatch(setUser(user))
   dispatch(setWallets(wallets))
   dispatch(setCategories(addAmountToCategories(categories, analytics)))
   dispatch(setOperations(operations))
   dispatch(setAnalytics(analytics))
+  dispatch(setColors(colors))
+  dispatch(setIcons(icons))
 }
 
 
@@ -49,7 +49,7 @@ export async function deleteWallet(walletID) {
 
 function storeDataWallets(data) {
   if (catchError(data)) return
-  dispatch(setWallets(data))
+  dispatch(setWallets(data.result))
 }
 
 
@@ -89,6 +89,10 @@ function storeDataCategories(data) {
 function catchError(data) {
   if (data.error) {
     const message = getMessageError(data.error)
+    dispatch(setPopout(<PopoutWarn text={message.text} title={message.title}/>))
+    return true
+  } else if (!data.result) {
+    const message = getMessageError(ERRORS.NOT_RESULT)
     dispatch(setPopout(<PopoutWarn text={message.text} title={message.title}/>))
     return true
   }

@@ -1,6 +1,6 @@
 import React from 'react'
 import {PAGES} from '@/constants/constants'
-import {DEFAULT_COLOR, DEFAULT_TITLE} from '@/views/Wallet/wallet.constants'
+import {DEFAULT_TITLE} from '@/views/Wallet/wallet.constants'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {setPageOptions} from '@/store/actions/pagesActions'
 import {hideLoader, prevPage, setPopout, showLoader
@@ -31,6 +31,7 @@ export function del(walletID) {
 
 export function save(wallet) {
   dispatch(showLoader())
+  const colors = getState().colors
 
   const isEdit = !!wallet.id
   const newWallet = {
@@ -38,10 +39,10 @@ export function save(wallet) {
     icon: wallet.icon || null,
     title: wallet.title || DEFAULT_TITLE,
     balance: stringToNumber(wallet.balance),
-    styles: wallet.styles || DEFAULT_COLOR
+    styles: wallet.styles || colors[0]
   }
-  if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
 
+  if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
   saveWallet(newWallet).then(close)
 }
 

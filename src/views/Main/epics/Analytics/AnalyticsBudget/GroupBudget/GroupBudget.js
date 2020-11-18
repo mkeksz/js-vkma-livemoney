@@ -4,13 +4,14 @@ import {Caption, Group, Header, Link} from '@vkontakte/vkui'
 import {Icon16Chevron} from '@vkontakte/icons'
 import {RowBudget} from './RowBudget/RowBudget'
 import {currencyFilter} from '@/filters/numbersFilter'
-import {useCategories, useDateHeader} from './groupBudget.hooks'
+import {useCategories, useDateHeader, useExpenseAnalytic
+} from './groupBudget.hooks'
 import {openCategories} from '../analyticsBudget.functions'
 import classes from './GroupBudget.module.sass'
 
 
 export const GroupBudget = ({analytic}) => {
-  const expenseAnalytic = analytic.amounts.expense
+  const expenseAnalytic = useExpenseAnalytic(analytic)
   const [monthBudgets, otherAmount] = useCategories(expenseAnalytic)
   const dateHeader = useDateHeader(analytic.date)
 

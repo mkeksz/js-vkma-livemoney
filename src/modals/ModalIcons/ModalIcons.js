@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {useSelector} from 'react-redux'
 import {ModalPage, Div} from '@vkontakte/vkui'
-import {ICONS, PAGES} from '@/constants/constants'
+import {PAGES} from '@/constants/constants'
 import {HeaderModal} from '@/components/Navigation/HeaderModal/HeaderModal'
 import {Icon} from '@/components/UI/Icon/Icon'
 import {getStyle} from './modalIcons.functions'
@@ -10,7 +10,7 @@ import classes from './ModalIcons.module.sass'
 
 export const ModalIcons = () => {
   const {onClick} = useSelector(({pages}) => pages[PAGES.MODAL_ICONS])
-  const [icons] = useState(Object.values(ICONS))
+  const icons = useSelector(({icons}) => icons)
 
   return (
     <ModalPage header={<HeaderModal>Выберите иконку</HeaderModal>}>

@@ -21,5 +21,8 @@ const ERROR_MESSAGE = {
 }
 
 export function getMessageError(error) {
-  return ERROR_MESSAGE[error] || {...ERROR_MESSAGE.DEFAULT, content: error}
+  return ERROR_MESSAGE[error] || {
+    ...ERROR_MESSAGE.DEFAULT,
+    text: JSON.stringify(error)
+  }
 }

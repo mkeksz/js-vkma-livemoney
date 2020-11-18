@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Group, Header, Subhead} from '@vkontakte/vkui'
 import {TYPES_CATEGORY} from '@/constants/constants'
-import classes from './RowTotal.module.sass'
 import {currencyFilter} from '@/filters/numbersFilter'
 import {percentNumOfNum} from '@/core/utils/number'
+import classes from './RowTotal.module.sass'
 
 
 export const RowTotal = ({type, amount, total}) => {
@@ -13,7 +13,7 @@ export const RowTotal = ({type, amount, total}) => {
 
   const title = type === TYPES_CATEGORY.EXPENSE ? 'Расходы' : 'Доходы'
 
-  const width = percentNumOfNum(amount, total) + '%'
+  const width = total !== 0 ? percentNumOfNum(amount, total) + '%' : 0
 
   return (
     <Group

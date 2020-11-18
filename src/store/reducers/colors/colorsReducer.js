@@ -1,10 +1,10 @@
-import {SET_USER} from '../../types'
+import {SET_COLORS} from '@/store/types'
 import getReducer from '@/store/getReducer'
 
-const initialState = {}
+const initialState = []
 
 const handlers = {
-  [SET_USER]: (_, action) => ({...action.payload}),
+  [SET_COLORS]: (_, {payload}) => [...payload],
   DEFAULT: state => state
 }
 

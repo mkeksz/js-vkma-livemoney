@@ -12,5 +12,7 @@ export function openCategories(date = null) {
 }
 
 export function getBudgets(categories) {
-  return categories.filter(cat => cat.budget > 0)
+  return categories
+      .filter(cat => cat.type === TC.EXPENSE)
+      .filter(cat => cat.budget > 0)
 }

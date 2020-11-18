@@ -1,8 +1,7 @@
-import React, {useMemo} from 'react'
+import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {Group, Header, HorizontalScroll} from '@vkontakte/vkui'
-import {COLORS, PAGES} from '@/constants/constants'
-import {DEFAULT_COLOR} from '@/views/Wallet/wallet.constants'
+import {PAGES} from '@/constants/constants'
 import {CircleColor} from '@/views/Wallet/Colors/CircleColor/CircleColor'
 import {setPageOptions} from '@/store/actions/pagesActions'
 
@@ -11,8 +10,8 @@ export const Colors = () => {
   const dispatch = useDispatch()
 
   const {wallet} = useSelector(({pages}) => pages[PAGES.WALLET])
-  const colors = useMemo(() => Object.values(COLORS), [])
-  const styles = wallet.styles || DEFAULT_COLOR
+  const colors = useSelector(({colors}) => colors)
+  const styles = wallet.styles || colors[0]
 
   const clickColorHandler = (colorID) => {
     const color = colors.find(color => color.id === colorID)

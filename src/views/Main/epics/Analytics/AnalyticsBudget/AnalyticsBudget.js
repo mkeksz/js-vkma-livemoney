@@ -13,7 +13,7 @@ export const AnalyticsBudget = () => {
   const dispatch = useDispatch()
 
   const analytics = useSelector(({analytics}) => analytics)
-  const budgets = useSelector(({categories}) => getBudgets(categories.expense))
+  const budgets = useSelector(({categories}) => getBudgets(categories))
 
   const countSlides = analytics.length
   const slide = useSlide(countSlides)

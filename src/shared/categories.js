@@ -1,6 +1,5 @@
 import {percentNumOfNum} from '@/core/utils/number'
 import {getLast} from '@/core/utils/array'
-import {TYPES_CATEGORY as TC} from '@/constants/constants'
 
 
 export function getColorCategory(category) {
@@ -14,10 +13,7 @@ export function getColorCategory(category) {
 
 export function addAmountToCategories(categories, analytics) {
   const dateAmounts = getLast(analytics).amounts
-  return {
-    [TC.EXPENSE]: mapWithAnalytics(categories.expense, dateAmounts.expense),
-    [TC.INCOME]: mapWithAnalytics(categories.income, dateAmounts.income)
-  }
+  return mapWithAnalytics(categories, dateAmounts)
 }
 
 export function sortCategories(categories) {

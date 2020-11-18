@@ -1,11 +1,9 @@
 import icons from './icons/icons'
-import colors from './colors'
 
 export const ICONS = icons
 
-export const COLORS = colors
-
 export const MAX_WALLETS = 10
+export const MAX_TITLE_WALLET = 50
 
 export const MAX_CATEGORIES = 20
 
@@ -44,5 +42,6 @@ export const TYPES_CATEGORY = {
 export const ERRORS = {
   MAX_WALLETS: 'max_wallets',
   MAX_CATEGORIES: 'max_categories',
-  MAX_OPERATIONS: 'max_operations'
+  MAX_OPERATIONS: 'max_operations',
+  NOT_RESULT: 'not_result'
 }

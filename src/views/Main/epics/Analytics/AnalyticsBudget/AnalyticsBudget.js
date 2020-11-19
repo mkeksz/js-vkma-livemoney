@@ -6,7 +6,7 @@ import {getBudgets, openCategories} from './analyticsBudget.functions'
 import {GroupBudget} from './GroupBudget/GroupBudget'
 import {setPageOptions} from '@/store/actions/pagesActions'
 import {Bullets} from '@/components/UI/Bullets/Bullets'
-import {useSlide} from '../analytics.hooks'
+import {useSlideBudget} from './analyticsBudget.hooks'
 
 
 export const AnalyticsBudget = () => {
@@ -16,7 +16,7 @@ export const AnalyticsBudget = () => {
   const budgets = useSelector(({categories}) => getBudgets(categories))
 
   const countSlides = analytics.length
-  const slide = useSlide(countSlides)
+  const slide = useSlideBudget(countSlides)
 
   const onChange = index => dispatch(setPageOptions(PAGES.ANALYTICS, {
     slideBudget: index

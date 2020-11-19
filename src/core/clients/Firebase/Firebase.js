@@ -1,4 +1,6 @@
 import {StateProcessor as SP} from '@/core/StateProcessor'
+import {mapAnalytics, mapOperations} from './firebase.functions'
+
 
 const baseURL = 'http://localhost:5001/vkma-livemoney/europe-west6/'
 
@@ -7,22 +9,11 @@ export default class Firebase {
     const res = await fetch(`${baseURL}authUser${SP.params}`)
 
     const resJSON = await res.json()
-    if (!resJSON.result) {
-      return resJSON || {error: {
-        code: 'response_empty',
-        message: 'The response came empty'
-      }}
-    }
-    if (resJSON.error) return resJSON
+    if (resJSON.error || !resJSON.result) return resJSON
 
     const data = resJSON.result
-    data.analytics = data.analytics
-        .map(analytic => {
-          const date = new Date(analytic.date['_seconds'] * 1000)
-          analytic.date = `${date.getFullYear()}-${date.getMonth()}`
-          return analytic
-        })
-        .reverse()
+    data.analytics = mapAnalytics(data.analytics)
+    data.operations = mapOperations(data.operations)
     return data
   }
 
@@ -33,6 +24,74 @@ export default class Firebase {
       method: 'POST',
       body: JSON.stringify(wallet)
     })
-    return res.json()
+
+    return await res.json()
+  }
+
+  async deleteWallet(walletID) {
+    const url = `${baseURL}deleteWallet${SP.params}`
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: walletID
+    })
+
+    return await res.json()
+  }
+
+  async saveOperation(operation) {
+    const _operation = Object.assign({}, operation)
+    _operation.date = new Date(_operation.date).getTime() / 1000 | 0
+
+    const url = `${baseURL}saveOperation${SP.params}`
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(_operation)
+    })
+
+    const resJSON = await res.json()
+    if (resJSON.error || !resJSON.result) return resJSON
+
+    resJSON.result.analytics = mapAnalytics(resJSON.result.analytics)
+    resJSON.result.operations = mapOperations(resJSON.result.operations)
+    return resJSON
+  }
+
+  async deleteOperation(operationID) {
+    const url = `${baseURL}deleteOperation${SP.params}`
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: operationID
+    })
+
+    const resJSON = await res.json()
+    if (resJSON.error || !resJSON.result) return resJSON
+
+    resJSON.result.analytics = mapAnalytics(resJSON.result.analytics)
+    resJSON.result.operations = mapOperations(resJSON.result.operations)
+    return resJSON.result
+  }
+
+  async saveCategory(category) {
+    const url = `${baseURL}saveCategory${SP.params}`
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(category)
+    })
+
+    return await res.json()
+  }
+
+  async deleteCategory(categoryID) {
+    const url = `${baseURL}deleteCategory${SP.params}`
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: categoryID
+    })
+
+    return await res.json()
   }
 }

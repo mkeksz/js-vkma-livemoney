@@ -13,11 +13,11 @@ export function clickItem(direction, type, id) {
 
   if (direction === DIRECTION.FROM) {
     dispatch(setPageOptions(PAGES.OPERATION, {
-      operation: {...operation, from: {type, itemID: id}}
+      operation: {...operation, from: {type, id}}
     }))
   } else {
     dispatch(setPageOptions(PAGES.OPERATION, {
-      operation: {...operation, to: {type, itemID: id}}
+      operation: {...operation, to: {type, id}}
     }))
   }
 }
@@ -34,6 +34,6 @@ export function clickNew(type) {
 }
 
 export function isChecked(itemD, item, type) {
-  return itemD && itemD.itemID === item.id && itemD.type === type
+  return itemD && itemD.id === item.id && itemD.type === type
 }
 

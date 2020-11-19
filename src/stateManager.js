@@ -24,7 +24,7 @@ export async function fetchInitData() {
   SP.userID = SP.params['vk_user_id']
 
   const authData = await SP.getAuthData()
-  if (authData.error) throw authData
+  if (authData['error']) throw authData
 
   const {user, wallets, categories, analytics, operations, colors, icons
   } = authData
@@ -53,8 +53,8 @@ function storeDataWallets(data) {
 }
 
 
-export async function saveOperation(operation, initOperation) {
-  storeDataOperations(await SP.saveOperation(operation, initOperation))
+export async function saveOperation(operation) {
+  storeDataOperations(await SP.saveOperation(operation))
 }
 
 export async function deleteOperation(operationID) {
@@ -63,7 +63,7 @@ export async function deleteOperation(operationID) {
 
 function storeDataOperations(data) {
   if (catchError(data)) return
-  const {operations, wallets, analytics} = data
+  const {operations, analytics, wallets} = data.result
   const categories = getState().categories
   dispatch(setOperations(operations))
   dispatch(setWallets(wallets))
@@ -72,23 +72,23 @@ function storeDataOperations(data) {
 }
 
 
-export async function saveCategory(category, type) {
-  storeDataCategories(await StateProcessor.saveCategory(category, type))
+export async function saveCategory(category) {
+  storeDataCategories(await StateProcessor.saveCategory(category))
 }
 
-export async function deleteCategory(categoryID, type) {
-  storeDataCategories(await StateProcessor.deleteCategory(categoryID, type))
+export async function deleteCategory(categoryID) {
+  storeDataCategories(await StateProcessor.deleteCategory(categoryID))
 }
 
 function storeDataCategories(data) {
   if (catchError(data)) return
-  store.dispatch(setCategories(data))
+  store.dispatch(setCategories(data.result))
 }
 
 
 function catchError(data) {
   if (data.error) {
-    const message = getMessageError(data.error)
+    const message = getMessageError(data.error.code)
     dispatch(setPopout(<PopoutWarn text={message.text} title={message.title}/>))
     return true
   } else if (!data.result) {

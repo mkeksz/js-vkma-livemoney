@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Gallery} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {Bullets} from '@/components/UI/Bullets/Bullets'
-import {useSlide} from '../analytics.hooks'
+import {useSlideTotal} from './analyticsTotal.hooks'
 import {setPageOptions} from '@/store/actions/pagesActions'
 import {GroupTotal} from './GroupTotal/GroupTotal'
 
@@ -14,7 +14,7 @@ export const AnalyticsTotal = () => {
   const analytics = useSelector(({analytics}) => analytics)
 
   const countSlides = analytics.length
-  const slide = useSlide(countSlides)
+  const slide = useSlideTotal(countSlides)
 
   const onChange = index => dispatch(setPageOptions(PAGES.ANALYTICS, {
     slideTotal: index

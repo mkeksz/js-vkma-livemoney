@@ -9,9 +9,10 @@ const {dispatch, getState} = store
 export function getItem(typeOperation, objOperation) {
   const obj = objOperation
   const {wallets, categories} = getState()
+  const _categories = categories.filter(c => c.type === typeOperation)
 
-  if (obj.type === 'wallet') return wallets.find(w => w.id === obj.itemID) || {}
-  else return categories[typeOperation].find(c => c.id === obj.itemID) || {}
+  if (obj.type === 'wallet') return wallets.find(w => w.id === obj.id) || {}
+  else return _categories.find(c => c.id === obj.id) || {}
 }
 
 export function click(operation) {

@@ -4,7 +4,7 @@ import {PAGES} from '@/constants/constants'
 import {setPageOptions} from '@/store/actions/pagesActions'
 
 
-export function useSlide(countSlides) {
+export function useSlideBudget(countSlides) {
   const dispatch = useDispatch()
   const {slideBudget} = useSelector(({pages}) => pages[PAGES.ANALYTICS])
 

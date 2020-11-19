@@ -16,10 +16,11 @@ export function save(category, type) {
   dispatch(showLoader())
   const newCategory = {
     ...category,
+    type,
     title: category.title || DEFAULT_TITLE,
     budget: stringToNumber(category.budget)
   }
-  saveCategory(newCategory, type).then(close)
+  saveCategory(newCategory).then(close)
 }
 
 export function del(id, type) {

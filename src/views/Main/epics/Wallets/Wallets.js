@@ -7,15 +7,19 @@ import {RootPanel} from '@/roots/RootPanel/RootPanel'
 
 export const Wallets = () => {
   const wallets = useSelector(({wallets}) => wallets)
+  const {initialization} = useSelector(({app}) => app)
 
   return (
     <RootPanel centered={true} fixed={true} header={{content: 'Кошелёк'}}>
-      {wallets.length > 0 ? (
-        <>
-          <WalletsGallery wallets={wallets}/>
-          <Buttons/>
-        </>
-      ) : <WalletsPlaceholder/>}
+      {wallets.length > 0 || initialization
+        ? (
+          !initialization
+          && <>
+            <WalletsGallery wallets={wallets}/>
+            <Buttons/>
+          </>
+        )
+        : <WalletsPlaceholder/>}
     </RootPanel>
   )
 }

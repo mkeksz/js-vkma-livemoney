@@ -42,6 +42,7 @@ export function useExpenseAnalytic(analytic) {
 export function useDateHeader(date) {
   return useMemo(() => {
     const _date = new Date(date)
+    _date.setUTCMonth(_date.getUTCMonth() + 1)
     const options = {month: 'long'}
     return `${_date.toLocaleDateString('ru', options)} ${_date.getFullYear()}`
   }, [date])

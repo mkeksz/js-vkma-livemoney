@@ -20,9 +20,9 @@ const ERROR_MESSAGE = {
   }
 }
 
-export function getMessageError(error) {
-  return ERROR_MESSAGE[error] || {
+export function getMessageError(errorCode) {
+  return ERROR_MESSAGE[errorCode] || {
     ...ERROR_MESSAGE.DEFAULT,
-    text: JSON.stringify(error)
+    text: JSON.stringify(errorCode)
   }
 }

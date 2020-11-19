@@ -12,7 +12,7 @@ import store from '@/store/store'
 
 const {dispatch, getState} = store
 
-export function save(operation, initOperation, difDates) {
+export function save(operation, difDates) {
   const choosedDate = store.getState().pages[PAGES.OPERATION].choosedDate
 
   const _op = {...operation}
@@ -27,7 +27,7 @@ export function save(operation, initOperation, difDates) {
   }
 
   dispatch(showLoader())
-  saveOperation(_operation, initOperation).then(close)
+  saveOperation(_operation).then(close)
 }
 
 export function del(operationID) {

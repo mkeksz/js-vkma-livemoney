@@ -1,7 +1,7 @@
 import {
   BACK_HISTORY,
   HIDE_LOADER,
-  PUSH_HISTORY, SET_POPOUT,
+  PUSH_HISTORY, SET_INITIALIZATION, SET_POPOUT,
   SET_SNACKBAR,
   SET_TIMEZONE,
   SHOW_LOADER
@@ -29,4 +29,7 @@ export function setSnackbar(snackbar) {
 }
 export function setPopout(popout) {
   return {type: SET_POPOUT, payload: popout}
+}
+export function setInitialization(bool) {
+  return {type: SET_INITIALIZATION, payload: bool}
 }

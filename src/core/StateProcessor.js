@@ -19,20 +19,20 @@ export class StateProcessor {
     return await this.client.saveWallet(wallet)
   }
 
-  static async saveCategory(category, type) {
-    return await this.client.saveCategory(category, type)
+  static async saveCategory(category) {
+    return await this.client.saveCategory(category)
   }
 
-  static async saveOperation(operation, initOperation = null) {
-    return await this.client.saveOperation(operation, initOperation)
+  static async saveOperation(operation) {
+    return await this.client.saveOperation(operation)
   }
 
   static async deleteWallet(walletID) {
     return await this.client.deleteWallet(walletID)
   }
 
-  static async deleteCategory(categoryID, type) {
-    return await this.client.deleteCategory(categoryID, type)
+  static async deleteCategory(categoryID) {
+    return await this.client.deleteCategory(categoryID)
   }
 
   static async deleteOperation(operationID) {

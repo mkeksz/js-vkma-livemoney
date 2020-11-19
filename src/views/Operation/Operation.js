@@ -24,7 +24,7 @@ export const Operation = () => {
   const anchors = {to: useRef(null), amount: useRef(null)}
 
   const onDelete = () => del(initOperation.id)
-  const onSave = () => save(operation, initOperation, difDates)
+  const onSave = () => save(operation, difDates)
 
   return (
     <RootPanel header={{back: true, content: getTitle(operation.type)}}>

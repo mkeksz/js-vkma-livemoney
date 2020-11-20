@@ -93,7 +93,8 @@
     "start": "cross-env PORT=10888 HTTPS=true node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "ontunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=localhost --port=10888"
+    "ontunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=localhost --port=10888",
+    "deploy": "vk-miniapps-deploy"
   },
   "eslintConfig": {
     "extends": [
@@ -114,6 +115,7 @@
     ]
   },
   "devDependencies": {
+    "@vkontakte/vk-miniapps-deploy": "0.0.22",
     "babel-eslint": "^10.1.0",
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2"
@@ -172,5 +174,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "homepage": "./"
 }

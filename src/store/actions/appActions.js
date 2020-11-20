@@ -1,7 +1,7 @@
 import {
   BACK_HISTORY,
   HIDE_LOADER,
-  PUSH_HISTORY, SET_INITIALIZATION, SET_POPOUT,
+  PUSH_HISTORY, SET_INITIALIZATION, SET_INTRO, SET_POPOUT,
   SET_SNACKBAR,
   SET_TIMEZONE,
   SHOW_LOADER
@@ -32,4 +32,7 @@ export function setPopout(popout) {
 }
 export function setInitialization(bool) {
   return {type: SET_INITIALIZATION, payload: bool}
+}
+export function setIntro(bool) {
+  return {type: SET_INTRO, payload: bool}
 }

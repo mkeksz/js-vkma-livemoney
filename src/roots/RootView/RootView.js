@@ -17,11 +17,13 @@ export const RootView = () => {
   const {view} = useSelector(({app}) => getLast(app.history))
   const popout = useSelector(({app}) => app.popout)
   const loading = useSelector(({app}) => app.loading)
+  const intro = useSelector(({app}) => app.intro)
 
   const popoutJSX = (loading && <ScreenSpinner size="large" />) || popout
+  const activeView = intro ? PAGES.INTRO : view
 
   return (
-    <Root activeView={view} popout={popoutJSX} modal={<RootModal/>}>
+    <Root activeView={activeView} popout={popoutJSX} modal={<RootModal/>}>
       <Intro id={PAGES.INTRO}/>
       <Main id={PAGES.MAIN}/>
       <Settings id={PAGES.SETTINGS}/>

@@ -2,7 +2,7 @@ import {
   BACK_HISTORY,
   HIDE_LOADER,
   PUSH_HISTORY,
-  SET_INITIALIZATION,
+  SET_INITIALIZATION, SET_INTRO,
   SET_POPOUT,
   SET_SNACKBAR,
   SET_TIMEZONE,
@@ -18,7 +18,8 @@ const initialState = {
   history: [{view: 'main', epic: 'wallets', modal: null}],
   popout: null,
   timezone: 0,
-  snackbar: null
+  snackbar: null,
+  intro: false
 }
 
 const handlers = {
@@ -31,6 +32,7 @@ const handlers = {
   [SET_TIMEZONE]: (state, {payload}) => ({...state, timezone: payload}),
   [SET_SNACKBAR]: (state, {payload}) => ({...state, snackbar: payload}),
   [SET_POPOUT]: (state, {payload}) => ({...state, popout: payload}),
+  [SET_INTRO]: (state, {payload}) => ({...state, intro: payload}),
   DEFAULT: state => state
 }
 

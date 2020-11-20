@@ -3,7 +3,7 @@ import bridge from '@vkontakte/vk-bridge'
 import {useDispatch} from 'react-redux'
 import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
-import {hideLoader, nextPage, setInitialization
+import {hideLoader, setInitialization, setIntro
 } from './store/actions/appActions'
 
 
@@ -25,7 +25,7 @@ async function showIntro(dispatch) {
   const intro = await bridge.send('VKWebAppStorageGet', {'keys': ['intro']})
   const isShowed = intro.keys[0].value
   if (!isShowed) {
-    dispatch(nextPage({view: 'intro'}))
+    dispatch(setIntro(true))
     bridge.send('VKWebAppStorageSet', {
       'key': 'intro',
       'value': 'true'

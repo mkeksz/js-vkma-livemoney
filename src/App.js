@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {hideLoader, setInitialization} from './store/actions/appActions'
 import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
+import {hideLoader, setInitialization} from './store/actions/appActions'
 
 
 export const App = () => {

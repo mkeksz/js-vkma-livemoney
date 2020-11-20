@@ -1,14 +1,31 @@
 .Intro
-  background: var(--accent)
-  background: linear-gradient(180deg, var(--accent), rgba(63, 138, 224, 1) 60%, rgba(70, 122, 217, 1) 80%, rgba(70, 122, 217, 1) 100%)
+  background-color: var(--background_content)
   height: 100vh
   position: absolute
   top: 0
   left: 0
   width: 100vw
 
-  h2
-    color: #fff
-
-  & .gallery
+  .gallery
     height: calc(100% - 60px)
+
+.Intro__light
+  background: var(--accent)
+  background: linear-gradient(180deg, var(--accent), rgba(63, 138, 224, 1) 60%, rgba(70, 122, 217, 1) 80%, rgba(70, 122, 217, 1) 100%)
+
+
+.slide
+  display: flex
+  flex-direction: column
+  place-items: center
+  place-content: center
+  height: 100%
+  >p,>h2
+    text-align: center
+    color: #fff
+    padding: 0 20px
+  >h2
+    font-size: 1.5rem
+  >p
+    font-size: 1.4rem
+    font-weight: bold

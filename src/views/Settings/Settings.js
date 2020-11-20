@@ -34,8 +34,13 @@ export const Settings = () => {
         </SimpleCell>
       </Group>
       <Group className={classes.lastGroup}>
-        <SimpleCell href="#" expandable before={<Icon28HelpOutline />}>
-          Помощь
+        <SimpleCell
+          href="https://vk.com/mybudgets"
+          expandable
+          before={<Icon28HelpOutline />}
+          target='_blank'
+        >
+          Сообщество
         </SimpleCell>
       </Group>
     </RootPanel>

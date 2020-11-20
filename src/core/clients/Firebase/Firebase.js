@@ -2,7 +2,7 @@ import {StateProcessor as SP} from '@/core/StateProcessor'
 import {mapAnalytics, mapOperations} from './firebase.functions'
 
 
-const baseURL = 'http://localhost:5001/vkma-livemoney/europe-west6/'
+const baseURL = 'https://europe-west6-vkma-livemoney.cloudfunctions.net/'
 
 export default class Firebase {
   async getAuthData() {
@@ -70,7 +70,7 @@ export default class Firebase {
 
     resJSON.result.analytics = mapAnalytics(resJSON.result.analytics)
     resJSON.result.operations = mapOperations(resJSON.result.operations)
-    return resJSON.result
+    return resJSON
   }
 
   async saveCategory(category) {

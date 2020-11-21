@@ -1,8 +1,9 @@
 import {stringToNumber} from '@/core/utils/number'
-import {MAX_LENGTH_INPUT_BALANCE} from '@/constants/constants'
+import {MAX_BALANCE, MAX_LENGTH_INPUT_BALANCE} from '@/constants/constants'
 
 export function currencyFilter(value, icon = true) {
   value = stringToNumber(value)
+  if (value > MAX_BALANCE) value = MAX_BALANCE
   icon = icon ? ' ₽' : ''
 
   const options = {style: 'decimal', maximumFractionDigits: 2}

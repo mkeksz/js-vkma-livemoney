@@ -1,11 +1,12 @@
-import React, {useMemo} from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {useDispatch, useSelector} from 'react-redux'
 import {Gallery} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {CardWallet} from './CardWallet/CardWallet'
 import {setPageOptions} from '@/store/actions/pagesActions'
-import {getInitialSlide, getSharedWallet} from './walletsGallery.functions'
+import {useInitialSlide, useSharedWallet, useSlide
+} from './walletsGallery.hooks'
 import classes from './WalletsGallery.module.sass'
 
 
@@ -13,11 +14,14 @@ export const WalletsGallery = ({wallets}) => {
   const dispatch = useDispatch()
 
   const _initSlide = useSelector(({pages}) => pages[PAGES.WALLETS].initialSlide)
-  const initialSlide = getInitialSlide(_initSlide, wallets)
+  const initialSlide = useInitialSlide(_initSlide, wallets)
+  const [curSlide, setCurSlide] = useState(initialSlide)
+  const slide = useSlide(curSlide, wallets.length + 1)
 
-  const sharedWallet = useMemo(() => getSharedWallet(wallets), [wallets])
+  const sharedWallet = useSharedWallet(wallets)
 
   const onChangeSlide = index => {
+    setCurSlide(index)
     dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: index}))
   }
 
@@ -29,6 +33,7 @@ export const WalletsGallery = ({wallets}) => {
       bullets={false}
       className={classes.GalleryWallets}
       onChange={onChangeSlide}
+      slideIndex={slide}
     >
       <CardWallet type="new"/>
       <CardWallet

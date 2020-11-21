@@ -12,11 +12,3 @@ export function getSharedWallet(wallets) {
     visibleRealBalance: false
   })
 }
-
-export function getInitialSlide(initialSlide, wallets) {
-  const MAX_DEFAULT_SLIDE_INDEX = 1
-
-  return initialSlide > wallets.length + MAX_DEFAULT_SLIDE_INDEX
-    ? wallets.length + MAX_DEFAULT_SLIDE_INDEX
-    : initialSlide
-}

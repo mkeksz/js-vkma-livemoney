@@ -15,6 +15,8 @@ export const MAX_LENGTH_DESCRIPTION_OPERATION = 30
 
 export const MAX_LENGTH_TITLE_CATEGORY = 30
 
+export const MAX_BALANCE = 999999999999.99
+
 export const PAGES = {
   WALLETS: 'wallets',
   WALLET: 'wallet',

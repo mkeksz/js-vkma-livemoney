@@ -19,7 +19,10 @@ export const WalletForm = () => {
 
   const changeBalanceHandler = ({currentTarget}) => {
     dispatch(setPageOptions(PAGES.WALLET, {
-      wallet: {...wallet, balance: inputBalanceFilter(currentTarget.value)}
+      wallet: {
+        ...wallet,
+        balance: inputBalanceFilter(currentTarget.value, true)
+      }
     }))
   }
 
@@ -39,9 +42,9 @@ export const WalletForm = () => {
           type="text"
           inputMode="numeric"
           name="balanceCard"
-          maxLength={MAX_LENGTH_INPUT_BALANCE}
+          maxLength={MAX_LENGTH_INPUT_BALANCE + 1}
           placeholder="Текущий баланс"
-          value={wallet.balance || ''}
+          value={inputBalanceFilter(wallet.balance, true) || ''}
           onChange={changeBalanceHandler}
         />
       </FormLayoutGroup>

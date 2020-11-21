@@ -18,7 +18,7 @@ export const CategoryBudget = () => {
         value={category.budget || ''}
         name="budget"
         onChange={onChange}
-        placeholder="Без бюджета"
+        placeholder="Бюджет на месяц"
         inputMode="numeric"
       />
     </FormLayoutGroup>

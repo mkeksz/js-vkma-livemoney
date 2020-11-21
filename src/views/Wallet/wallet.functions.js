@@ -44,15 +44,15 @@ export function save(wallet) {
   if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
   dispatch(saveWallet(newWallet))
   saveWal(newWallet)
-  close(true)
+  close(!isEdit)
 }
 
 export function getTitle(isEdit) {
   return isEdit ? 'Счёт' : 'Новый счёт'
 }
 
-function close(isSave = false) {
-  if (isSave) {
+function close(isNew = false) {
+  if (isNew) {
     const slides = getState().wallets.length
     dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: slides + 1}))
   }

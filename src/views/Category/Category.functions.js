@@ -38,10 +38,6 @@ export function del(id, type) {
   dispatch(setPopout(popout))
 }
 
-export function getHeader(isEdit) {
-  return isEdit ? 'Редактирование категории' : 'Новая категория'
-}
-
 function close() {
   const lastPage = getLast(getState().app.history)
   store.dispatch(hideLoader())

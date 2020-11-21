@@ -6,7 +6,7 @@ import {ButtonDelete} from '@/components/UI/ButtonDelete/ButtonDelete'
 import {ButtonSave} from '@/components/UI/ButtonSave/ButtonSave'
 import {CategoryName} from './CategoryName/CategoryName'
 import {CategoryBudget} from './CategoryBudget/CategoryBudget'
-import {del, getHeader, save} from './Category.functions'
+import {del, save} from './Category.functions'
 import {RootPanel} from '@/roots/RootPanel/RootPanel'
 
 
@@ -19,7 +19,7 @@ export const Category = () => {
   const onDelete = () => del(category.id, type)
 
   return (
-    <RootPanel header={{back: true, content: getHeader(isEdit)}} fixed={true}>
+    <RootPanel header={{back: true, content: 'Категория'}} fixed={true}>
       <FormLayout>
         <CategoryName/>
         {type === TYPES_CATEGORY.EXPENSE && <CategoryBudget/>}

@@ -13,7 +13,7 @@ export const MAX_OPERATIONS_PER_DAY = 500
 
 export const MAX_LENGTH_DESCRIPTION_OPERATION = 30
 
-export const MAX_LENGTH_TITLE_CATEGORY = 50
+export const MAX_LENGTH_TITLE_CATEGORY = 30
 
 export const PAGES = {
   WALLETS: 'wallets',

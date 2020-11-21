@@ -1,4 +1,4 @@
-import {PAGES} from '@/constants/constants'
+import {MAX_LENGTH_TITLE_CATEGORY, PAGES} from '@/constants/constants'
 import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
 import {nextPage, prevPage} from '@/store/actions/appActions'
 import store from '@/store/store'
@@ -22,6 +22,9 @@ export function openModalIcons() {
 
 export function changeTitle(title) {
   const category = getState().pages[PAGES.CATEGORY].category
-  const options = {category: {...category, title}}
+  const options = {category: {
+    ...category,
+    title: title.slice(0, MAX_LENGTH_TITLE_CATEGORY)
+  }}
   dispatch(setPageOptions(PAGES.CATEGORY, options))
 }

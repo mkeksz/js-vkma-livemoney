@@ -47,7 +47,7 @@ export function save(wallet) {
 }
 
 export function getTitle(isEdit) {
-  return isEdit ? 'Редактирование счёта' : 'Создание счёта'
+  return isEdit ? 'Счёт' : 'Новый счёт'
 }
 
 function close() {

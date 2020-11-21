@@ -13,7 +13,7 @@ export const WalletForm = () => {
 
   const changeTitleHandler = ({currentTarget}) => {
     dispatch(setPageOptions(PAGES.WALLET, {
-      wallet: {...wallet, title: currentTarget.value}
+      wallet: {...wallet, title: currentTarget.value.slice(0, MAX_TITLE_WALLET)}
     }))
   }
 

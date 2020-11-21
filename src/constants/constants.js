@@ -9,7 +9,7 @@ export const MAX_CATEGORIES = 20
 
 export const MAX_LENGTH_INPUT_BALANCE = 15
 
-export const MAX_OPERATIONS_PER_DAY = 500
+export const MAX_OPERATIONS_PER_DAY = 250
 
 export const MAX_LENGTH_DESCRIPTION_OPERATION = 30
 

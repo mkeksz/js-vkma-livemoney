@@ -3,14 +3,14 @@ import {MAX_CHOOSED_DAY as MD} from '@/views/Operation/operation.constants'
 import {PAGES, TYPES_OPERATION} from '@/constants/constants'
 import {stringToNumber as stringToNum} from '@/core/utils/number'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
-import {deleteOperation, saveOperation} from '@/stateManager'
+import {deleteOperation, saveOperation as saveOp} from '@/stateManager'
 import {toSaveDate} from '@/core/utils/date'
-import {hideLoader, prevPage, setPopout, showLoader
-} from '@/store/actions/appActions'
+import {prevPage, setPopout} from '@/store/actions/appActions'
+import {removeOperation, saveOperation} from '@/store/actions/operationsActions'
 import store from '@/store/store'
 
 
-const {dispatch, getState} = store
+const {dispatch} = store
 
 export function save(operation, difDates) {
   const choosedDate = store.getState().pages[PAGES.OPERATION].choosedDate
@@ -25,15 +25,16 @@ export function save(operation, difDates) {
     type: getTypeOperation(_op),
     date: _op.date.toISOString()
   }
-
-  dispatch(showLoader())
-  saveOperation(_operation).then(close)
+  dispatch(saveOperation(_operation))
+  saveOp(_operation)
+  close()
 }
 
 export function del(operationID) {
   const action = () => {
-    dispatch(showLoader())
-    deleteOperation(operationID).then(close)
+    dispatch(removeOperation(operationID))
+    deleteOperation(operationID)
+    close()
   }
 
   const popout = (
@@ -60,8 +61,6 @@ export function getTypeOperation(operation) {
 }
 
 function close() {
-  const isLastPage = getState().app.history.length <= 1
-  store.dispatch(hideLoader())
-  if (!isLastPage) store.dispatch(prevPage())
+  store.dispatch(prevPage())
 }
 

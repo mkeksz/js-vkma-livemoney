@@ -3,11 +3,10 @@ import {PAGES} from '@/constants/constants'
 import {DEFAULT_TITLE} from '@/views/Wallet/wallet.constants'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {setPageOptions} from '@/store/actions/pagesActions'
-import {hideLoader, prevPage, setPopout, showLoader
-} from '@/store/actions/appActions'
-import {deleteWallet, saveWallet} from '@/stateManager'
+import {prevPage, setPopout} from '@/store/actions/appActions'
+import {deleteWallet, saveWallet as saveWal} from '@/stateManager'
 import {stringToNumber} from '@/core/utils/number'
-import {getLast} from '@/core/utils/array'
+import {removeWallet, saveWallet} from '@/store/actions/walletsActions'
 import store from '@/store/store'
 
 
@@ -15,8 +14,9 @@ const {dispatch, getState} = store
 
 export function del(walletID) {
   const action = () => {
-    dispatch(showLoader())
-    deleteWallet(walletID).then(close)
+    dispatch(removeWallet(walletID))
+    deleteWallet(walletID)
+    close()
   }
 
   const popout = (
@@ -30,7 +30,6 @@ export function del(walletID) {
 }
 
 export function save(wallet) {
-  dispatch(showLoader())
   const colors = getState().colors
 
   const isEdit = !!wallet.id
@@ -43,15 +42,19 @@ export function save(wallet) {
   }
 
   if (!isEdit) dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: 1}))
-  saveWallet(newWallet).then(close)
+  dispatch(saveWallet(newWallet))
+  saveWal(newWallet)
+  close(!isEdit)
 }
 
 export function getTitle(isEdit) {
   return isEdit ? 'Счёт' : 'Новый счёт'
 }
 
-function close() {
-  const lastPage = getLast(getState().app.history)
-  store.dispatch(hideLoader())
-  if (lastPage.view === PAGES.WALLET) store.dispatch(prevPage())
+function close(isNew = false) {
+  if (isNew) {
+    const slides = getState().wallets.length
+    dispatch(setPageOptions(PAGES.WALLETS, {initialSlide: slides + 1}))
+  }
+  dispatch(prevPage())
 }

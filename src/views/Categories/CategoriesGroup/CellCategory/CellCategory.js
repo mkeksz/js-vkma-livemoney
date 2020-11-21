@@ -13,16 +13,20 @@ export const CellCategory = ({isNew = false, category = {}, onClick}) => {
 
   const cls = [classes.CellCategory]
   if (isNew) cls.push(classes.CellCategory_new)
+  else if (category.disabled) cls.push(classes.CellCategory_disabled)
 
   const type = getType(isNew)
   const title = getTitle(isNew, category)
+
+  const onClck = () => category.disabled ? null : onClick()
 
   return (
     <>
       {!isNew && <Separator className={classes.separator}/>}
       <SimpleCell
+        disabled={category.disabled || false}
         className={cls.join(' ')}
-        onClick={onClick}
+        onClick={onClck}
         before={<IconCircle color={color} icon={category.icon} type={type}/>}
         after={
           <div className={classes.budget}>

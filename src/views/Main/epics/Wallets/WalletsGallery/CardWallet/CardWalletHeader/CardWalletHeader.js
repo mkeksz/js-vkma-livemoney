@@ -31,7 +31,7 @@ export const CardWalletHeader = ({options, styles, isShared = false}) => {
       >
         {options.title}
       </Title>
-      {!isShared && (
+      {!isShared && !options.disabled && (
         <div className={`${classes.icon} ${classes.edit}`} onClick={onEdit}>
           <Icon24Write width={27} height={27} style={{color: styles.color}}/>
         </div>

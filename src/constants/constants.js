@@ -9,11 +9,13 @@ export const MAX_CATEGORIES = 20
 
 export const MAX_LENGTH_INPUT_BALANCE = 15
 
-export const MAX_OPERATIONS_PER_DAY = 500
+export const MAX_OPERATIONS_PER_DAY = 250
 
 export const MAX_LENGTH_DESCRIPTION_OPERATION = 30
 
 export const MAX_LENGTH_TITLE_CATEGORY = 30
+
+export const MAX_BALANCE = 999999999999.99
 
 export const PAGES = {
   WALLETS: 'wallets',

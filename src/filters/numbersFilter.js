@@ -1,19 +1,26 @@
 import {stringToNumber} from '@/core/utils/number'
-import {MAX_LENGTH_INPUT_BALANCE} from '@/constants/constants'
+import {MAX_BALANCE, MAX_LENGTH_INPUT_BALANCE} from '@/constants/constants'
 
 export function currencyFilter(value, icon = true) {
   value = stringToNumber(value)
+  if (value > MAX_BALANCE) value = MAX_BALANCE
+  else if (value < -MAX_BALANCE) value = -MAX_BALANCE
   icon = icon ? ' ₽' : ''
 
   const options = {style: 'decimal', maximumFractionDigits: 2}
   return new Intl.NumberFormat('ru-RU', options).format(value) + icon
 }
 
-export function inputBalanceFilter(value) {
+export function inputBalanceFilter(value, isMinus = false) {
   if (!value) return ''
   let result = value.toString()
 
   result = result.replace('.', ',')
+  let minus = ''
+  if (isMinus) {
+    result = result.replace(/[^-,\d]/g, '')
+    minus = result[0] === '-' ? '-' : ''
+  }
   result = result.replace(/[^,\d]/g, '')
 
   let newRes = result.split(',')
@@ -57,5 +64,5 @@ export function inputBalanceFilter(value) {
     }
   }
 
-  return result
+  return minus+result
 }

@@ -8,7 +8,7 @@ export function saveWallet(wallets, newWallet) {
 
   if (isEdit) {
     const index = _wallets.findIndex(w => w.id === newWallet.id)
-    _wallets[index] = newWallet
+    _wallets[index] = {...newWallet, disabled: true}
   } else {
     _wallets.push({...newWallet, id: _wallets.length, disabled: true})
   }

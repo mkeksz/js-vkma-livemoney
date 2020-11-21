@@ -1,32 +1,32 @@
 import React from 'react'
 import {DEFAULT_TITLE} from './Category.constants'
-import {hideLoader, prevPage, setPopout, showLoader
-} from '@/store/actions/appActions'
+import {prevPage, setPopout} from '@/store/actions/appActions'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {stringToNumber} from '@/core/utils/number'
-import {deleteCategory, saveCategory} from '@/stateManager'
+import {deleteCategory, saveCategory as saveCat} from '@/stateManager'
+import {removeCategory, saveCategory} from '@/store/actions/categoriesActions'
 import store from '@/store/store'
-import {getLast} from '@/core/utils/array'
-import {PAGES} from '@/constants/constants'
 
 
-const {dispatch, getState} = store
+const {dispatch} = store
 
 export function save(category, type) {
-  dispatch(showLoader())
   const newCategory = {
     ...category,
     type,
     title: category.title || DEFAULT_TITLE,
     budget: stringToNumber(category.budget)
   }
-  saveCategory(newCategory).then(close)
+  dispatch(saveCategory(newCategory))
+  saveCat(newCategory)
+  close()
 }
 
 export function del(id, type) {
   const action = () => {
-    dispatch(showLoader())
-    deleteCategory(id, type).then(close)
+    dispatch(removeCategory(id))
+    deleteCategory(id, type)
+    close()
   }
   const popout = (
     <PopoutAlert title='Удалить категорию?' button={{title: 'Удалить', action}}>
@@ -39,7 +39,5 @@ export function del(id, type) {
 }
 
 function close() {
-  const lastPage = getLast(getState().app.history)
-  store.dispatch(hideLoader())
-  if (lastPage.view === PAGES.CATEGORY) store.dispatch(prevPage())
+  store.dispatch(prevPage())
 }

@@ -23,8 +23,9 @@ export const RowBudget = ({category, maxBudget}) => {
   if (color === 'red') cls.push(classes.RowBudget_red)
   else if (color === 'orange') cls.push(classes.RowBudget_orange)
   else if (color === 'green') cls.push(classes.RowBudget_green)
+  if (category.disabled) cls.push(classes.RowBudget_disabled)
 
-  const onClick = () => click(category)
+  const onClick = () => category.disabled ? null : click(category)
 
   return (
     <div className={cls.join(' ')} onClick={onClick}>

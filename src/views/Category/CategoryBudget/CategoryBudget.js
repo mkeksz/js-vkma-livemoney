@@ -19,7 +19,7 @@ export const CategoryBudget = () => {
         name="budget"
         onChange={onChange}
         placeholder="Бюджет на месяц"
-        inputMode="numeric"
+        inputMode="decimal"
       />
     </FormLayoutGroup>
   )

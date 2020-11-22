@@ -16,7 +16,7 @@ export const InputAmount = ({refAmount}) => {
       <Div>
         <Input
           type="text"
-          inputMode="numeric"
+          inputMode="decimal"
           placeholder="Введите сумму"
           maxLength={MAX_LENGTH_INPUT_BALANCE}
           value={operation.amount || ''}

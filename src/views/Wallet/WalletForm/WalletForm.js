@@ -40,7 +40,7 @@ export const WalletForm = () => {
         />
         <Input
           type="text"
-          inputMode="numeric"
+          inputMode="decimal"
           name="balanceCard"
           maxLength={MAX_LENGTH_INPUT_BALANCE + 1}
           placeholder="Текущий баланс"

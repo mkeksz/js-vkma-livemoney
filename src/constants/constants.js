@@ -5,7 +5,7 @@ export const ICONS = icons
 export const MAX_WALLETS = 10
 export const MAX_TITLE_WALLET = 50
 
-export const MAX_CATEGORIES = 20
+export const MAX_CATEGORIES = 25
 export const MAX_LENGTH_TITLE_CATEGORY = 30
 
 export const MAX_OPERATIONS_PER_DAY = 250

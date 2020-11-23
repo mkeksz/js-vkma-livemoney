@@ -9,6 +9,7 @@ export const Analytics = () => {
     <RootPanel header={{content: 'Аналитика'}}>
       <AnalyticsBudget/>
       <AnalyticsTotal/>
+      <div style={{paddingTop: 20}}/>
     </RootPanel>
   )
 }

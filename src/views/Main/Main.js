@@ -1,7 +1,7 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
 import {Epic} from '@vkontakte/vkui'
-import {Icon28GraphOutline, Icon28ListOutline, Icon28PaymentCardOutline
+import {Icon28GraphOutline, Icon28ListOutline, Icon28WalletOutline
 } from '@vkontakte/icons'
 import {TabbarPanel} from '@/components/Navigation/TabbarPanel/TabbarPanel'
 import {Wallets} from './epics/Wallets/Wallets'
@@ -18,17 +18,17 @@ export const Main = () => {
     {
       id: PAGES.ANALYTICS,
       text: 'Аналитики',
-      icon: <Icon28GraphOutline />
+      icon: <Icon28GraphOutline/>
     },
     {
       id: PAGES.WALLETS,
       text: 'Кошелёк',
-      icon: <Icon28PaymentCardOutline />
+      icon: <Icon28WalletOutline/>
     },
     {
       id: PAGES.HISTORY,
       text: 'История',
-      icon: <Icon28ListOutline />
+      icon: <Icon28ListOutline/>
     }
   ]
 

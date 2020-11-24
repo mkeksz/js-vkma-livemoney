@@ -2,13 +2,14 @@ import {DIRECTION} from '@/views/Operation/operation.constants'
 import {PAGES} from '@/constants/constants'
 import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
 import {nextPage} from '@/store/actions/appActions'
+import {nextAnchor} from '@/views/Operation/operation.functions'
 import store from '@/store/store'
 
 
 const dispatch = store.dispatch
 const getState = store.getState
 
-export function clickItem(direction, type, id) {
+export function clickItem(direction, type, id, anchors) {
   const {operation} = getState().pages[PAGES.OPERATION]
 
   if (direction === DIRECTION.FROM) {
@@ -20,6 +21,7 @@ export function clickItem(direction, type, id) {
       operation: {...operation, to: {type, id}}
     }))
   }
+  nextAnchor(anchors)
 }
 
 export function clickNew(type) {

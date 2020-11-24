@@ -8,7 +8,7 @@ import {clickItem, clickNew, isChecked} from './groupItems.functions'
 import {useCategories} from './groupItems.hooks'
 
 
-export const GroupItems = ({type, direction}) => {
+export const GroupItems = ({type, direction, anchors}) => {
   const wallets = useSelector(({wallets}) => wallets)
   const {operation} = useSelector(({pages}) => pages[PAGES.OPERATION])
   const categories = useCategories(type)
@@ -17,7 +17,7 @@ export const GroupItems = ({type, direction}) => {
   const typeItem = type ? 'category' : 'wallet'
   const textNewItem = type ? 'Категория' : 'Счёт'
 
-  const onClickItem = (id) => clickItem(direction, typeItem, id)
+  const onClickItem = id => clickItem(direction, typeItem, id, anchors)
   const onClickNew = () => clickNew(type)
 
   return (
@@ -43,5 +43,6 @@ GroupItems.propTypes = {
     TYPES_CATEGORY.INCOME,
     null
   ]),
-  direction: PropTypes.oneOf([DIRECTION.FROM, DIRECTION.TO])
+  direction: PropTypes.oneOf([DIRECTION.FROM, DIRECTION.TO]),
+  anchors: PropTypes.object.isRequired
 }

@@ -1,19 +1,12 @@
 import React from 'react'
-import {useDispatch} from 'react-redux'
 import {Button, Div, Group} from '@vkontakte/vkui'
-import {PAGES, TYPES_OPERATION} from '@/constants/constants'
-import {clearPageOptions, setPageOptions} from '@/store/actions/pagesActions'
-import {nextPage} from '@/store/actions/appActions'
+import {TYPES_OPERATION} from '@/constants/constants'
+import {click} from './buttons.functions'
 import classes from './Buttons.module.sass'
 
-export const Buttons = () => {
-  const dispatch = useDispatch()
 
-  const onClickOperation = (type) => {
-    dispatch(clearPageOptions(PAGES.OPERATION))
-    dispatch(setPageOptions(PAGES.OPERATION, {operation: {type}}))
-    dispatch(nextPage({view: PAGES.OPERATION}))
-  }
+export const Buttons = () => {
+  const onClickOperation = type => click(type)
 
   return (
     <Group className={classes.group}>

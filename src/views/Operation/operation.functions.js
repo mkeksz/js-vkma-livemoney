@@ -10,7 +10,7 @@ import {removeOperation, saveOperation} from '@/store/actions/operationsActions'
 import store from '@/store/store'
 
 
-const {dispatch} = store
+const {dispatch, getState} = store
 
 export function save(operation, difDates) {
   const choosedDate = store.getState().pages[PAGES.OPERATION].choosedDate
@@ -27,14 +27,14 @@ export function save(operation, difDates) {
   }
   dispatch(saveOperation(_operation))
   saveOp(_operation)
-  close()
+  dispatch(prevPage())
 }
 
 export function del(operationID) {
   const action = () => {
     dispatch(removeOperation(operationID))
     deleteOperation(operationID)
-    close()
+    dispatch(prevPage())
   }
 
   const popout = (
@@ -60,7 +60,16 @@ export function getTypeOperation(operation) {
     : operation.type
 }
 
-function close() {
-  store.dispatch(prevPage())
-}
+const fixedHeaderHeight = 52
+export function nextAnchor(anchors) {
+  const operation = getState().pages[PAGES.OPERATION].operation
 
+  if (operation.from && !operation.to) {
+    const top = anchors.to.current.offsetTop - fixedHeaderHeight
+    window.scrollTo({top, behavior: 'smooth'})
+  } else if (operation.from && operation.to) {
+    const top = anchors.amount.current.offsetTop - fixedHeaderHeight
+    window.scrollTo({top, behavior: 'smooth'})
+    setTimeout(() => anchors.amountInput.current.focus(), 400)
+  }
+}

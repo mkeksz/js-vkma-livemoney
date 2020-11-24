@@ -6,13 +6,13 @@ import {DIRECTION} from '@/views/Operation/operation.constants'
 import {GroupItems} from './GroupItems/GroupItems'
 import classes from './ListItems.module.sass'
 
-export const ListItems = ({type, direction}) => {
+export const ListItems = ({type, direction, anchors}) => {
   return (
     <Div className={classes.ListItems}>
       {type && (
-        <GroupItems type={type} direction={direction}/>
+        <GroupItems type={type} direction={direction} anchors={anchors}/>
       )}
-      <GroupItems direction={direction}/>
+      <GroupItems direction={direction} anchors={anchors}/>
     </Div>
   )
 }
@@ -23,5 +23,6 @@ ListItems.propTypes = {
     TYPES_CATEGORY.INCOME,
     null
   ]),
-  direction: PropTypes.oneOf([DIRECTION.FROM, DIRECTION.TO])
+  direction: PropTypes.oneOf([DIRECTION.FROM, DIRECTION.TO]),
+  anchors: PropTypes.object.isRequired
 }

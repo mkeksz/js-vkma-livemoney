@@ -9,7 +9,7 @@ import {DateSelect} from './DateSelect/DateSelect'
 import {FromTo} from './FromTo/FromTo'
 import {InputAmount} from './InputAmount/InputAmount'
 import {InputDescription} from './InputDescription/InputDescription'
-import {useCorrectChoosedDate, useDifDates} from './operation.hooks'
+import {useCorrectChoosedDate, useDifDates, useScroll} from './operation.hooks'
 
 
 export const Operation = () => {
@@ -20,20 +20,24 @@ export const Operation = () => {
   const difDates = useDifDates(operation.date)
   if (isEdit) useCorrectChoosedDate(difDates)
 
-  const refAmount = useRef(null)
-  const anchors = {to: useRef(null), amount: useRef(null)}
+  const anchors = {
+    to: useRef(null),
+    amount: useRef(null),
+    amountInput: useRef(null)
+  }
+  useScroll(anchors)
 
   const onDelete = () => del(initOperation.id)
   const onSave = () => save(operation, difDates)
 
   return (
     <RootPanel header={{back: true, content: getTitle(operation.type)}}>
-      <FromTo anchorTo={anchors.to}/>
+      <FromTo anchors={anchors}/>
 
       <DateSelect/>
 
-      <div ref={refAmount}/>
-      <InputAmount refAmount={refAmount}/>
+      <div ref={anchors.amount}/>
+      <InputAmount refAmount={anchors.amountInput}/>
 
       <InputDescription/>
 

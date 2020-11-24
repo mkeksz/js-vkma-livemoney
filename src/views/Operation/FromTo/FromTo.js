@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {useSelector} from 'react-redux'
 import {Group, Header} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
@@ -7,7 +8,7 @@ import {ListItems} from './ListItems/ListItems'
 import {useTypes} from './fromTo.hooks'
 
 
-export const FromTo = () => {
+export const FromTo = ({anchors}) => {
   const {operation} = useSelector(({pages}) => pages[PAGES.OPERATION])
 
   const type = useTypes(operation.type)
@@ -15,12 +16,16 @@ export const FromTo = () => {
   return (
     <>
       <Group header={<Header>Откуда</Header>}>
-        <ListItems type={type.from} direction={D.FROM}/>
+        <ListItems type={type.from} direction={D.FROM} anchors={anchors}/>
       </Group>
-
+      <div ref={anchors.to}/>
       <Group header={<Header>Куда</Header>}>
-        <ListItems type={type.to} direction={D.TO}/>
+        <ListItems type={type.to} direction={D.TO} anchors={anchors}/>
       </Group>
     </>
   )
+}
+
+FromTo.propTypes = {
+  anchors: PropTypes.object.isRequired
 }

@@ -3,6 +3,7 @@ import {PAGES as P} from '@/constants/constants'
 import {useEffect, useMemo} from 'react'
 import {getDifDatesInDays} from '@/core/utils/date'
 import {setPageOptions} from '@/store/actions/pagesActions'
+import {nextAnchor} from '@/views/Operation/operation.functions'
 
 
 export function useDifDates(a) {
@@ -18,4 +19,10 @@ export function useCorrectChoosedDate(difDates) {
   useEffect(() => {
     dispatch(setPageOptions(P.OPERATION, {choosedDate: 7 - difDates}))
   }, [dispatch])
+}
+
+export function useScroll(anchors) {
+  useEffect(() => {
+    setTimeout(() => nextAnchor(anchors), 700)
+  }, [])
 }

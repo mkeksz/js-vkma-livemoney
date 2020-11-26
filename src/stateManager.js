@@ -21,7 +21,7 @@ const {dispatch, getState} = store
 export async function fetchInitData() {
   SP.params = location.search
   SP.parsedParams = parse(SP.params.slice(1))
-  SP.userID = SP.params['vk_user_id']
+  SP.userID = SP.parsedParams['vk_user_id']
 
   const authData = await SP.getAuthData()
   if (authData['error']) throw authData

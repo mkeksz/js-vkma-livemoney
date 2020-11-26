@@ -9,7 +9,11 @@ export const RootPanel = ({children, header = null, centered, fixed}) => (
   <View activePanel="main">
     <Panel id="main" centered={centered} className={fixed && classes.fixed}>
       {header && (
-        <HeaderPanel back={header.back} separator={header.separator}>
+        <HeaderPanel
+          back={header.back}
+          btnShare={header.btnShare}
+          separator={header.separator}
+        >
           {header.content}
         </HeaderPanel>
       )}

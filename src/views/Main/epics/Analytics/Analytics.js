@@ -6,7 +6,7 @@ import {AnalyticsTotal} from './AnalyticsTotal/AnalyticsTotal'
 
 export const Analytics = () => {
   return (
-    <RootPanel header={{content: 'Аналитика'}}>
+    <RootPanel header={{content: 'Аналитика', btnShare: true}}>
       <AnalyticsBudget/>
       <AnalyticsTotal/>
       <div style={{paddingTop: 20}}/>

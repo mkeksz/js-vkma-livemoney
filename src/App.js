@@ -26,9 +26,9 @@ async function showIntro(dispatch) {
   const isShowed = intro.keys[0].value
   if (!isShowed) {
     dispatch(setIntro(true))
-    bridge.send('VKWebAppStorageSet', {
+    await bridge.send('VKWebAppStorageSet', {
       'key': 'intro',
       'value': 'true'
-    }).then()
+    })
   }
 }

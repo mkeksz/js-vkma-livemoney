@@ -16,6 +16,7 @@ const initialState = {
   loading: true,
   initialization: true,
   history: [{view: 'main', epic: 'wallets', modal: null}],
+  timeBack: 0,
   popout: null,
   timezone: 0,
   snackbar: null,

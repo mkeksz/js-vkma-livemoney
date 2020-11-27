@@ -9,7 +9,9 @@ import {nextPage} from '@/store/actions/appActions'
 export const TabbarPanel = ({activeStory, items}) => {
   const dispatch = useDispatch()
 
-  const onClick = (id) => dispatch(nextPage({view: PAGES.MAIN, epic: id}))
+  const onClick = id => {
+    if (id !== activeStory) dispatch(nextPage({view: PAGES.MAIN, epic: id}))
+  }
 
   return (
     <Tabbar shadow={true}>

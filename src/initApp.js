@@ -6,9 +6,13 @@ import {fab} from '@fortawesome/free-brands-svg-icons'
 import {fas} from '@fortawesome/free-solid-svg-icons'
 import {far} from '@fortawesome/free-regular-svg-icons'
 import {bridgeInit} from '@/core/bridge'
-import {prevPage} from '@/store/actions/appActions'
+import {prevPage, setPopout} from '@/store/actions/appActions'
 import {App} from '@/App'
 import store from '@/store/store'
+import {getLast} from '@/core/utils/array'
+
+
+const {dispatch, getState} = store
 
 export default function initApp() {
   library.add(fab, fas, far)
@@ -20,5 +24,16 @@ export default function initApp() {
   ), document.getElementById('root'))
 
   bridgeInit()
-  window.addEventListener('popstate', () => store.dispatch(prevPage()))
+  window.addEventListener('popstate', e => {
+    const timeBack = getState().app.timeBack
+    const _history = getState().app.history
+    const lastHistory = getLast(_history)
+    if (lastHistory.view !== 'main' && (timeBack - Date.now()) > -650) {
+      history.forward()
+      return
+    }
+
+    dispatch(prevPage())
+    dispatch(setPopout(null))
+  })
 }

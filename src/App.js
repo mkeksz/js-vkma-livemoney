@@ -5,17 +5,17 @@ import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
 import {hideLoader, setInitialization, setIntro
 } from './store/actions/appActions'
+import store from '@/store/store'
 
+
+const {dispatch} = store
 
 export const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    initData()
     showIntro(dispatch)
-    fetchInitData().then(() => {
-      dispatch(setInitialization(false))
-      dispatch(hideLoader())
-    })
   }, [dispatch])
 
   return <RootView/>
@@ -31,4 +31,11 @@ async function showIntro(dispatch) {
       'value': 'true'
     })
   }
+}
+
+function initData() {
+  fetchInitData().then(() => {
+    dispatch(setInitialization(false))
+    dispatch(hideLoader())
+  }).catch(initData)
 }

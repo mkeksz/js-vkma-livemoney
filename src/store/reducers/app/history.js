@@ -23,5 +23,5 @@ export function backToHistory(state) {
   }
   const history = [...state.history]
   history.pop()
-  return {...state, history}
+  return {...state, history, timeBack: Date.now()}
 }

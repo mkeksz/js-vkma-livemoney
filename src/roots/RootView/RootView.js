@@ -15,9 +15,7 @@ import {getLast} from '@/core/utils/array'
 
 export const RootView = () => {
   const {view} = useSelector(({app}) => getLast(app.history))
-  const popout = useSelector(({app}) => app.popout)
-  const loading = useSelector(({app}) => app.loading)
-  const intro = useSelector(({app}) => app.intro)
+  const {popout, loading, intro} = useSelector(({app}) => app)
 
   const popoutJSX = (loading && <ScreenSpinner size="large" />) || popout
   const activeView = intro ? PAGES.INTRO : view

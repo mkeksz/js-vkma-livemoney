@@ -67,7 +67,7 @@ export function nextAnchor(anchors) {
   if (operation.from && !operation.to) {
     const top = anchors.to.current.offsetTop - fixedHeaderHeight
     window.scrollTo({top, behavior: 'smooth'})
-  } else if (operation.from && operation.to) {
+  } else if (operation.from && operation.to && operation.id) {
     const top = anchors.amount.current.offsetTop - fixedHeaderHeight
     window.scrollTo({top, behavior: 'smooth'})
     setTimeout(() => anchors.amountInput.current.focus(), 400)

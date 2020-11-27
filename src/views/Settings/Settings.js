@@ -19,11 +19,6 @@ export const Settings = () => {
 
   return (
     <RootPanel header={{back: true, content: 'Настройки'}} fixed={true}>
-      {/* <Group header={<Header mode="primary">Уведомления</Header>}>*/}
-      {/*  <Cell asideContent={<Switch defaultChecked />}>*/}
-      {/*    Ежедневное напоминание*/}
-      {/*  </Cell>*/}
-      {/* </Group>*/}
       <Group>
         <SimpleCell
           onClick={onClickCategories}

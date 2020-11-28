@@ -1,4 +1,5 @@
 import {bridgeAppClose, disableSwipeBack, enableSwipeBack} from '@/core/bridge'
+import {getLast} from '@/core/utils/array'
 
 
 export function pushToHistory(state, payload) {
@@ -13,8 +14,8 @@ export function pushToHistory(state, payload) {
   const newHistory = [...oldHistory, nextHistory]
   if (newHistory.length > 10) newHistory.shift()
 
-  if (newHistory.length === 2) enableSwipeBack()
-  window.history.pushState({...nextHistory, popout: null}, nextHistory.view)
+  if (getLast(newHistory).view !== 'main') disableSwipeBack()
+  window.history.pushState({...nextHistory}, nextHistory.view)
   return {...state, history: newHistory}
 }
 
@@ -22,8 +23,9 @@ export function backToHistory(state) {
   if (state.history.length === 1) {
     bridgeAppClose()
     return state
-  } else if (state.history.length === 2) disableSwipeBack()
+  }
   const history = [...state.history]
   history.pop()
+  if (getLast(history).view === 'main') enableSwipeBack()
   return {...state, history, timeBack: Date.now()}
 }

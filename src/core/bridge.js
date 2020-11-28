@@ -6,7 +6,6 @@ import storage from '@/core/utils/storage'
 
 export function bridgeInit() {
   bridge.send('VKWebAppInit')
-  bridge.send('VKWebAppEnableSwipeBack')
   showSendToClient()
   bridge.subscribe(event => {
     const {type, data} = event.detail

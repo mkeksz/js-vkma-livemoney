@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {useSelector} from 'react-redux'
 import {ConfigProvider, Root, ScreenSpinner} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
@@ -11,17 +12,20 @@ import {Operation} from '@/views/Operation/Operation'
 import {Category} from '@/views/Category/Category'
 import {Wallet} from '@/views/Wallet/Wallet'
 import {getLast} from '@/core/utils/array'
+import {PlaceholderIOS} from '@/views/PlaceholderIOS/PlaceholderIOS'
 
 
-export const RootView = () => {
+export const RootView = ({isIOS}) => {
   const {view} = useSelector(({app}) => getLast(app.history))
   const {popout, loading, intro} = useSelector(({app}) => app)
 
   const popoutJSX = (loading && <ScreenSpinner size="large" />) || popout
-  const activeView = intro ? PAGES.INTRO : view
+  let activeView = intro ? PAGES.INTRO : view
+
+  if (isIOS) activeView = 'placeholderIOS'
 
   return (
-    <ConfigProvider isWebView={true}>
+    <ConfigProvider>
       <Root activeView={activeView} popout={popoutJSX} modal={<RootModal/>}>
         <Intro id={PAGES.INTRO}/>
         <Main id={PAGES.MAIN}/>
@@ -30,7 +34,12 @@ export const RootView = () => {
         <Operation id={PAGES.OPERATION}/>
         <Category id={PAGES.CATEGORY}/>
         <Wallet id={PAGES.WALLET}/>
+        <PlaceholderIOS id='placeholderIOS'/>
       </Root>
     </ConfigProvider>
   )
+}
+
+RootView.propTypes = {
+  isIOS: PropTypes.bool
 }

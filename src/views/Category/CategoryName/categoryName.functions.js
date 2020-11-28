@@ -15,7 +15,11 @@ export function openModalIcons() {
     dispatch(setPageOptions(PAGES.CATEGORY, {category: {...category, icon}}))
     dispatch(prevPage())
   }
-  dispatch(setPageOptions(PAGES.MODAL_ICONS, {icon: category.icon, onClick}))
+  dispatch(setPageOptions(PAGES.MODAL_ICONS, {
+    icon: category.icon,
+    emptyIcon: false,
+    onClick
+  }))
 
   dispatch(nextPage({modal: PAGES.MODAL_ICONS}))
   dispatch(setTimeBack(Date.now()))

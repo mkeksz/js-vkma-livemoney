@@ -1,20 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {useSelector} from 'react-redux'
 import {Caption} from '@vkontakte/vkui'
-import {ICONS} from '@/constants/constants'
+import {ICONS, PAGES} from '@/constants/constants'
 import {getColorCategory} from '@/shared/categories'
 import {IconCircle} from '@/components/UI/IconCircle/IconCircle'
 import {Icon} from '@/components/UI/Icon/Icon'
 import classes from './ItemOperation.module.sass'
 
 
-export const ItemOperation = ({type, text, item, onClick, checked}) => {
+export const ItemOperation = ({type, text, item, onClick, checked, direction}
+) => {
+  const {operation} = useSelector(({pages}) => pages[PAGES.OPERATION])
+
   if (!item) item = {}
 
   const cls = [classes.ItemOperation]
-  if (item.disabled) cls.push(classes.ItemOperation_disabled)
+  let disabled = item.disabled
+  const altItem = direction === 'to' ? operation.from : operation.to
+  if (altItem.id === item.id && altItem.type === type) disabled = true
+  if (disabled) cls.push(classes.ItemOperation_disabled)
 
-  const onClck = () => !item.disabled && onClick()
+  const onClck = () => !disabled && onClick()
 
   return (
     <div className={cls.join(' ')} onClick={onClck}>
@@ -44,5 +51,6 @@ ItemOperation.propTypes = {
   text: PropTypes.string,
   item: PropTypes.object,
   checked: PropTypes.bool,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  direction: PropTypes.string
 }

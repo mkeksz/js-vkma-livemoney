@@ -45,7 +45,7 @@ export const Intro = () => {
             </p>
           </div>
           <div className={classes.slide}>
-            <p>Контроллируй расходы</p>
+            <p>Контролируй расходы</p>
             <p>Не выходи за рамки бюджета</p>
           </div>
           <div className={classes.slide}>

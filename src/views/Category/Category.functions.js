@@ -14,7 +14,7 @@ export function save(category, type) {
   const newCategory = {
     ...category,
     type,
-    title: category.title || DEFAULT_TITLE,
+    title: (category.title && category.title.trim()) || DEFAULT_TITLE,
     budget: stringToNumber(category.budget)
   }
   dispatch(saveCategory(newCategory))
@@ -32,7 +32,7 @@ export function del(id, type) {
     <PopoutAlert title='Удалить категорию?' button={{title: 'Удалить', action}}>
       Категорию нельзя будет восстановить.
       <br/>
-      Все операции связанные с этой категорией останутся.
+      Все операции, связанные с этой категорией, останутся.
     </PopoutAlert>
   )
   dispatch(setPopout(popout))

@@ -23,7 +23,7 @@ export function del(walletID) {
     <PopoutAlert title='Удалить счёт?' button={{title: 'Удалить', action}}>
       Кошелёк нельзя будет восстановить.
       <br/>
-      Все операции связанные с кошельком останутся.
+      Все операции, связанные с этим счётом, останутся.
     </PopoutAlert>
   )
   dispatch(setPopout(popout))
@@ -36,7 +36,7 @@ export function save(wallet) {
   const newWallet = {
     ...wallet,
     icon: wallet.icon || null,
-    title: wallet.title || DEFAULT_TITLE,
+    title: (wallet.title && wallet.title.trim()) || DEFAULT_TITLE,
     balance: stringToNumber(wallet.balance),
     styles: wallet.styles || colors[0]
   }

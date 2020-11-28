@@ -29,6 +29,7 @@ export const GroupItems = ({type, direction, anchors}) => {
           text={item.title}
           type={typeItem}
           checked={isChecked(operation[direction], item, typeItem)}
+          direction={direction}
           onClick={() => onClickItem(item.id)}
         />
       ))}

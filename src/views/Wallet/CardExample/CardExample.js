@@ -25,7 +25,8 @@ export const CardExample = () => {
       onClick: icon => {
         dispatch(setPageOptions(PAGES.WALLET, {wallet: {...wallet, icon}}))
         dispatch(prevPage())
-      }
+      },
+      emptyIcon: true
     }))
     dispatch(nextPage({modal: PAGES.MODAL_ICONS}))
     dispatch(setTimeBack(Date.now()))

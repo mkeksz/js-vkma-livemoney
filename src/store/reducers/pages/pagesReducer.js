@@ -1,5 +1,5 @@
 import {CLEAR_PAGE_OPTIONS, SET_PAGE_OPTIONS} from '@/store/types'
-import {PAGES, TYPES_CATEGORY} from '@/constants/constants'
+import {ICONS, PAGES, TYPES_CATEGORY} from '@/constants/constants'
 import getReducer from '@/store/getReducer'
 
 const initialState = {
@@ -19,7 +19,9 @@ const initialState = {
     date: null
   },
   [PAGES.CATEGORY]: {
-    category: {},
+    category: {
+      icon: ICONS.RUBLE_SIGN
+    },
     type: TYPES_CATEGORY.EXPENSE
   },
   [PAGES.OPERATION]: {

@@ -9,13 +9,15 @@ import classes from './ModalIcons.module.sass'
 
 
 export const ModalIcons = () => {
-  const {onClick} = useSelector(({pages}) => pages[PAGES.MODAL_ICONS])
+  const {onClick, emptyIcon} = useSelector(({pages}) =>
+    pages[PAGES.MODAL_ICONS])
   const icons = useSelector(({icons}) => icons)
+
 
   return (
     <ModalPage header={<HeaderModal>Выберите иконку</HeaderModal>}>
       <Div className={classes.ModalIcons}>
-        <div style={getStyle()} onClick={() => onClick(null)}/>
+        {emptyIcon && <div style={getStyle()} onClick={() => onClick(null)}/>}
         {icons.map(i => (
           <div key={i.id} onClick={() => onClick(i)} style={getStyle(i)}>
             <Icon icon={i}/>

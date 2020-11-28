@@ -14,7 +14,6 @@ export const RootModal = () => {
 
   const onCloseModal = () => dispatch(prevPage())
 
-
   return (
     <ModalRoot activeModal={modal} onClose={onCloseModal}>
       <ModalIcons id={PAGES.MODAL_ICONS}/>

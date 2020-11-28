@@ -2,7 +2,7 @@ import {
   BACK_HISTORY,
   HIDE_LOADER,
   PUSH_HISTORY, SET_INITIALIZATION, SET_INTRO, SET_POPOUT,
-  SET_SNACKBAR,
+  SET_SNACKBAR, SET_TIMEBACK,
   SET_TIMEZONE,
   SHOW_LOADER
 } from '../types'
@@ -35,4 +35,7 @@ export function setInitialization(bool) {
 }
 export function setIntro(bool) {
   return {type: SET_INTRO, payload: bool}
+}
+export function setTimeBack(time) {
+  return {type: SET_TIMEBACK, payload: time}
 }

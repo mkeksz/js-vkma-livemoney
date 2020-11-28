@@ -7,9 +7,9 @@ import {fas} from '@fortawesome/free-solid-svg-icons'
 import {far} from '@fortawesome/free-regular-svg-icons'
 import {bridgeInit} from '@/core/bridge'
 import {prevPage, setPopout} from '@/store/actions/appActions'
+import {getLast} from '@/core/utils/array'
 import {App} from '@/App'
 import store from '@/store/store'
-import {getLast} from '@/core/utils/array'
 
 
 const {dispatch, getState} = store
@@ -25,6 +25,12 @@ export default function initApp() {
 
   bridgeInit()
   window.addEventListener('popstate', e => {
+    const popout = getState().app.popout
+    if (popout) {
+      dispatch(setPopout(null))
+      return
+    }
+
     const timeBack = getState().app.timeBack
     const _history = getState().app.history
     const lastHistory = getLast(_history)
@@ -34,6 +40,5 @@ export default function initApp() {
     }
 
     dispatch(prevPage())
-    dispatch(setPopout(null))
   })
 }

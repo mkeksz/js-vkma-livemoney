@@ -32,3 +32,15 @@ export function showWallPostBox(text = LINK_APP, link = LINK_APP) {
     attachments: link
   }).catch(r => r)
 }
+
+export function storageSet(key, value) {
+  bridge.send('VKWebAppStorageSet', {key, value})
+}
+
+export function disableSwipeBack() {
+  bridge.send('VKWebAppDisableSwipeBack')
+}
+
+export function enableSwipeBack() {
+  bridge.send('VKWebAppEnableSwipeBack')
+}

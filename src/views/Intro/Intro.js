@@ -5,6 +5,7 @@ import {setIntro} from '@/store/actions/appActions'
 import {RootPanel} from '@/roots/RootPanel/RootPanel'
 import {useScheme, useLastSlide} from '@/views/Intro/intro.hooks'
 import classes from './Intro.module.sass'
+import {storageSet} from '@/core/bridge'
 
 
 const maxIndexSlide = 2
@@ -20,8 +21,10 @@ export const Intro = () => {
   if (scheme === 'light') cls.push(classes.Intro__light)
 
   const onClick = () => {
-    if (isLastSlide) dispatch(setIntro(false))
-    else setSlide(slide + 1)
+    if (isLastSlide) {
+      dispatch(setIntro(false))
+      storageSet('intro', 'true')
+    } else setSlide(slide + 1)
   }
   const onChange = index => setSlide(index)
 

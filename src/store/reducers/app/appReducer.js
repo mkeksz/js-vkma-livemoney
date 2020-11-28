@@ -1,12 +1,5 @@
-import {
-  BACK_HISTORY,
-  HIDE_LOADER,
-  PUSH_HISTORY,
-  SET_INITIALIZATION, SET_INTRO,
-  SET_POPOUT,
-  SET_SNACKBAR,
-  SET_TIMEZONE,
-  SHOW_LOADER
+import {BACK_HISTORY, HIDE_LOADER, PUSH_HISTORY, SET_INITIALIZATION, SET_INTRO,
+  SET_POPOUT, SET_SNACKBAR, SET_TIMEZONE, SET_TIMEBACK, SHOW_LOADER
 } from '../../types'
 import getReducer from '@/store/getReducer'
 import {backToHistory, pushToHistory} from './history'
@@ -34,6 +27,7 @@ const handlers = {
   [SET_SNACKBAR]: (state, {payload}) => ({...state, snackbar: payload}),
   [SET_POPOUT]: (state, {payload}) => ({...state, popout: payload}),
   [SET_INTRO]: (state, {payload}) => ({...state, intro: payload}),
+  [SET_TIMEBACK]: (state, {payload}) => ({...state, timeBack: payload}),
   DEFAULT: state => state
 }
 

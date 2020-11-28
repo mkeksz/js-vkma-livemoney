@@ -24,13 +24,7 @@ export const App = () => {
 async function showIntro(dispatch) {
   const intro = await bridge.send('VKWebAppStorageGet', {'keys': ['intro']})
   const isShowed = intro.keys[0].value
-  if (!isShowed) {
-    dispatch(setIntro(true))
-    await bridge.send('VKWebAppStorageSet', {
-      'key': 'intro',
-      'value': 'true'
-    })
-  }
+  if (!isShowed) dispatch(setIntro(true))
 }
 
 function initData() {

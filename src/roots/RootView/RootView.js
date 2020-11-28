@@ -1,6 +1,6 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {Root, ScreenSpinner} from '@vkontakte/vkui'
+import {ConfigProvider, Root, ScreenSpinner} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {RootModal} from '@/roots/RootModal/RootModal'
 import {Intro} from '@/views/Intro/Intro'
@@ -21,14 +21,16 @@ export const RootView = () => {
   const activeView = intro ? PAGES.INTRO : view
 
   return (
-    <Root activeView={activeView} popout={popoutJSX} modal={<RootModal/>}>
-      <Intro id={PAGES.INTRO}/>
-      <Main id={PAGES.MAIN}/>
-      <Settings id={PAGES.SETTINGS}/>
-      <Categories id={PAGES.CATEGORIES}/>
-      <Operation id={PAGES.OPERATION}/>
-      <Category id={PAGES.CATEGORY}/>
-      <Wallet id={PAGES.WALLET}/>
-    </Root>
+    <ConfigProvider isWebView={true}>
+      <Root activeView={activeView} popout={popoutJSX} modal={<RootModal/>}>
+        <Intro id={PAGES.INTRO}/>
+        <Main id={PAGES.MAIN}/>
+        <Settings id={PAGES.SETTINGS}/>
+        <Categories id={PAGES.CATEGORIES}/>
+        <Operation id={PAGES.OPERATION}/>
+        <Category id={PAGES.CATEGORY}/>
+        <Wallet id={PAGES.WALLET}/>
+      </Root>
+    </ConfigProvider>
   )
 }

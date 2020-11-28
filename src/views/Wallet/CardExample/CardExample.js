@@ -4,7 +4,7 @@ import {Card, Div, Title} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {DEFAULT_TITLE} from '../wallet.constants'
 import {currencyFilter} from '@/filters/numbersFilter'
-import {nextPage, prevPage} from '@/store/actions/appActions'
+import {nextPage, prevPage, setTimeBack} from '@/store/actions/appActions'
 import {setPageOptions} from '@/store/actions/pagesActions'
 import {SelectIcon} from '@/components/UI/SelectIcon/SelectIcon'
 import classes from './CardExample.module.sass'
@@ -28,6 +28,7 @@ export const CardExample = () => {
       }
     }))
     dispatch(nextPage({modal: PAGES.MODAL_ICONS}))
+    dispatch(setTimeBack(Date.now()))
   }
 
   return (

@@ -24,7 +24,9 @@ export const GroupBudget = ({analytic}) => {
       <Group
         style={{height: '100%', width: '90%', margin: 'auto'}}
         header={
-          <Header mode="secondary" style={{padding: 0}}>{dateHeader}</Header>
+          <Header mode="secondary" style={{padding: 0, userSelect: 'none'}}>
+            {dateHeader}
+          </Header>
         }
       >
         {monthBudgets.map(cat => (
@@ -34,12 +36,20 @@ export const GroupBudget = ({analytic}) => {
           <Header
             mode='secondary'
             aside={
-              <Caption level={1} className={classes.amountOther}>
+              <Caption
+                level={1}
+                style={{userSelect: 'none'}}
+                className={classes.amountOther}
+              >
                 {currencyFilter(otherAmount)}
               </Caption>
             }
           >
-            <Link className={classes.linkOther} onClick={onClickOther}>
+            <Link
+              style={{userSelect: 'none'}}
+              className={classes.linkOther}
+              onClick={onClickOther}
+            >
               Другое <Icon16Chevron width={18} height={18}/>
             </Link>
           </Header>

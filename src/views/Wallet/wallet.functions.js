@@ -72,7 +72,7 @@ export function getTitle(isEdit) {
 function close(isNew = false) {
   if (isNew) {
     const slides = getState().wallets.length
-    dispatch(setPageOptions(PAGES.WALLETS, {side: slides + 1}))
+    dispatch(setPageOptions(PAGES.WALLETS, {slide: slides + 1}))
   }
   dispatch(prevPage())
 }

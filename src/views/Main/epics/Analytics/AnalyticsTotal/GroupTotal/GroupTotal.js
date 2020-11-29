@@ -15,7 +15,9 @@ export const GroupTotal = ({analytic}) => {
       <Group
         style={{height: '100%', width: '90%', margin: 'auto'}}
         header={
-          <Header mode="secondary" style={{padding: 0}}>{dateHeader}</Header>
+          <Header mode="secondary" style={{padding: 0, userSelect: 'none'}}>
+            {dateHeader}
+          </Header>
         }
         separator='hide'
       />

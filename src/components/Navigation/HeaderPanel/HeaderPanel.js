@@ -10,6 +10,7 @@ import {getLast} from '@/core/utils/array'
 export const HeaderPanel = ({children, back, separator, btnShare}) => {
   const analytics = useSelector(({analytics}) => analytics)
   const amounts = analytics.length > 0 ? getLast(analytics).amounts : []
+
   const onClickBackSettings = () => click(back)
   const onClickShare = () => share(amounts)
 

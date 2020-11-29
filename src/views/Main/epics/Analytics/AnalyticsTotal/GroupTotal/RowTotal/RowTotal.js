@@ -22,8 +22,11 @@ export const RowTotal = ({type, amount, total}) => {
       style={{height: '100%', width: '90%', margin: 'auto'}}
     >
       <Header
+        style={{userSelect: 'none'}}
         aside={
-          <Subhead weight='regular'>{currencyFilter(amount)}</Subhead>
+          <Subhead style={{userSelect: 'none'}} weight='regular'>
+            {currencyFilter(amount)}
+          </Subhead>
         }
       >
         {title}

@@ -15,18 +15,16 @@ export function click(back) {
 
 
 function getTextShare(num) {
-  const textNum = `
-    Мои доходы превышают расходы на ${currencyFilter(num)}
+  const textNum = `Мои доходы превышают расходы на ${currencyFilter(num)}
     
-    Такого результата мне добиться помогло Мини-приложение "Мой бюджет"
-    Рекомендую!
+Такого результата мне добиться помогло Мини-приложение "Мой бюджет"
+Рекомендую!
     
-    ${LINK_APP}
-  `
+${LINK_APP}`
   const text = `Мои расходы уменьшились благодаря приложению "Мой бюджет"
-  Рекомендую!
+Рекомендую!
   
-  ${LINK_APP}`
+${LINK_APP}`
 
   return num <= 0 ? text : textNum
 }

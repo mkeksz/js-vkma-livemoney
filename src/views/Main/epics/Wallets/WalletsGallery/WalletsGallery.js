@@ -12,7 +12,8 @@ import classes from './WalletsGallery.module.sass'
 export const WalletsGallery = ({wallets}) => {
   const dispatch = useDispatch()
 
-  const slide = useSelector(({pages}) => pages[PAGES.WALLETS].slide)
+  let slide = useSelector(({pages}) => pages[PAGES.WALLETS].slide)
+  if (slide > wallets.length + 1) slide = wallets.length + 1
   const sharedWallet = useSharedWallet(wallets)
 
   const onChangeSlide = index => {

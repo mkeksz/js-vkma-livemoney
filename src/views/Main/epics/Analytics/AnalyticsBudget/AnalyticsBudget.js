@@ -25,7 +25,10 @@ export const AnalyticsBudget = () => {
 
   return budgets.length > 0 && (
     <div style={{marginBottom: 40}}>
-      <Header aside={<Link onClick={onClickSettings}>Настроить</Link>}>
+      <Header
+        style={{userSelect: 'none'}}
+        aside={<Link onClick={onClickSettings}>Настроить</Link>}
+      >
         Бюджеты
       </Header>
       <Gallery

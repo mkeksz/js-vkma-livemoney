@@ -28,6 +28,7 @@ export default function initApp() {
     const popout = getState().app.popout
     if (popout) {
       dispatch(setPopout(null))
+      history.pushState('popout', 'popout')
       return
     }
 

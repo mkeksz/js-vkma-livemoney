@@ -9,12 +9,20 @@ $iconWidth: 40px
 
   .container
     padding: 0
-    display: grid
-    grid-template-rows: 1fr 1fr 1fr
-    grid-template-columns: 1fr
+    //display: grid
+    //grid-template-rows: 1fr 1fr 1fr
+    //grid-template-columns: 1fr
+    display: flex
     place-items: center
     place-content: center
     height: 100%
+    flex-direction: column
+    >div
+      height: 33.33%
+      width: 100%
+    >div:nth-child(2)
+      place-content: center
+      display: flex
 
     .balance
       text-align: center

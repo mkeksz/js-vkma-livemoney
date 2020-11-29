@@ -8,12 +8,16 @@
 
   .container
     padding: 0
-    display: grid
-    grid-template-rows: 1fr 1fr 1fr
-    grid-template-columns: 1fr
+    display: flex
+    flex-direction: column
     place-items: center
     place-content: center
     height: 100%
+    >div
+      height: 33.33%
+      width: 100%
+      display: flex
+      place-content: center
 
     .balance
       text-align: center

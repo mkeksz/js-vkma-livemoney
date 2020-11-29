@@ -25,16 +25,21 @@ export const CardWallet = ({type = 'wallet', styles = {}, options = {}}) => {
       onClick={isNew ? onClickNew : null}
     >
       <Div className={classes.container}>
-        {!isNew ? <CardWalletHeader
-          options={options}
-          styles={styles}
-          isShared={isShared}
-        /> : <div/>}
-        <CardWalletBalance
-          showRealBalance={showRealBalance}
-          isNew={isNew}
-          options={options}
-        />
+        <div>
+          {!isNew ? <CardWalletHeader
+            options={options}
+            styles={styles}
+            isShared={isShared}
+          /> : <div/>}
+        </div>
+        <div>
+          <CardWalletBalance
+            showRealBalance={showRealBalance}
+            isNew={isNew}
+            options={options}
+          />
+        </div>
+        <div/>
       </Div>
     </Card>
   )

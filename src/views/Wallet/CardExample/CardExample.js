@@ -35,20 +35,25 @@ export const CardExample = () => {
   return (
     <Card className={classes.CardExample} style={{backgroundColor}}>
       <Div className={classes.container}>
-        <div className={classes.header}>
-          <SelectIcon onClick={onClickIcon} icon={wallet.icon} color={color}/>
-          <Title
-            level="3"
-            weight="medium"
-            className={classes.title}
-            style={{color}}
-          >
-            {wallet.title || DEFAULT_TITLE}
-          </Title>
+        <div>
+          <div className={classes.header}>
+            <SelectIcon onClick={onClickIcon} icon={wallet.icon} color={color}/>
+            <Title
+              level="3"
+              weight="medium"
+              className={classes.title}
+              style={{color}}
+            >
+              {wallet.title || DEFAULT_TITLE}
+            </Title>
+          </div>
         </div>
-        <div className={classes.balance}>
-          <Title weight="bold" level="1" style={{color}}>{balance}</Title>
+        <div>
+          <div className={classes.balance}>
+            <Title weight="bold" level="1" style={{color}}>{balance}</Title>
+          </div>
         </div>
+        <div/>
       </Div>
     </Card>
   )

@@ -2,16 +2,15 @@ export function removeWallet(wallets, walletID) {
   return wallets.filter(wallet => wallet.id !== walletID)
 }
 
-export function saveWallet(wallets, newWallet) {
+export function saveWallet(wallets, {wallet, rollback}) {
   const _wallets = [...wallets]
-  const isEdit = !!newWallet.id
+  const isEdit = !!wallet.id
 
-  if (isEdit) {
-    const index = _wallets.findIndex(w => w.id === newWallet.id)
-    _wallets[index] = {...newWallet, disabled: true}
-  } else {
-    _wallets.push({...newWallet, id: _wallets.length, disabled: true})
-  }
+  if (rollback) _wallets.push({...wallet})
+  else if (isEdit) {
+    const index = _wallets.findIndex(w => w.id === wallet.id)
+    _wallets[index] = {...wallet}
+  } else _wallets.push({...wallet, id: _wallets.length})
 
   return _wallets
 }

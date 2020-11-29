@@ -2,15 +2,16 @@ export function removeCategory(categories, categoryID) {
   return categories.filter(c => c.id !== categoryID)
 }
 
-export function saveCategory(categories, newCategory) {
+export function saveCategory(categories, {category, rollback}) {
   const _categories = [...categories]
-  const isEdit = !!newCategory.id
+  const isEdit = !!category.id
 
-  if (isEdit) {
-    const index = _categories.findIndex(w => w.id === newCategory.id)
-    _categories[index] = {...newCategory, disabled: true}
+  if (rollback) _categories.push({...category})
+  else if (isEdit) {
+    const index = _categories.findIndex(w => w.id === category.id)
+    _categories[index] = {...category}
   } else {
-    _categories.push({...newCategory, id: _categories.length, disabled: true})
+    _categories.push({...category, id: _categories.length})
   }
 
   return _categories

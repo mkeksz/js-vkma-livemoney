@@ -12,12 +12,12 @@ import {InTotal} from './InTotal/InTotal'
 
 
 export const Wallet = () => {
-  const {wallet} = useSelector(({pages}) => pages[PAGES.WALLET])
+  const {wallet, initWallet} = useSelector(({pages}) => pages[PAGES.WALLET])
 
   const isEdit = !!wallet.id
 
-  const onSave = () => save(wallet)
-  const onDelete = () => del(wallet.id)
+  const onSave = () => save(wallet, initWallet)
+  const onDelete = () => del(wallet.id, initWallet)
 
   return (
     <RootPanel header={{content: getTitle(isEdit), back: true}}>

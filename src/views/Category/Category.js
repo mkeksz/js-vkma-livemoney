@@ -11,12 +11,13 @@ import {RootPanel} from '@/roots/RootPanel/RootPanel'
 
 
 export const Category = () => {
-  const {category, type} = useSelector(({pages}) => pages[PAGES.CATEGORY])
+  const {category, type, initCategory} = useSelector(({pages}) =>
+    pages[PAGES.CATEGORY])
 
   const isEdit = !!category.id
 
-  const onSave = () => save(category, type)
-  const onDelete = () => del(category.id, type)
+  const onSave = () => save(category, type, initCategory)
+  const onDelete = () => del(category.id, type, initCategory)
 
   return (
     <RootPanel header={{back: true, content: 'Категория'}} fixed={true}>

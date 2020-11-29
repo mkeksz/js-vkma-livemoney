@@ -6,6 +6,6 @@ export function setWallets(wallets) {
 export function removeWallet(walletID) {
   return {type: REMOVE_WALLET, payload: walletID}
 }
-export function saveWallet(wallet) {
-  return {type: SAVE_WALLET, payload: wallet}
+export function saveWallet(wallet, rollback) {
+  return {type: SAVE_WALLET, payload: {wallet, rollback}}
 }

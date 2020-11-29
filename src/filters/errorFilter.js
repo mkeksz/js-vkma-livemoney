@@ -15,6 +15,14 @@ const ERROR_MESSAGE = {
     title: 'Превышен лимит',
     text: 'Лимит категорий: ' + MAX_CATEGORIES
   },
+  [ERRORS.MAX_CATEGORIES]: {
+    title: 'Превышен лимит',
+    text: 'Лимит категорий: ' + MAX_CATEGORIES
+  },
+  [ERRORS.FAILED_FETCH]: {
+    title: 'Ошибка соединения',
+    text: 'Не удалось установить соединение с сервером'
+  },
   DEFAULT: {
     title: 'Неизвестная ошибка'
   }

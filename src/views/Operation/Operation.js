@@ -27,8 +27,8 @@ export const Operation = () => {
   }
   useScroll(anchors)
 
-  const onDelete = () => del(initOperation.id)
-  const onSave = () => save(operation, difDates)
+  const onDelete = () => del(initOperation)
+  const onSave = () => save(operation, difDates, initOperation)
 
   return (
     <RootPanel header={{back: true, content: getTitle(operation.type)}}>

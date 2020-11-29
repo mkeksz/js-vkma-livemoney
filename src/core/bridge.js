@@ -9,7 +9,10 @@ export function bridgeInit() {
   showSendToClient()
   bridge.subscribe(event => {
     const {type, data} = event.detail
-    if (type === 'VKWebAppUpdateConfig') setScheme(data.scheme)
+    if (type === 'VKWebAppUpdateConfig') {
+      setScheme(data.scheme)
+      setViewSettings(data.appearance)
+    }
   })
 }
 
@@ -42,4 +45,12 @@ export function disableSwipeBack() {
 
 export function enableSwipeBack() {
   bridge.send('VKWebAppEnableSwipeBack')
+}
+
+export function setViewSettings(style) {
+  const color = style === 'light' ? '#fff' : '#191919'
+  bridge.send('VKWebAppSetViewSettings', {
+    'status_bar_style': style === 'light' ? 'dark' : 'light',
+    'action_bar_color': color
+  }).catch(e => e)
 }

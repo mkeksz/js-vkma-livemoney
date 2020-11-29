@@ -45,5 +45,6 @@ export const ERRORS = {
   MAX_WALLETS: 'max_wallets',
   MAX_CATEGORIES: 'max_categories',
   MAX_OPERATIONS: 'max_operations',
-  NOT_RESULT: 'not_result'
+  NOT_RESULT: 'not_result',
+  FAILED_FETCH: 'failed_fetch'
 }

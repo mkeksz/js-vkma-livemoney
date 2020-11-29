@@ -6,6 +6,6 @@ export function setCategories(categories) {
 export function removeCategory(categoryID) {
   return {type: REMOVE_CATEGORY, payload: categoryID}
 }
-export function saveCategory(category) {
-  return {type: SAVE_CATEGORY, payload: category}
+export function saveCategory(category, rollback) {
+  return {type: SAVE_CATEGORY, payload: {category, rollback}}
 }

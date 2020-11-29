@@ -4,10 +4,11 @@ import getReducer from '@/store/getReducer'
 
 const initialState = {
   [PAGES.WALLETS]: {
-    initialSlide: 1
+    slide: 1
   },
   [PAGES.WALLET]: {
-    wallet: {inTotal: true}
+    wallet: {inTotal: true},
+    initWallet: null
   },
   [PAGES.MODAL_ICONS]: {
     icon: null,
@@ -22,6 +23,7 @@ const initialState = {
     category: {
       icon: ICONS.RUBLE_SIGN
     },
+    initCategory: null,
     type: TYPES_CATEGORY.EXPENSE
   },
   [PAGES.OPERATION]: {

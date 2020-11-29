@@ -14,7 +14,10 @@ export const CardWalletHeader = ({options, styles, isShared = false}) => {
   const dispatch = useDispatch()
 
   const onEdit = () => {
-    dispatch(setPageOptions(PAGES.WALLET, {wallet: options}))
+    dispatch(setPageOptions(PAGES.WALLET, {
+      wallet: options,
+      initWallet: options
+    }))
     dispatch(nextPage({view: PAGES.WALLET}))
   }
 

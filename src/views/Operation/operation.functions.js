@@ -1,18 +1,21 @@
 import React from 'react'
 import {MAX_CHOOSED_DAY as MD} from '@/views/Operation/operation.constants'
-import {PAGES, TYPES_OPERATION} from '@/constants/constants'
+import {ERRORS, PAGES, TYPES_OPERATION} from '@/constants/constants'
 import {stringToNumber as stringToNum} from '@/core/utils/number'
 import {PopoutAlert} from '@/components/UI/PopoutAlert/PopoutAlert'
 import {deleteOperation, saveOperation as saveOp} from '@/stateManager'
 import {toSaveDate} from '@/core/utils/date'
 import {prevPage, setPopout} from '@/store/actions/appActions'
 import {removeOperation, saveOperation} from '@/store/actions/operationsActions'
+import {getMessageError} from '@/filters/errorFilter'
+import {PopoutWarn} from '@/components/UI/PopoutWarn/PopoutWarn'
+import {getLast} from '@/core/utils/array'
 import store from '@/store/store'
 
 
 const {dispatch, getState} = store
 
-export function save(operation, difDates) {
+export function save(operation, difDates, initOp) {
   const choosedDate = store.getState().pages[PAGES.OPERATION].choosedDate
 
   const _op = {...operation}
@@ -23,17 +26,29 @@ export function save(operation, difDates) {
     ..._op,
     amount: stringToNum(_op.amount),
     type: getTypeOperation(_op),
-    date: _op.date.toISOString()
+    date: _op.date.toISOString(),
+    disabled: true
   }
   dispatch(saveOperation(_operation))
-  saveOp(_operation)
+  saveOp(_operation).catch(() => {
+    const msg = getMessageError(ERRORS.FAILED_FETCH)
+    dispatch(setPopout(<PopoutWarn text={msg.text} title={msg.title}/>))
+    const lastItem = getLast(getState().operations)
+    if (initOp) dispatch(saveOperation({...initOp, disabled: false}))
+    else dispatch(removeOperation(lastItem.id))
+  })
   dispatch(prevPage())
 }
 
-export function del(operationID) {
+export function del(initOp) {
   const action = () => {
-    dispatch(removeOperation(operationID))
-    deleteOperation(operationID)
+    const rollbackOps = getState().operations
+    dispatch(removeOperation(initOp.id))
+    deleteOperation(initOp.id).catch(() => {
+      const msg = getMessageError(ERRORS.FAILED_FETCH)
+      dispatch(setPopout(<PopoutWarn text={msg.text} title={msg.title}/>))
+      dispatch(saveOperation(initOp, rollbackOps))
+    })
     dispatch(prevPage())
   }
 

@@ -8,6 +8,6 @@ export function removeOperation(operationID) {
   return {type: REMOVE_OPERATION, payload: operationID}
 }
 
-export function saveOperation(operation) {
-  return {type: SAVE_OPERATION, payload: operation}
+export function saveOperation(operation, rollbackOps) {
+  return {type: SAVE_OPERATION, payload: {operation, rollbackOps}}
 }

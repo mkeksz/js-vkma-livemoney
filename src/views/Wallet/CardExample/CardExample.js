@@ -1,6 +1,6 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {Card, Div, Title} from '@vkontakte/vkui'
+import {Caption, Card, Div, Title} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {DEFAULT_TITLE} from '../wallet.constants'
 import {currencyFilter} from '@/filters/numbersFilter'
@@ -38,14 +38,14 @@ export const CardExample = () => {
         <div>
           <div className={classes.header}>
             <SelectIcon onClick={onClickIcon} icon={wallet.icon} color={color}/>
-            <Title
-              level="3"
+            <Caption
+              level="1"
               weight="medium"
               className={classes.title}
               style={{color}}
             >
               {wallet.title || DEFAULT_TITLE}
-            </Title>
+            </Caption>
           </div>
         </div>
         <div>

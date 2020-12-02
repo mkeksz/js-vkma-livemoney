@@ -4,8 +4,7 @@ import {useDispatch} from 'react-redux'
 import {usePlatform, IOS} from '@vkontakte/vkui'
 import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
-import {
-  hideLoader, setFailConnect, setInitialization, setIntro
+import {hideLoader, setFailConnect, setInitialization, setIntro
 } from './store/actions/appActions'
 import store from '@/store/store'
 
@@ -21,7 +20,7 @@ export const App = () => {
       dispatch(hideLoader())
       return
     }
-    setTimeout(() => initData(), 1000)
+    initData()
     showIntro(dispatch)
   }, [dispatch, platform])
 

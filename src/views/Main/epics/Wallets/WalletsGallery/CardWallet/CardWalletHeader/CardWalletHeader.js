@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {useDispatch} from 'react-redux'
-import {Title} from '@vkontakte/vkui'
+import {Caption} from '@vkontakte/vkui'
 import {Icon24Write} from '@vkontakte/icons'
 import {PAGES} from '@/constants/constants'
 import {Icon} from '@/components/UI/Icon/Icon'
@@ -26,14 +26,14 @@ export const CardWalletHeader = ({options, styles, isShared = false}) => {
       <div className={classes.icon}>
         {options.icon && <Icon icon={options.icon}/>}
       </div>
-      <Title
-        level="3"
+      <Caption
+        level="1"
         weight="medium"
         className={classes.title}
         style={{color: styles.color}}
       >
         {options.title}
-      </Title>
+      </Caption>
       {!isShared && !options.disabled && (
         <div className={`${classes.icon} ${classes.edit}`} onClick={onEdit}>
           <Icon24Write width={27} height={27} style={{color: styles.color}}/>

@@ -1,5 +1,15 @@
-import {BACK_HISTORY, HIDE_LOADER, PUSH_HISTORY, SET_INITIALIZATION, SET_INTRO,
-  SET_POPOUT, SET_SNACKBAR, SET_TIMEZONE, SET_TIMEBACK, SHOW_LOADER
+import {
+  BACK_HISTORY,
+  HIDE_LOADER,
+  PUSH_HISTORY,
+  SET_INITIALIZATION,
+  SET_INTRO,
+  SET_POPOUT,
+  SET_SNACKBAR,
+  SET_TIMEZONE,
+  SET_TIMEBACK,
+  SHOW_LOADER,
+  SET_FAIL_CONNECT
 } from '../../types'
 import getReducer from '@/store/getReducer'
 import {backToHistory, pushToHistory} from './history'
@@ -13,7 +23,8 @@ const initialState = {
   popout: null,
   timezone: 0,
   snackbar: null,
-  intro: false
+  intro: false,
+  failConnect: false
 }
 
 const handlers = {
@@ -27,6 +38,7 @@ const handlers = {
   [SET_SNACKBAR]: (state, {payload}) => ({...state, snackbar: payload}),
   [SET_POPOUT]: (state, {payload}) => ({...state, popout: payload}),
   [SET_INTRO]: (state, {payload}) => ({...state, intro: payload}),
+  [SET_FAIL_CONNECT]: (state, {payload}) => ({...state, failConnect: payload}),
   [SET_TIMEBACK]: (state, {payload}) => ({...state, timeBack: payload}),
   DEFAULT: state => state
 }

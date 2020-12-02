@@ -13,16 +13,18 @@ import {Category} from '@/views/Category/Category'
 import {Wallet} from '@/views/Wallet/Wallet'
 import {getLast} from '@/core/utils/array'
 import {PlaceholderIOS} from '@/views/PlaceholderIOS/PlaceholderIOS'
+import {PlaceholderFail} from '@/views/PlaceholderFail/PlaceholderFail'
 
 
 export const RootView = ({isIOS}) => {
   const {view} = useSelector(({app}) => getLast(app.history))
-  const {popout, loading, intro} = useSelector(({app}) => app)
+  const {popout, loading, intro, failConnect} = useSelector(({app}) => app)
 
   const popoutJSX = (loading && <ScreenSpinner size="large" />) || popout
   let activeView = intro ? PAGES.INTRO : view
 
-  if (isIOS) activeView = 'placeholderIOS'
+  if (failConnect) activeView = 'placeholderFail'
+  else if (isIOS) activeView = 'placeholderIOS'
 
   return (
     <ConfigProvider>
@@ -35,6 +37,7 @@ export const RootView = ({isIOS}) => {
         <Category id={PAGES.CATEGORY}/>
         <Wallet id={PAGES.WALLET}/>
         <PlaceholderIOS id='placeholderIOS'/>
+        <PlaceholderFail id='placeholderFail'/>
       </Root>
     </ConfigProvider>
   )

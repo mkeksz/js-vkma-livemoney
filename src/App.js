@@ -4,7 +4,8 @@ import {useDispatch} from 'react-redux'
 import {usePlatform, IOS} from '@vkontakte/vkui'
 import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
-import {hideLoader, setInitialization, setIntro
+import {
+  hideLoader, setFailConnect, setInitialization, setIntro
 } from './store/actions/appActions'
 import store from '@/store/store'
 
@@ -20,7 +21,7 @@ export const App = () => {
       dispatch(hideLoader())
       return
     }
-    initData()
+    setTimeout(() => initData(), 1000)
     showIntro(dispatch)
   }, [dispatch, platform])
 
@@ -33,9 +34,17 @@ async function showIntro(dispatch) {
   if (!isShowed) dispatch(setIntro(true))
 }
 
-function initData() {
-  fetchInitData().then(() => {
-    dispatch(setInitialization(false))
+function initData(numTry = 1) {
+  if (numTry >= 16) {
+    dispatch(setFailConnect(true))
     dispatch(hideLoader())
-  }).catch(initData)
+    return
+  }
+
+  setTimeout(() => {
+    fetchInitData().then(() => {
+      dispatch(setInitialization(false))
+      dispatch(hideLoader())
+    }).catch(() => initData(numTry + 1))
+  }, numTry === 1 ? 0 : 500)
 }

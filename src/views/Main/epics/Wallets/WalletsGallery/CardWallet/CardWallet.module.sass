@@ -44,9 +44,9 @@ $iconWidth: 40px
       width: calc(100% - 20px)
 
       .title
-        text-overflow: ellipsis
-        overflow: hidden
-        white-space: nowrap
+        text-overflow: ellipsis !important
+        overflow: hidden !important
+        white-space: nowrap !important
         font-size: 16px
         width: 100%
         place-self: center
@@ -58,6 +58,9 @@ $iconWidth: 40px
         &.edit
           place-content: flex-end
           opacity: .7
+          position: absolute
+          top: 10px
+          right: 10px
 
   &.new
     cursor: pointer

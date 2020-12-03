@@ -17,7 +17,7 @@ export const Main = () => {
   const tabbarItems = [
     {
       id: PAGES.ANALYTICS,
-      text: 'Аналитики',
+      text: 'Аналитика',
       icon: <Icon28GraphOutline/>
     },
     {

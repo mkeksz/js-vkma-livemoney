@@ -8,6 +8,7 @@ import operations from './reducers/operations/operationsReducer'
 import analytics from './reducers/analytics/analyticsReducer'
 import colors from './reducers/colors/colorsReducer'
 import icons from './reducers/icons/iconsReducer'
+import tooltips from './reducers/tooltips/tooltipsReducer'
 
 
 export const rootReducer = combineReducers({
@@ -19,5 +20,6 @@ export const rootReducer = combineReducers({
   operations,
   analytics,
   colors,
-  icons
+  icons,
+  tooltips
 })

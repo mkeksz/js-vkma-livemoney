@@ -18,5 +18,5 @@ export function getItem(typeOperation, objOperation) {
 export function click(operation) {
   const options = {operation, initOperation: operation}
   dispatch(setPageOptions(PAGES.OPERATION, options))
-  dispatch(nextPage({view: PAGES.OPERATION}))
+  setTimeout(() => dispatch(nextPage({view: PAGES.OPERATION})), 0)
 }

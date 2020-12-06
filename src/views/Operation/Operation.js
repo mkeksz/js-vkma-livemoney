@@ -9,7 +9,13 @@ import {DateSelect} from './DateSelect/DateSelect'
 import {FromTo} from './FromTo/FromTo'
 import {InputAmount} from './InputAmount/InputAmount'
 import {InputDescription} from './InputDescription/InputDescription'
-import {useCorrectChoosedDate, useDifDates, useScroll} from './operation.hooks'
+import {
+  useCorrectChoosedDate,
+  useDifDates,
+  useScroll,
+  useTooltips
+} from './operation.hooks'
+import {Tooltip} from '@vkontakte/vkui'
 
 
 export const Operation = () => {
@@ -19,6 +25,7 @@ export const Operation = () => {
 
   const difDates = useDifDates(operation.date)
   if (isEdit) useCorrectChoosedDate(difDates)
+  const tooltips = useTooltips()
 
   const anchors = {
     to: useRef(null),
@@ -32,10 +39,17 @@ export const Operation = () => {
 
   return (
     <RootPanel header={{back: true, content: getTitle(operation.type)}}>
-      <FromTo anchors={anchors}/>
+      <FromTo anchors={anchors} tooltips={tooltips}/>
 
       <DateSelect/>
 
+      <Tooltip
+        text='Введи сумму операции'
+        isShown={tooltips.sum.show}
+        onClose={tooltips.sum.on}
+        alignY='top'
+        offsetY={-35}
+      ><div/></Tooltip>
       <div ref={anchors.amount}/>
       <InputAmount refAmount={anchors.amountInput}/>
 

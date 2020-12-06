@@ -10,7 +10,11 @@ export const TabbarPanel = ({activeStory, items}) => {
   const dispatch = useDispatch()
 
   const onClick = id => {
-    if (id !== activeStory) dispatch(nextPage({view: PAGES.MAIN, epic: id}))
+    if (id !== activeStory) {
+      setTimeout(() => {
+        dispatch(nextPage({view: PAGES.MAIN, epic: id}))
+      }, 0)
+    }
   }
 
   return (

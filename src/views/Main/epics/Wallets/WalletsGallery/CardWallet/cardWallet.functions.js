@@ -18,5 +18,5 @@ export function clickNew() {
   }
 
   dispatch(clearPageOptions(PAGES.WALLET))
-  dispatch(nextPage({view: PAGES.WALLET}))
+  setTimeout(() => dispatch(nextPage({view: PAGES.WALLET})), 0)
 }

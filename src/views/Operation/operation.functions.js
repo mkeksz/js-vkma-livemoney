@@ -88,10 +88,12 @@ export function nextAnchor(anchors) {
 }
 
 function scrollAndFocus(operation, anchors) {
-  if (operation.from && !operation.to) {
+  const op = operation
+
+  if (op.from && !op.to) {
     const top = anchors.to.current.offsetTop - fixedHeaderHeight
     window.scrollTo({top, behavior: 'smooth'})
-  } else if (operation.from && operation.to && operation.id) {
+  } else if (op.from && op.to && (!op.amount || op.id)) {
     const top = anchors.amount.current.offsetTop - fixedHeaderHeight
     window.scrollTo({top, behavior: 'smooth'})
     setTimeout(() => {
@@ -101,6 +103,6 @@ function scrollAndFocus(operation, anchors) {
         if (e.name === 'TypeError') return
         throw e
       }
-    }, 400)
+    }, 300)
   }
 }

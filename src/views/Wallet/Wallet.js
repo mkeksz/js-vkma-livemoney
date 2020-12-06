@@ -9,11 +9,13 @@ import {RootPanel} from '@/roots/RootPanel/RootPanel'
 import {Colors} from './Colors/Colors'
 import {WalletForm} from './WalletForm/WalletForm'
 import {InTotal} from './InTotal/InTotal'
+import {useTooltips} from './wallet.hooks'
 
 
 export const Wallet = () => {
   const {wallet, initWallet} = useSelector(({pages}) => pages[PAGES.WALLET])
 
+  const tooltips = useTooltips()
   const isEdit = !!wallet.id
 
   const onSave = () => save(wallet, initWallet)
@@ -21,9 +23,9 @@ export const Wallet = () => {
 
   return (
     <RootPanel header={{content: getTitle(isEdit), back: true}}>
-      <CardExample/>
+      <CardExample tooltips={tooltips}/>
 
-      <WalletForm/>
+      <WalletForm tooltips={tooltips}/>
 
       <Colors/>
 

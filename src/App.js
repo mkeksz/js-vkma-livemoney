@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux'
 import {usePlatform, IOS} from '@vkontakte/vkui'
 import {fetchInitData} from './stateManager'
 import {RootView} from '@/roots/RootView/RootView'
-import {storageGet, storageSet} from '@/core/bridge'
+import {storageGet} from '@/core/bridge'
 import {setTooltip} from '@/store/actions/tooltipActions'
 import {hideLoader, setFailConnect, setInitialization, setIntro
 } from './store/actions/appActions'
@@ -29,10 +29,6 @@ export const App = () => {
 }
 
 async function initialization() {
-  await storageSet(KSVK.TOOLTIP_WALLETS, '')
-  await storageSet(KSVK.TOOLTIP_EDIT_WALLET, '')
-  await storageSet(KSVK.TOOLTIP_ANALYTICS, '')
-  await storageSet(KSVK.TOOLTIP_OPERATION, '')
   const data = await storageGet([
     KSVK.INTRO,
     KSVK.TOOLTIP_WALLETS,

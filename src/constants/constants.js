@@ -48,3 +48,11 @@ export const ERRORS = {
   NOT_RESULT: 'not_result',
   FAILED_FETCH: 'failed_fetch'
 }
+
+export const KEYS_STORAGE_VK = {
+  INTRO: 'intro',
+  TOOLTIP_WALLETS: 'tooltip-wallets',
+  TOOLTIP_EDIT_WALLET: 'tooltip-edit-wallet',
+  TOOLTIP_ANALYTICS: 'tooltip-analytics',
+  TOOLTIP_OPERATION: 'tooltip-operation'
+}

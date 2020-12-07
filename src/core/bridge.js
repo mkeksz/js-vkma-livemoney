@@ -35,8 +35,12 @@ export function showWallPostBox(text = LINK_APP, link = LINK_APP) {
   }).catch(r => r)
 }
 
-export function storageSet(key, value) {
-  bridge.send('VKWebAppStorageSet', {key, value})
+export async function storageSet(key, value) {
+  await bridge.send('VKWebAppStorageSet', {key, value})
+}
+
+export async function storageGet(keys) {
+  return await bridge.send('VKWebAppStorageGet', {keys})
 }
 
 export function disableSwipeBack() {

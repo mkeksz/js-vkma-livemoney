@@ -18,5 +18,5 @@ export function click(type) {
       to: type === TO.INCOME && !!wallet && {type: 'wallet', id: wallet.id}
     }
   }))
-  dispatch(nextPage({view: PAGES.OPERATION}))
+  setTimeout(() => dispatch(nextPage({view: PAGES.OPERATION})), 0)
 }

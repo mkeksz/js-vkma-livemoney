@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {useDispatch, useSelector} from 'react-redux'
-import {Caption, Card, Div, Title} from '@vkontakte/vkui'
+import {Caption, Card, Div, Title, Tooltip} from '@vkontakte/vkui'
 import {PAGES} from '@/constants/constants'
 import {DEFAULT_TITLE} from '../wallet.constants'
 import {currencyFilter} from '@/filters/numbersFilter'
@@ -10,7 +11,7 @@ import {SelectIcon} from '@/components/UI/SelectIcon/SelectIcon'
 import classes from './CardExample.module.sass'
 
 
-export const CardExample = () => {
+export const CardExample = ({tooltips}) => {
   const dispatch = useDispatch()
 
   const {wallet} = useSelector(({pages}) => pages[PAGES.WALLET])
@@ -37,7 +38,19 @@ export const CardExample = () => {
       <Div className={classes.container}>
         <div>
           <div className={classes.header}>
-            <SelectIcon onClick={onClickIcon} icon={wallet.icon} color={color}/>
+            <Tooltip
+              header='Выбери иконку'
+              isShown={tooltips.icon.show}
+              onClose={tooltips.icon.on}
+            >
+              <div>
+                <SelectIcon
+                  onClick={onClickIcon}
+                  icon={wallet.icon}
+                  color={color}
+                />
+              </div>
+            </Tooltip>
             <Caption
               level="1"
               weight="medium"
@@ -57,4 +70,8 @@ export const CardExample = () => {
       </Div>
     </Card>
   )
+}
+
+CardExample.propTypes = {
+  tooltips: PropTypes.object
 }

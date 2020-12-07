@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {FixedLayout, Gallery, Div, Button} from '@vkontakte/vkui'
+import {KEYS_STORAGE_VK} from '@/constants/constants'
 import {setIntro} from '@/store/actions/appActions'
 import {RootPanel} from '@/roots/RootPanel/RootPanel'
 import {useScheme, useLastSlide} from '@/views/Intro/intro.hooks'
-import classes from './Intro.module.sass'
 import {storageSet} from '@/core/bridge'
+import classes from './Intro.module.sass'
 
 
 const maxIndexSlide = 2
@@ -22,8 +23,8 @@ export const Intro = () => {
 
   const onClick = () => {
     if (isLastSlide) {
-      dispatch(setIntro(false))
-      storageSet('intro', 'true')
+      setTimeout(() => dispatch(setIntro(false)), 0)
+      storageSet(KEYS_STORAGE_VK.INTRO, 'true')
     } else setSlide(slide + 1)
   }
   const onChange = index => setSlide(index)
